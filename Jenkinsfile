@@ -11,8 +11,6 @@ pipeline {
         //K8S Settings
         K8S_CONFIG= "kube_kvm_config" // Secret file name for k8s connection
 
-
-
         // Artifactory Settings
         CONTAINER_REGISTRY="192.168.1.90:8081"
         CONTAIER_REPO= "devrepo"
@@ -26,26 +24,11 @@ pipeline {
             steps{
                 script{ 
                     utils = load 'libs/utils.groovy'
-                    // env.K8S_NS= K8S.replace(".","-")
-                    def rawNS = "$PROJECT_NAME-$VERSION"
-                    echo "RAW: ==============>  ${rawNS}" // #1
-
-                    env.K8S_NS = rawNS.replace(".","-")
-                    echo "NEW: ==============>  ${env.K8S_NS}" // #2
-
-                    env.K8S_NS= "HELLO"
+                    echo "$PROJECT_NAME-$VERSION".replace('.','-')
                 }
             }
         }
 
-        stage("SECOND STAGE") {
-            steps{
-                script{ 
-                    echo "LATER: ==============> ${env.K8S_NS}" // #3
-                    echo "$PROJECT_NAME-$VERSION".replace('.','*') // #3
-                }
-            }
-        }
         
 
         // stage('Pulling Code') {
