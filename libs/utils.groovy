@@ -24,6 +24,7 @@ def imageWork(Map imgInfo) {
             echo "Login to Artifactory"
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
         """
+    
 }
 
 return this

@@ -3,138 +3,146 @@ pipeline {
     agent any
 
     environment {
-        //K8S Settings
-        K8S_CONFIG= "kube_kvm_config" // Secret file name for k8s connection
+        PROJECT_NAME="boutique"
 
         // Application SCM version
         VERSION = "v0.10.5" // Online Boutique release version
+
+        //K8S Settings
+        K8S_CONFIG= "kube_kvm_config" // Secret file name for k8s connection
+        K8S_NS="$PROJECT_NAME-$VERSION"
+
 
         // Artifactory Settings
         CONTAINER_REGISTRY="192.168.1.90:8081"
         CONTAIER_REPO= "devrepo"
         REGISTRY_USE_TLS="false"
+        
+        // Kubernetes Variables 
     }
 
     stages {
         stage("__init__") {
             steps{
                 script{ utils = load 'libs/utils.groovy'}
+                K8S_NS= K8S.replace(".","-")
+                echo "==============>  $K8S_NS"
             }
         }
-        stage('Pulling Code') {
-            steps {
-                echo 'Hello from online boutique microservices demo'
-                sh 'rm -rf microservices-demo'
-                sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
+        // stage('Pulling Code') {
+        //     steps {
+        //         echo 'Hello from online boutique microservices demo'
+        //         sh 'rm -rf microservices-demo'
+        //         sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
 
-                echo "Login to Artifactory"
-                withCredentials([usernamePassword(credentialsId: 'nexus_dev', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
-                    echo "Login to Artifactory"
-                    sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
-                }
-            }
-        }
+        //         echo "Login to Artifactory"
+        //         withCredentials([usernamePassword(credentialsId: 'nexus_dev', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
+        //             echo "Login to Artifactory"
+        //             sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
+        //         }
+        //     }
+        // }
 
-        stage("Card Service Work"){
-            // Card service also needs redis service
-            steps{
-                script{
-                    def SERVICE_NAME="cartservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Card Service Work"){
+        //     // Card service also needs redis service
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="cartservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Frontend Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="frontend"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Frontend Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="frontend"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Product Catalog Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="productcatalogservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Product Catalog Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="productcatalogservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Currency Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="currencyservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Currency Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="currencyservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Payment Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="paymentservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Payment Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="paymentservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Shipping Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="shippingservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Shipping Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="shippingservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Email Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="emailservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Email Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="emailservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Checkout Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="checkoutservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Checkout Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="checkoutservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Recommendation Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="recommendationservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Recommendation Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="recommendationservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
-        stage("Ad Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="adservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Ad Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="adservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
     }
 }
 
