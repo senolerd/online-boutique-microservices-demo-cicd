@@ -28,6 +28,7 @@ pipeline {
                     utils = load 'libs/utils.groovy'
                     // env.K8S_NS= K8S.replace(".","-")
                     echo "==============>  $K8S_NS"                    
+                    env.K8S_NS= "HELLO"
                 }
             }
         }
