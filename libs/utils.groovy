@@ -7,13 +7,13 @@ def imageWork(Map imgInfo) {
     echo "imgInfo.srcDir => $imgInfo.srcDir"
     echo "imgInfo.serviceName => $imgInfo.serviceName"
 
-    
+
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/imgInfo.serviceName:$VERSION"
 
     sh """ 
         echo "Card Service Image Creation"
     
-        cd imgInfo.srcDir
+        cd $imgInfo.srcDir
         
         # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
         # if there is defination in the Dockerfile
