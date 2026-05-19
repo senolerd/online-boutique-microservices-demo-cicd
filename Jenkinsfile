@@ -50,7 +50,7 @@ pipeline {
                     def SERVICE_NAME="cartservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
                     def img = utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                    echo "IMAGE RETURN: ${img}"
+                    // echo "IMAGE RETURN: ${img}"
                 }
             }
         }
