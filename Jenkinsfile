@@ -26,26 +26,40 @@ pipeline {
                 echo 'Hello from online boutique microservices demo'
                 sh 'rm -rf microservices-demo'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
+
+                echo "Login to Artifactory"
+                withCredentials([usernamePassword(credentialsId: 'nexus_dev', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
+                    echo "Login to Artifactory"
+                    sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
+                }
             }
         }
 
         stage("Card Service Work"){
             // Card service also needs redis service
             steps{
-                withCredentials([usernamePassword(credentialsId: 'nexus_dev', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
-                    echo "Login to Artifactory"
-                    sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
-                }
-
                 script{
                     def SERVICE_NAME="cartservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-
                     utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                    utils.sayHello("MAHMUT")
                 }
             }
         }
+
+        stage("Frontend Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="frontend"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
+
+
+
+
+
     }
 }
 
