@@ -24,11 +24,19 @@ pipeline {
             steps{
                 script{ 
                     utils = load 'libs/utils.groovy'
-                    echo "$PROJECT_NAME-$VERSION".replace('.','-')
+                    env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
+                    echo env.K8S_NS
                 }
             }
         }
 
+        stage("IKI") {
+            steps{
+                script{ 
+                    echo env.K8S_NS
+                }
+            }
+        }
         
 
         // stage('Pulling Code') {
