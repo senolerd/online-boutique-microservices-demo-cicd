@@ -13,19 +13,24 @@ def imageWork(Map imgInfo) {
 
             echo "Card Service Image Creation"
         
-            echo "${imgInfo.srcDir}"
+            echo $imgInfo.srcDir
+            echo $imgInfo.srcDir
+            echo $imgInfo.srcDir
+            echo $imgInfo.srcDir
+            echo $imgInfo.srcDir
+            echo $imgInfo.srcDir
             
 
 
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
             
-            // echo "Building $imgInfo.serviceName container"
-            // sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
-            // podman build -t $IMAGE .
+            # echo "Building $imgInfo.serviceName container"
+            # sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
+            # podman build -t $IMAGE .
             
-            // echo "Login to Artifactory"
-            // podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            # echo "Login to Artifactory"
+            # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
         """
     // def return_obj = [:]
