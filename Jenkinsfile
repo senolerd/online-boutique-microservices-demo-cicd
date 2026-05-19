@@ -31,7 +31,7 @@ pipeline {
                     echo "RAW: ==============>  ${rawNS}"
 
                     env.K0S_NS = rawNS.replace(".","-")
-                    echo "RAW: ==============>  ${env.K8S_NS}"
+                    echo "NEW: ==============>  ${env.K8S_NS}"
 
                     env.K8S_NS= "HELLO"
                 }
@@ -41,7 +41,7 @@ pipeline {
         stage("SECOND STAGE") {
             steps{
                 script{ 
-                    echo "==============> ${env.K8S_NS}"  
+                    echo "LATER: ==============> ${env.K8S_NS}"  
                 }
             }
         }
