@@ -37,7 +37,7 @@ pipeline {
             steps{
                 script{ 
                     def jello= $K8S_NS.replace(".","-")
-                    echo "==============>"  
+                    echo "==============>"  jello
                 }
             }
         }
