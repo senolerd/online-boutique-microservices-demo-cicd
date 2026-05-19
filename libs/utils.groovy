@@ -3,9 +3,12 @@
 def imageWork(Map imgInfo) {
     // Builds and uploads image to Artifactory
 
+
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
     sh """ 
+            export CONTAINERS_SHORT_NAME_ALIASING=on
+            
             echo "Card Service Image Creation"
         
             cd $imgInfo.srcDir
@@ -21,7 +24,7 @@ def imageWork(Map imgInfo) {
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
         """
 }
-    
+
 return this
 
 
