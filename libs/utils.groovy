@@ -4,7 +4,10 @@ def sayHello(name) {
 }
 
 def imageWork(Map imgInfo) {
+    echo "imgInfo.srcDir => $imgInfo.srcDir"
+    echo "imgInfo.serviceName => $imgInfo.serviceName"
 
+    
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/imgInfo.serviceName:$VERSION"
 
     sh """ 
@@ -15,7 +18,7 @@ def imageWork(Map imgInfo) {
         # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
         # if there is defination in the Dockerfile
         
-        echo "Building img_info.serviceName container"
+        echo "Building $imgInfo.serviceName container"
         sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
         podman build -t $IMAGE .
         
