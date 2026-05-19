@@ -26,7 +26,7 @@ pipeline {
             steps{
                 script{ 
                     utils = load 'libs/utils.groovy'
-                    K8S_NS= K8S.replace(".","-")
+                    env.K8S_NS= K8S.replace(".","-")
                     echo "==============>  $K8S_NS"                    
                 }
             }
