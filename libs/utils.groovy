@@ -34,7 +34,7 @@ def imageWork(Map imgInfo) {
 
         """
 
-    return [name: $imgInfo.serviceName, img: IMAGE, port: ]
+    return [name: $imgInfo.serviceName, img: IMAGE, port: PORT]
 }
 
 def deploymentTemplate(Map deplCfg){
