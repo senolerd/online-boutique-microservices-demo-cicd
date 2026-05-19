@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         PROJECT_NAME="boutique"
-
+        
         // Application SCM version
         VERSION = "v0.10.5" // Online Boutique release version
 
@@ -15,7 +15,6 @@ pipeline {
         CONTAINER_REGISTRY="192.168.1.90:8081"
         CONTAIER_REPO= "devrepo"
         REGISTRY_USE_TLS="false"
-        // Kubernetes Variables 
 
     }
 
@@ -30,39 +29,31 @@ pipeline {
             }
         }
 
-        stage("IKI") {
-            steps{
-                script{ 
-                    echo env.K8S_NS
+        stage('Pulling Code') {
+            steps {
+                echo 'Hello from online boutique microservices demo'
+                sh 'rm -rf microservices-demo'
+                sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
+
+                echo "Login to Artifactory"
+                withCredentials([usernamePassword(credentialsId: 'nexus_dev', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
+                    echo "Login to Artifactory"
+                    sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
                 }
             }
         }
-        
 
-        // stage('Pulling Code') {
-        //     steps {
-        //         echo 'Hello from online boutique microservices demo'
-        //         sh 'rm -rf microservices-demo'
-        //         sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
-
-        //         echo "Login to Artifactory"
-        //         withCredentials([usernamePassword(credentialsId: 'nexus_dev', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
-        //             echo "Login to Artifactory"
-        //             sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
-        //         }
-        //     }
-        // }
-
-        // stage("Card Service Work"){
-        //     // Card service also needs redis service
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="cartservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-        //             utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Card Service Work"){
+            // Card service also needs redis service
+            steps{
+                script{
+                    def SERVICE_NAME="cartservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
+                    def img = utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    echo "IMAGE NAME: ${img}"
+                }
+            }
+        }
 
         // stage("Frontend Service Work"){
         //     steps{

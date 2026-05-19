@@ -24,9 +24,86 @@ def imageWork(Map imgInfo) {
             echo "Login to Artifactory"
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
         """
-    
+
+    return IMAGE
 }
+
+def deploymentTemplate(Map deplCfg){
+    // Expected object for deplCfg [mame: , img: , port: ]
+
+
+    return """ 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $deplCfg.name
+  labels:
+    app: $deplCfg.name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $deplCfg.name
+  template:
+    metadata:
+      labels:
+        app: $deplCfg.name
+    spec:
+      containers:
+      - name: $deplCfg.name
+        image: $deplCfg.img
+        ports:
+        - containerPort: $deplCfg.port
+---
+"""
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
 
 return this
 
 
+// apiVersion: apps/v1
+// kind: Deployment
+// metadata:
+//   name: nginx-deployment
+//   labels:
+//     app: nginx
+// spec:
+//   replicas: 3
+//   selector:
+//     matchLabels:
+//       app: nginx
+//   template:
+//     metadata:
+//       labels:
+//         app: nginx
+//     spec:
+//       containers:
+//       - name: nginx
+//         image: nginx:1.14.2
+//         ports:
+//         - containerPort: 80
+//---
+// apiVersion: v1
+// kind: Service
+// metadata:
+//   name: my-service
+// spec:
+//   selector:
+//     app.kubernetes.io/name: MyApp
+//   ports:
+//     - protocol: TCP
+//       port: 80
+//       targetPort: 9376
