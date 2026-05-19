@@ -40,23 +40,8 @@ pipeline {
                 script{
                     def SERVICE_NAME="cartservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-                    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$SERVICE_NAME:$VERSION"
 
-                    echo "Card Service Image Creation"
-                    // sh "cd $SRC_DIR && podman build -t $CONTAINER_REGISTRY/CONTAIER_REPO/$SERVICE_NAME:$VERSION ."
-                    sh """ 
-                        cd $SRC_DIR
-                        
-                        # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
-                        # if there is defination in the Dockerfile
-                        
-                        echo "Building $SERVICE_NAME container"
-                        sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
-                        podman build -t $IMAGE .
-                        
-                        echo "Login to Artifactory"
-                        podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
-                    """
+                    utils.imageWork([serviceName:, SERVICE_NAME srcDir: SRC_DIR ])
                     utils.sayHello("MAHMUT")
                 }
             }
