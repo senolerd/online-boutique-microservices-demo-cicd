@@ -13,7 +13,7 @@ def imageWork(Map imgInfo) {
 
             echo "Card Service Image Creation"
         
-            echo $imgInfo.srcDir
+            echo "${imgInfo.srcDir}"
             
 
 
