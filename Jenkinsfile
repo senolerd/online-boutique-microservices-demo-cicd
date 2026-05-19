@@ -18,7 +18,7 @@ pipeline {
         CONTAIER_REPO= "devrepo"
         REGISTRY_USE_TLS="false"
         // Kubernetes Variables 
-        // K8S_NS = ""
+
     }
 
     stages {
@@ -42,6 +42,7 @@ pipeline {
             steps{
                 script{ 
                     echo "LATER: ==============> ${env.K8S_NS}" // #3
+                    echo "$PROJECT_NAME-$VERSION"rawNS.replace('.','*') // #3
                 }
             }
         }
