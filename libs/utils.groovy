@@ -38,46 +38,36 @@ def imageWork(Map imgInfo) {
     // return  return_obj
 }
 
-def deploymentTemplate(Map deplCfg){
-    // Expected object for deplCfg [mame: , img: , port: ]
+// def deploymentTemplate(Map deplCfg){
+//     // Expected object for deplCfg [mame: , img: , port: ]
 
 
-    return """ 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: $deplCfg.name
-  labels:
-    app: $deplCfg.name
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: $deplCfg.name
-  template:
-    metadata:
-      labels:
-        app: $deplCfg.name
-    spec:
-      containers:
-      - name: $deplCfg.name
-        image: $deplCfg.img
-        ports:
-        - containerPort: $deplCfg.port
----
-"""
+//     return """ 
+//     apiVersion: apps/v1
+//     kind: Deployment
+//     metadata:
+//     name: $deplCfg.name
+//     labels:
+//         app: $deplCfg.name
+//     spec:
+//     replicas: 1
+//     selector:
+//         matchLabels:
+//         app: $deplCfg.name
+//     template:
+//         metadata:
+//         labels:
+//             app: $deplCfg.name
+//         spec:
+//         containers:
+//         - name: $deplCfg.name
+//             image: $deplCfg.img
+//             ports:
+//             - containerPort: $deplCfg.port
+//     ---
+//     """
 
-
-
-
-
-
-
-
-
-
-
-}
+// }
 
 
 
