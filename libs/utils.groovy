@@ -3,6 +3,7 @@
 def imageWork(Map imgInfo) {
     // Builds and uploads image to Artifactory
 
+    def imgInfo = imgInfo
 
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
