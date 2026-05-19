@@ -14,7 +14,7 @@ def imageWork(Map imgInfo) {
         
             cd $imgInfo.srcDir
             
-            PORT = cat Dockerfile|grep EXPOSE|awk -F" " '{print @2}' 
+            PORT = $(grep EXPOSE Dockerfile | awk -F" " '{print @2}')
             echo PORT
             echo PORT
             echo PORT
