@@ -5,7 +5,7 @@ def imageWork(Map imgInfo) {
 
 
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
-    def PORT = 0
+
     sh """ 
             # Solving some image naming problems that ocured at adservice    
             export CONTAINERS_SHORT_NAME_ALIASING=on
