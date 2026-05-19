@@ -27,9 +27,9 @@ pipeline {
                 script{ 
                     utils = load 'libs/utils.groovy'
                     // env.K8S_NS= K8S.replace(".","-")
-                    K8S_NS="$PROJECT_NAME-$VERSION".replace( '.', '-' )
-                    echo "==============>  $K8S_NS"                    
-                    env.K8S_NS= "HELLO"
+                    K8S_NS="$PROJECT_NAME-$VERSION"
+                    echo "==============>  ${K8S_NS..replace( '.', '-' )}"
+                    K8S_NS= "HELLO"
                 }
             }
         }
