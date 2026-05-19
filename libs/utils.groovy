@@ -5,7 +5,7 @@ def imageWork(Map imgInfo) {
 
 
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
-
+    def PORT = 0
     sh """ 
             # Solving some image naming problems that ocured at adservice    
             export CONTAINERS_SHORT_NAME_ALIASING=on
@@ -14,6 +14,14 @@ def imageWork(Map imgInfo) {
         
             cd $imgInfo.srcDir
             
+            PORT = cat Dockerfile|grep EXPOSE|awk -F" " '{print @2}' 
+            echo PORT
+            echo PORT
+            echo PORT
+            echo PORT
+            echo PORT
+            echo PORT
+
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
             
@@ -23,9 +31,10 @@ def imageWork(Map imgInfo) {
             
             echo "Login to Artifactory"
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+
         """
 
-    return IMAGE
+    return [name: $imgInfo.serviceName, img: IMAGE, port: ]
 }
 
 def deploymentTemplate(Map deplCfg){
