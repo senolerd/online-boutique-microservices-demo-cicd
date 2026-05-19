@@ -8,7 +8,7 @@ def imageWork(Map imgInfo) {
     echo "imgInfo.serviceName => $imgInfo.serviceName"
 
 
-    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/imgInfo.serviceName:$VERSION"
+    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
     sh """ 
         echo "Card Service Image Creation"
