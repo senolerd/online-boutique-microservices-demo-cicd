@@ -7,8 +7,9 @@ def imageWork(Map imgInfo) {
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
     sh """ 
+            # Solving some image naming problems that ocured at adservice    
             export CONTAINERS_SHORT_NAME_ALIASING=on
-            
+
             echo "Card Service Image Creation"
         
             cd $imgInfo.srcDir
