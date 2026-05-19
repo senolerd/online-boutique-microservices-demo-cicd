@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage("__init__") {
             steps{
-                script{ utils = load 'utils.groovy'}
+                script{ utils = load 'libs/utils.groovy'}
             }
         }
         stage('Pulling Code') {
