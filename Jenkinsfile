@@ -10,7 +10,7 @@ pipeline {
 
         //K8S Settings
         K8S_CONFIG= "kube_kvm_config" // Secret file name for k8s connection
-        K8S_NS="$PROJECT_NAME-$VERSION"
+
 
 
         // Artifactory Settings
@@ -27,6 +27,7 @@ pipeline {
                 script{ 
                     utils = load 'libs/utils.groovy'
                     // env.K8S_NS= K8S.replace(".","-")
+                    K8S_NS="$PROJECT_NAME-$VERSION".replace( '.', '-' )
                     echo "==============>  $K8S_NS"                    
                     env.K8S_NS= "HELLO"
                 }
@@ -36,7 +37,7 @@ pipeline {
         stage("SECOND STAGE") {
             steps{
                 script{ 
-                    echo "==============> ${env.K8S_NS}"  
+                    echo "==============> ${K8S_NS}"  
                 }
             }
         }
