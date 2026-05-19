@@ -24,11 +24,23 @@ pipeline {
     stages {
         stage("__init__") {
             steps{
-                script{ utils = load 'libs/utils.groovy'}
-                K8S_NS= K8S.replace(".","-")
-                echo "==============>  $K8S_NS"
+                script{ 
+                    utils = load 'libs/utils.groovy'
+                    K8S_NS= K8S.replace(".","-")
+                    echo "==============>  $K8S_NS"                    
+                }
             }
         }
+
+        stage("SECOND STAGE") {
+            steps{
+                script{ 
+                    echo "==============>  $K8S_NS"                    
+                }
+            }
+        }
+        
+
         // stage('Pulling Code') {
         //     steps {
         //         echo 'Hello from online boutique microservices demo'
