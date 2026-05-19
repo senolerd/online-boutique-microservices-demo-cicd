@@ -14,13 +14,7 @@ def imageWork(Map imgInfo) {
         
             cd $imgInfo.srcDir
             
-            # PORT = $(grep EXPOSE Dockerfile | awk -F" " '{print @2}')
-            # echo PORT
-            # echo PORT
-            # echo PORT
-            # echo PORT
-            # echo PORT
-            # echo PORT
+
 
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
