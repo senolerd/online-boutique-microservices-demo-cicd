@@ -28,7 +28,7 @@ pipeline {
                     utils = load 'libs/utils.groovy'
                     // env.K8S_NS= K8S.replace(".","-")
                     def rawNS = "$PROJECT_NAME-$VERSION"
-                    echo "RAW: ==============>  ${rawNS}"  #1
+                    echo "RAW: ==============>  ${rawNS}" // #1
 
                     env.K8S_NS = rawNS.replace(".","-")
                     echo "NEW: ==============>  ${env.K8S_NS}" // #2
@@ -41,7 +41,7 @@ pipeline {
         stage("SECOND STAGE") {
             steps{
                 script{ 
-                    echo "LATER: ==============> ${env.K8S_NS}"  #3
+                    echo "LATER: ==============> ${env.K8S_NS}" // #3
                 }
             }
         }
