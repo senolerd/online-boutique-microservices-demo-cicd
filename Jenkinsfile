@@ -36,7 +36,8 @@ pipeline {
         stage("SECOND STAGE") {
             steps{
                 script{ 
-                    echo "==============>  $env.K8S_NS"                    
+                    def jello= $K8S_NS.replace(".","-")
+                    echo "==============>"  
                 }
             }
         }
