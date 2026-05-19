@@ -21,7 +21,7 @@ def imageWork(Map imgInfo) {
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
         """
 }
-
+    
 return this
 
 
