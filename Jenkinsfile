@@ -36,7 +36,7 @@ pipeline {
         stage("SECOND STAGE") {
             steps{
                 script{ 
-                    echo "==============>  $K8S_NS"                    
+                    echo "==============>  $env.K8S_NS"                    
                 }
             }
         }
