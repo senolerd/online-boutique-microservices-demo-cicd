@@ -42,7 +42,7 @@ pipeline {
             steps{
                 script{ 
                     echo "LATER: ==============> ${env.K8S_NS}" // #3
-                    echo "$PROJECT_NAME-$VERSION"rawNS.replace('.','*') // #3
+                    echo "$PROJECT_NAME-$VERSION".replace('.','*') // #3
                 }
             }
         }
