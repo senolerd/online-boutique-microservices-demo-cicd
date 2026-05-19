@@ -18,7 +18,7 @@ pipeline {
         CONTAIER_REPO= "devrepo"
         REGISTRY_USE_TLS="false"
         // Kubernetes Variables 
-        K8S_NS = ""
+        // K8S_NS = ""
     }
 
     stages {
