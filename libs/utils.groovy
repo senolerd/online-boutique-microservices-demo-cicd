@@ -3,7 +3,7 @@
 def imageWork(Map imgInfo) {
     // Builds and uploads image to Artifactory
 
-    def imgInfo = imgInfo
+
 
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
@@ -13,29 +13,29 @@ def imageWork(Map imgInfo) {
 
             echo "Card Service Image Creation"
         
-            cd ${imgInfo.srcDir}
+            echo $imgInfo.srcDir
             
 
 
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
             
-            echo "Building $imgInfo.serviceName container"
-            sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
-            podman build -t $IMAGE .
+            // echo "Building $imgInfo.serviceName container"
+            // sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
+            // podman build -t $IMAGE .
             
-            echo "Login to Artifactory"
-            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            // echo "Login to Artifactory"
+            // podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
         """
-    def return_obj = [:]
-    return_obj.name = $imgInfo.serviceName 
-    return_obj.img = IMAGE 
-    return_obj.port = 10
+    // def return_obj = [:]
+    // return_obj.name = $imgInfo.serviceName 
+    // return_obj.img = IMAGE 
+    // return_obj.port = 10
     
     
 
-    return  return_obj
+    // return  return_obj
 }
 
 def deploymentTemplate(Map deplCfg){
