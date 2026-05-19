@@ -17,8 +17,8 @@ pipeline {
         CONTAINER_REGISTRY="192.168.1.90:8081"
         CONTAIER_REPO= "devrepo"
         REGISTRY_USE_TLS="false"
-        
         // Kubernetes Variables 
+        K8S_NS = ""
     }
 
     stages {
@@ -27,9 +27,13 @@ pipeline {
                 script{ 
                     utils = load 'libs/utils.groovy'
                     // env.K8S_NS= K8S.replace(".","-")
-                    def K8S_NS="$PROJECT_NAME-$VERSION"
-                    echo "==============>  ${K8S_NS.replace( '.', '-' )}"
-                    K8S_NS= "HELLO"
+                    def rawNS = "$PROJECT_NAME-$VERSION"
+                    echo "RAW: ==============>  ${rawNS}"
+
+                    env.K0S_NS = rawNS.replace(".","-")
+                    echo "RAW: ==============>  ${env.K8S_NS}"
+
+                    env.K8S_NS= "HELLO"
                 }
             }
         }
@@ -37,7 +41,7 @@ pipeline {
         stage("SECOND STAGE") {
             steps{
                 script{ 
-                    echo "==============> ${K8S_NS}"  
+                    echo "==============> ${env.K8S_NS}"  
                 }
             }
         }
