@@ -14,13 +14,13 @@ def imageWork(Map imgInfo) {
         
             cd $imgInfo.srcDir
             
-            PORT = $(grep EXPOSE Dockerfile | awk -F" " '{print @2}')
-            echo PORT
-            echo PORT
-            echo PORT
-            echo PORT
-            echo PORT
-            echo PORT
+            # PORT = $(grep EXPOSE Dockerfile | awk -F" " '{print @2}')
+            # echo PORT
+            # echo PORT
+            # echo PORT
+            # echo PORT
+            # echo PORT
+            # echo PORT
 
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
@@ -34,7 +34,7 @@ def imageWork(Map imgInfo) {
 
         """
 
-    return [name: $imgInfo.serviceName, img: IMAGE, port: PORT]
+    return [name: $imgInfo.serviceName, img: IMAGE, port: 10]
 }
 
 def deploymentTemplate(Map deplCfg){
