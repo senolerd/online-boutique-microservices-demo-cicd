@@ -40,12 +40,12 @@ def createNewManifestBook() {
         kind: Namespace
         metadata:
             name: ${env.K8S_NS}
-    """.stripIndent()
+    """
 
     echo "Pushing point to a file"
 
     sh """
-        cat <<-'END' > manifest.yml
+        cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
 ${manifest}
 END
     """
