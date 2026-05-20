@@ -2,35 +2,35 @@
 
 
 
-def imageWork(Map imgInfo) {
-    // Builds and uploads image to Artifactory
+// def imageWork(Map imgInfo) {
+//     // Builds and uploads image to Artifactory
 
-    def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
-    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
+//     def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
+//     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
-    sh """ 
-            # Solving some image naming problems that ocured at adservice    
-            export CONTAINERS_SHORT_NAME_ALIASING=on
+//     sh """ 
+//             # Solving some image naming problems that ocured at adservice    
+//             export CONTAINERS_SHORT_NAME_ALIASING=on
 
-            echo "$imgInfo.serviceName Service Image Creation"       
-            echo $imgInfo.srcDir
+//             echo "$imgInfo.serviceName Service Image Creation"       
+//             echo $imgInfo.srcDir
             
-            # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
-            # if there is defination in the Dockerfile
+//             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
+//             # if there is defination in the Dockerfile
             
-            # echo "Building $imgInfo.serviceName container"
-            # sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
-            # podman build -t $IMAGE .
+//             # echo "Building $imgInfo.serviceName container"
+//             # sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
+//             # podman build -t $IMAGE .
             
-            # echo "Login to Artifactory"
-            # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
-        """
-    // _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
-    // _serviceManifest([name: imgInfo.serviceName, port: PORT])
+//             # echo "Login to Artifactory"
+//             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+//         """
+//     // _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
+//     // _serviceManifest([name: imgInfo.serviceName, port: PORT])
     
-}
+// }
 
-def createNewManifestBook() {
+def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
     echo "HELLO"
 //     sh """
