@@ -34,7 +34,8 @@ def imageWork(Map imgInfo) {
 
 def createNewManifestBook() {
     // Creates a manifest book and adds namespace for whole deployment
-    def manifest = """---
+    def manifest = """
+        ---
         apiVersion: v1
         kind: Namespace
         metadata:
