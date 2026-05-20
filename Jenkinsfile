@@ -13,8 +13,8 @@ pipeline {
 
         // Artifactory Settings
         CONTAINER_REGISTRY="192.168.1.90:8081"
-        CONTAIER_REPO= "devrepo"
-        REGISTRY_USE_TLS="false"
+        CONTAIER_REPO= "alkol". // it is username for Docker. Repo name for Nexus. This is the part of image name between registry address and image name
+        REGISTRY_USE_TLS="true"
 
     }
 
@@ -37,7 +37,7 @@ pipeline {
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
 
                 echo "Login to Artifactory"
-                withCredentials([usernamePassword(credentialsId: 'nexus_dev', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
                     echo "Login to Artifactory"
                     sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
                 }
@@ -146,6 +146,21 @@ pipeline {
         }
     }
 }
+
+
+
+// image: 192.168.1.90:8081/devrepo/cartservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/frontend:v0.10.5
+// image: 192.168.1.90:8081/devrepo/productcatalogservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/currencyservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/paymentservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/shippingservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/emailservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/checkoutservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/recommendationservice:v0.10.5
+// image: 192.168.1.90:8081/devrepo/adservice:v0.10.5
+
+
 
 
 
