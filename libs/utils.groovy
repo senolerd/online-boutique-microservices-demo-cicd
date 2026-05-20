@@ -75,7 +75,7 @@ def checkoutserviceWorks(imgInfo) {
     //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
     sh """
         cd $imgInfo.srcDir
-        echo """
+        cat << END >> Dockerfile     
     ENV AD_SERVICE_ADDR service/adservice               
     ENV CART_SERVICE_ADDR service/cartservice             
     ENV CHECKOUT_SERVICE_ADDR service/checkoutservice         
@@ -86,9 +86,9 @@ def checkoutserviceWorks(imgInfo) {
     ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice   
     ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice   
     ENV SHIPPING_SERVICE_ADDR service/shippingservice 
-        """ >> Dockerfile
-        
-    """
+    END
+    """ 
+    
     imageWorkFinisher(imgInfo)
     }
 
