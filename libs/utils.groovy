@@ -3,7 +3,7 @@
 def imageWork(Map imgInfo) {
     // Builds and uploads image to Artifactory
 
-    def PORT = sh(script:"grep EXPOSE| awk -F' ' ' print{$2}' ", returnStdout: true).trim().toInteger()
+    def PORT = sh(script:"grep EXPOSE", returnStdout: true).trim().toInteger()
 
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
