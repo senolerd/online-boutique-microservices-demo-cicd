@@ -4,7 +4,6 @@ def imageWork(Map imgInfo) {
     // Builds and uploads image to Artifactory
 
     def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
-
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
     sh """ 
@@ -25,10 +24,10 @@ def imageWork(Map imgInfo) {
             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
         """
-    def return_obj = [:]
-    return_obj.name = "$imgInfo.serviceName" 
-    return_obj.img = "$IMAGE"
-    return_obj.port = "$PORT"
+    def return_obj = [name: imgInfo.serviceName, img: IMAGE, port: PORT]
+    // return_obj.name = "$imgInfo.serviceName" 
+    // return_obj.img = "$IMAGE"
+    // return_obj.port = "$PORT"
     echo "return_obj: $return_obj"
     
 
