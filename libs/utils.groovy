@@ -36,22 +36,13 @@ def imageWorkFinisher(Map imgInfo) {
     _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _serviceManifest([name: imgInfo.serviceName, port: PORT])
     
-}
+    }
 
 
 
 
 /////// Special cares per API code
-def checkoutserviceWorks(imgInfo) {
-    //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
-    sh """
-        cd $imgInfo.srcDir
-        echo 'ENV SHIPPING_SERVICE_ADDR service/shippingservice' >> Dockerfile
-        echo 'ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice' >> Dockerfile
 
-    """
-    imageWorkFinisher(imgInfo)
-    }
 
 def currencyserviceWorks(imgInfo) {
     // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
@@ -60,6 +51,8 @@ def currencyserviceWorks(imgInfo) {
 
 def frontendWorks(imgInfo) {
     // panic: environment variable "PRODUCT_CATALOG_SERVICE_ADDR" not set
+    //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
+
     imageWorkFinisher(imgInfo)
     }
 
@@ -72,7 +65,35 @@ def recommendationserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
+
+
+
+
 // WORKING APIS
+
+def checkoutserviceWorks(imgInfo) {
+    //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
+    sh """
+        cd $imgInfo.srcDir
+        echo """
+    ENV AD_SERVICE_ADDR service/adservice               
+    ENV CART_SERVICE_ADDR service/cartservice             
+    ENV CHECKOUT_SERVICE_ADDR service/checkoutservice         
+    ENV CURRENCY_SERVICE_ADDR service/currencyservice         
+    ENV EMAIL_SERVICE_ADDR service/emailservice            
+    ENV FRONTEND_SERVICE_ADDR service/frontend                
+    ENV PAYMENT_SERVICE_ADDR service/paymentservice          
+    ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice   
+    ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice   
+    ENV SHIPPING_SERVICE_ADDR service/shippingservice 
+        """ >> Dockerfile
+        
+    """
+    imageWorkFinisher(imgInfo)
+    }
+
+
+
 
 def adserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
 def cartserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
@@ -85,7 +106,16 @@ def shippingserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
 
 
 
-
+// ENV AD_SERVICE_ADDR service/adservice               
+// ENV CART_SERVICE_ADDR service/cartservice             
+// ENV CHECKOUT_SERVICE_ADDR service/checkoutservice         
+// ENV CURRENCY_SERVICE_ADDR service/currencyservice         
+// ENV EMAIL_SERVICE_ADDR service/emailservice            
+// ENV FRONTEND_SERVICE_ADDR service/frontend                
+// ENV PAYMENT_SERVICE_ADDR service/paymentservice          
+// ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice   
+// ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice   
+// ENV SHIPPING_SERVICE_ADDR service/shippingservice         
 
 
 
