@@ -24,11 +24,13 @@ def imageWork(Map imgInfo) {
             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
         """
-    return  [name: imgInfo.serviceName, img: IMAGE, port: PORT]
+    deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT])
+    serviceManifest([name: imgInfo.serviceName, port: PORT])
+    
 }
 
 def deploymentManifest(Map deplCfg){
-    // Expected object for deplCfg [mame: , img: , port: ]
+    // Expected object for deplCfg [mame:string , img:string , port: integer ]
 
     def manifest =  """ 
         apiVersion: apps/v1
@@ -58,7 +60,7 @@ def deploymentManifest(Map deplCfg){
 }
 
 def serviceManifest(Map svcCfg){
-    // Expected object for deplCfg [mame: , port: , tport: ]
+    // Expected object for deplCfg [mame:string , port:integer ]
 
     def manifest = """ ---
         apiVersion: v1
@@ -71,7 +73,7 @@ def serviceManifest(Map svcCfg){
             ports:
                 - protocol: TCP
                 port: $svcCfg.port
-                targetPort: $svcCfg.tport
+                targetPort: $svcCfg.port
         """.stripIndent()
     echo manifest
 }
