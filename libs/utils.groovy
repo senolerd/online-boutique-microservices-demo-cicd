@@ -41,8 +41,8 @@ def createNewManifestBook() {
         metadata:
             name: ${env.K8S_NS}
     """.stripIndent()
-    echo "Pushing namespace to manifest"
-    sh "echo ${manifest}"
+    echo "Pushing point to a file"
+    sh 'echo $manifest'
     // sh "echo $manifest > manifestbook-${env.K8S_NS}.yml"
 }
 
