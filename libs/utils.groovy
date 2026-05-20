@@ -3,7 +3,7 @@
 def imageWork(Map imgInfo) {
     // Builds and uploads image to Artifactory
 
-
+    def PORT = sh(script:"grep EXPOSE| awk -F' ' ' print{S2}' ", returnStdout: true).trim().toInteger()
 
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
 
@@ -13,7 +13,7 @@ def imageWork(Map imgInfo) {
 
             echo "$imgInfo.serviceName Service Image Creation"       
             echo $imgInfo.srcDir
-
+            
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
             
@@ -28,7 +28,7 @@ def imageWork(Map imgInfo) {
     def return_obj = [:]
     return_obj.name = "$imgInfo.serviceName" 
     return_obj.img = "$IMAGE"
-    return_obj.port = 10
+    return_obj.port = "$PORT"
     echo "return_obj: $return_obj"
     
 
