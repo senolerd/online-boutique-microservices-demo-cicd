@@ -28,7 +28,7 @@ def imageWork(Map imgInfo) {
 
         """
     _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
-    // sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
+    _serviceManifest([name: imgInfo.serviceName, port: PORT])
     
 }
 
@@ -79,55 +79,20 @@ END
 def _serviceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
-    return """---
-        apiVersion: v1
-        kind: Service
-        metadata:
-            name: $svcCfg.name
-        spec:
-            selector:
-                app.kubernetes.io/name: $svcCfg.name
-            ports:
-            - protocol: TCP
-              port: $svcCfg.port
-              targetPort: $svcCfg.port
-        """.stripIndent()
+    sg """
+        cat << EOF >> manifestbook-${env.K8S_NS}.yml
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: $svcCfg.name
+spec:
+    selector:
+        app.kubernetes.io/name: $svcCfg.name
+    ports:
+    - protocol: TCP
+        port: $svcCfg.port
+        targetPort: $svcCfg.port
+EOF
+        """
 }
-
-
-return this
-
-
-// apiVersion: apps/v1
-// kind: Deployment
-// metadata:
-//   name: nginx-deployment
-//   labels:
-//     app: nginx
-// spec:
-//   replicas: 3
-//   selector:
-//     matchLabels:
-//       app: nginx
-//   template:
-//     metadata:
-//       labels:
-//         app: nginx
-//     spec:
-//       containers:
-//       - name: nginx
-//         image: nginx:1.14.2
-//         ports:
-//         - containerPort: 80
-//---
-// apiVersion: v1
-// kind: Service
-// metadata:
-//   name: my-service
-// spec:
-//   selector:
-//     app.kubernetes.io/name: MyApp
-//   ports:
-//     - protocol: TCP
-//       port: 80
-//       targetPort: 9376
