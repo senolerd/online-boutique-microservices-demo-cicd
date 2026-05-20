@@ -54,6 +54,7 @@ def deploymentManifest(Map deplCfg){
         |        - containerPort: $deplCfg.port
         |---
     """.stripMargin()
+    echo manifest
 }
 
 
