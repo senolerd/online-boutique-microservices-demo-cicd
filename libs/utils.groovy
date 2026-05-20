@@ -55,7 +55,7 @@ END
 
 def _deploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
-
+    echo "DEPLOYMENT MANIFEST IS CREATING"
     sh """ cat << END >> manifestbook-${env.K8S_NS}.yml
 --- 
 apiVersion: apps/v1
