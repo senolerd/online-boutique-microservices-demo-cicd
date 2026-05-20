@@ -27,7 +27,7 @@ def imageWork(Map imgInfo) {
 
 
         """
-    _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
+    // _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     // _serviceManifest([name: imgInfo.serviceName, port: PORT])
     
 }
