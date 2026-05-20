@@ -40,7 +40,7 @@ def createNewManifestBook() {
                         kind: Namespace
                         metadata:
                             name: ${env.K8S_NS}
-                    """.trim().stripIndent()
+                    """.stripIndent().trim()
 
     echo "Pushing point to a file"
 
