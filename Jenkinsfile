@@ -45,13 +45,13 @@ pipeline {
             }
         }
 
-        stage("Card Service Work"){
-            // Card service also needs redis service
+        stage("Cart Service Work"){
+            // Cart service also needs redis service
             steps{
                 script{
                     def SERVICE_NAME="cartservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-                    def img = utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    def img = utils.cartserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="frontend"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.frontendWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -71,7 +71,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="productcatalogservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.productcatalogserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -81,7 +81,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="currencyservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.currencyserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -91,7 +91,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="paymentservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.paymentserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -101,7 +101,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="shippingservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.shippingserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -111,7 +111,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="emailservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.emailserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -131,7 +131,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="recommendationservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.recommendationserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -141,7 +141,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="adservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    utils.adserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
