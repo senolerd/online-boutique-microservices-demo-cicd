@@ -13,7 +13,7 @@ pipeline {
 
         // Artifactory Settings
         CONTAINER_REGISTRY="192.168.1.90:8081"
-        CONTAIER_REPO= "alkol". // it is username for Docker. Repo name for Nexus. This is the part of image name between registry address and image name
+        CONTAIER_REPO= "alkol" // it is username for Docker. Repo name for Nexus. This is the part of image name between registry address and image name
         REGISTRY_USE_TLS="true"
 
     }
@@ -39,7 +39,7 @@ pipeline {
                 echo "Login to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
                     echo "Login to Artifactory"
-                    sh 'podman login --tls-verify $REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
+                    sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
                 }
             }
         }
