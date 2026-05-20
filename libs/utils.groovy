@@ -27,7 +27,7 @@ def imageWork(Map imgInfo) {
             echo 
 
         """
-    // sh "_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
+    _deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) 
     // sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
     
 }
@@ -41,7 +41,9 @@ def createNewManifestBook() {
         metadata:
             name: ${env.K8S_NS}
     """.stripIndent()
+
     echo "Pushing point to a file"
+
     sh """
         cat <<-'END' > manifest.yml
 ${manifest}
@@ -54,29 +56,31 @@ END
 def _deploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
 
-    return """---
-        apiVersion: apps/v1
-        kind: Deployment
+    sh """ cat << END >> manifestbook-${env.K8S_NS}.yml
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: $deplCfg.name
+    labels:
+        app: $deplCfg.name
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: $deplCfg.name
+    template:
         metadata:
-            name: $deplCfg.name
             labels:
                 app: $deplCfg.name
         spec:
-            replicas: 1
-            selector:
-                matchLabels:
-                    app: $deplCfg.name
-            template:
-                metadata:
-                    labels:
-                        app: $deplCfg.name
-                spec:
-                    containers:
-                    - name: $deplCfg.name
-                      image: $deplCfg.img
-                      ports:
-                      - containerPort: $deplCfg.port
-    """.stripIndent()
+            containers:
+            - name: $deplCfg.name
+                image: $deplCfg.img
+                ports:
+                - containerPort: $deplCfg.port
+END
+    """
 }
 
 
