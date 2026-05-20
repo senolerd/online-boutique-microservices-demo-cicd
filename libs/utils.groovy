@@ -33,28 +33,28 @@ def deploymentManifest(Map deplCfg){
     echo "Manifest is based on: $deplCfg"
 
     def manifest =  """ 
-    apiVersion: apps/v1
-    kind: Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: $deplCfg.name
+labels:
+    app: $deplCfg.name
+spec:
+replicas: 1
+selector:
+    matchLabels:
+    app: $deplCfg.name
+template:
     metadata:
-    name: $deplCfg.name
     labels:
         app: $deplCfg.name
     spec:
-    replicas: 1
-    selector:
-        matchLabels:
-        app: $deplCfg.name
-    template:
-        metadata:
-        labels:
-            app: $deplCfg.name
-        spec:
-        containers:
-        - name: $deplCfg.name
-            image: $deplCfg.img
-            ports:
-            - containerPort: $deplCfg.port
-    ---
+    containers:
+    - name: $deplCfg.name
+        image: $deplCfg.img
+        ports:
+        - containerPort: $deplCfg.port
+---
     """
     echo manifest
 
