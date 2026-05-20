@@ -51,6 +51,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: $deplCfg.name
+    namespace: ${env.K8S_NS}
     labels:
         app: $deplCfg.name
 spec:
@@ -83,6 +84,7 @@ apiVersion: v1
 kind: Service
 metadata:
     name: $svcCfg.name
+    namespace: ${env.K8S_NS}
 spec:
     selector:
         app.kubernetes.io/name: $svcCfg.name
