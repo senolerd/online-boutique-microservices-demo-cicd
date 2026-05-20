@@ -24,14 +24,7 @@ def imageWork(Map imgInfo) {
             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
         """
-    def return_obj = [name: imgInfo.serviceName, img: IMAGE, port: PORT]
-    // return_obj.name = "$imgInfo.serviceName" 
-    // return_obj.img = "$IMAGE"
-    // return_obj.port = "$PORT"
-    echo "return_obj: $return_obj"
-    
-
-    // return  return_obj
+    return  [name: imgInfo.serviceName, img: IMAGE, port: PORT]
 }
 
 // def deploymentTemplate(Map deplCfg){
