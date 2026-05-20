@@ -24,7 +24,7 @@ def imageWork(Map imgInfo) {
             
             # echo "Login to Artifactory"
             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
-            echo 
+
 
         """
     _deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) 
@@ -80,7 +80,7 @@ spec:
                 ports:
                 - containerPort: $deplCfg.port
 END
-    """
+    """.stripIndent()
 }
 
 
