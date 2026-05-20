@@ -42,7 +42,7 @@ def createNewManifestBook() {
     """.stripIndent()
     echo "Pushing point to a file"
     sh """
-        cat << END > manifest.yml
+        cat <<-END > manifest.yml
         ${manifest}
     """
     
