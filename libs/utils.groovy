@@ -36,16 +36,13 @@ def createNewManifestBook() {
     // Creates a manifest book and adds namespace for whole deployment
     sh """
         cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
-        ---
-        apiVersion: v1
-        kind: Namespace
-        metadata:
-            name: ${env.K8S_NS}
-        END
-        """.stripIndent().trim()
-
-    echo "Pushing point to a file"
-
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: ${env.K8S_NS}
+END
+    """.stripIndent().trim()
 }
 
 def _deploymentManifest(Map deplCfg){
