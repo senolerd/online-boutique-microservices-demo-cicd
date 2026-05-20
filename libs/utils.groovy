@@ -24,8 +24,6 @@ def imageWork(Map imgInfo) {
             
             # echo "Login to Artifactory"
             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
-
-
         """
     // _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     // _serviceManifest([name: imgInfo.serviceName, port: PORT])
@@ -34,15 +32,16 @@ def imageWork(Map imgInfo) {
 
 def createNewManifestBook() {
     // Creates a manifest book and adds namespace for whole deployment
-    sh """
-        cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
----
-apiVersion: v1
-kind: Namespace
-metadata:
-    name: ${env.K8S_NS}
-END
-    """.stripIndent().trim()
+    echo "HELLO"
+//     sh """
+//         cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
+// ---
+// apiVersion: v1
+// kind: Namespace
+// metadata:
+//     name: ${env.K8S_NS}
+// END
+//     """.stripIndent().trim()
 }
 
 // def _deploymentManifest(Map deplCfg){
