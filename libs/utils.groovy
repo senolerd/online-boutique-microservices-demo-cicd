@@ -38,8 +38,8 @@ def deploymentManifest(Map deplCfg){
         kind: Deployment
         metadata:
             name: $deplCfg.name
-        labels:
-            app: $deplCfg.name
+            labels:
+                app: $deplCfg.name
         spec:
             replicas: 1
             selector:
@@ -51,10 +51,10 @@ def deploymentManifest(Map deplCfg){
                         app: $deplCfg.name
                 spec:
                     containers:
-                    - name: $deplCfg.name
-                    image: $deplCfg.img
-                    ports:
-                    - containerPort: $deplCfg.port
+                        - name: $deplCfg.name
+                        image: $deplCfg.img
+                        ports:
+                            - containerPort: $deplCfg.port
     """.stripIndent()
     echo manifest
 }
