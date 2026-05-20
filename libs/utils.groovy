@@ -42,7 +42,7 @@ def createNewManifestBook() {
             name: ${env.K8S_NS}
     """.stripIndent()
     echo "Pushing namespace to manifest"
-    sh "cat ${manifest} > manifestbook-${env.K8S_NS}.yml"
+    sh "echo $manifest > manifestbook-${env.K8S_NS}.yml"
 }
 
 def _deploymentManifest(Map deplCfg){
