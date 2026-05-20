@@ -65,9 +65,9 @@ spec:
         spec:
             containers:
             - name: $deplCfg.name
-                image: $deplCfg.img
-                ports:
-                - containerPort: $deplCfg.port
+              image: $deplCfg.img
+              ports:
+              - containerPort: $deplCfg.port
 END
     """.stripIndent()
 }
