@@ -27,7 +27,7 @@ def imageWork(Map imgInfo) {
 
 
         """
-    _deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) 
+    _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     // sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
     
 }
@@ -49,8 +49,6 @@ def createNewManifestBook() {
 ${manifest}
 END
     """
-    
-    // sh "echo $manifest > manifestbook-${env.K8S_NS}.yml"
 }
 
 def _deploymentManifest(Map deplCfg){
