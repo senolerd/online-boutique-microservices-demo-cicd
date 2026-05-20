@@ -2,8 +2,8 @@
 
 
 
-def imageWork(Map imgInfo) {
-    // Builds and uploads image to Artifactory
+def imageWorkFinisher(Map imgInfo) {
+    // Builds and uploads image to Artifactory 
 
     def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
@@ -21,14 +21,101 @@ def imageWork(Map imgInfo) {
             echo "Building $imgInfo.serviceName container"
             sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
             podman build -t $IMAGE .
-            
-            echo "Login to Artifactory"
-            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+
+            #################################################
+            # TODO:  Add a build number to end of the image to make easy roll-back or create a HELM chart, or do both. Yeah, do both!
+            #################################################
+
+
+
+            # echo "Login to Artifactory"
+            # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+
+
         """
     _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _serviceManifest([name: imgInfo.serviceName, port: PORT])
     
 }
+
+
+
+
+/////// Special cares per API code
+def checkoutserviceWorks(imgInfo) {
+    //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
+    sh """
+        cd $imgInfo.srcDir
+        echo 'ENV SHIPPING_SERVICE_ADDR service/shippingservice' >> Dockerfile
+
+    """
+    imageWorkFinisher(imgInfo)
+    }
+
+def currencyserviceWorks(imgInfo) {
+    // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
+    imageWorkFinisher(imgInfo)
+    }
+
+def frontendWorks(imgInfo) {
+    // panic: environment variable "PRODUCT_CATALOG_SERVICE_ADDR" not set
+    imageWorkFinisher(imgInfo)
+    }
+
+def paymentserviceWorks(imgInfo) {
+    // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
+    imageWorkFinisher(imgInfo)
+    }
+def recommendationserviceWorks(imgInfo) {
+    // raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')
+    imageWorkFinisher(imgInfo)
+    }
+
+// WORKING APIS
+
+def adserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
+def cartserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
+def emailserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
+def productcatalogserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
+def shippingserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
+
+
+/////// Special cares per API code ENDS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
@@ -41,6 +128,7 @@ metadata:
 END
     """.stripIndent().trim()
 }
+
 
 def _deploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
