@@ -25,7 +25,7 @@ pipeline {
                     utils = load 'libs/utils.groovy'
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
                     echo env.K8S_NS
-                    utils.createNewManifestBook(env.K8S_NS)
+                    utils.createNewManifestBook()
                 }
             }
         }
