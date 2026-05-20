@@ -18,12 +18,12 @@ def imageWork(Map imgInfo) {
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
             
-            # echo "Building $imgInfo.serviceName container"
-            # sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
-            # podman build -t $IMAGE .
+            echo "Building $imgInfo.serviceName container"
+            sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
+            podman build -t $IMAGE .
             
-            # echo "Login to Artifactory"
-            # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            echo "Login to Artifactory"
+            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
         """
     _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _serviceManifest([name: imgInfo.serviceName, port: PORT])
