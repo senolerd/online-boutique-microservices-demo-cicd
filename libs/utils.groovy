@@ -79,7 +79,7 @@ END
 def _serviceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
-    sg """
+    sh """
         cat << EOF >> manifestbook-${env.K8S_NS}.yml
 ---
 apiVersion: v1
