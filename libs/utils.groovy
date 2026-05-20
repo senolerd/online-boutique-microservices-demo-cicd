@@ -88,8 +88,8 @@ spec:
         app.kubernetes.io/name: $svcCfg.name
     ports:
     - protocol: TCP
-        port: $svcCfg.port
-        targetPort: $svcCfg.port
+      port: $svcCfg.port
+      targetPort: $svcCfg.port
 EOF
     """
 }
