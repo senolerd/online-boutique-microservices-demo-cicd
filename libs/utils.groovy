@@ -47,6 +47,7 @@ def checkoutserviceWorks(imgInfo) {
     sh """
         cd $imgInfo.srcDir
         echo 'ENV SHIPPING_SERVICE_ADDR service/shippingservice' >> Dockerfile
+        echo 'ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice' >> Dockerfile
 
     """
     imageWorkFinisher(imgInfo)
@@ -155,6 +156,7 @@ spec:
             containers:
             - name: $deplCfg.name
               image: $deplCfg.img
+              imagePullPolicy: Always
               ports:
               - containerPort: $deplCfg.port
 END
