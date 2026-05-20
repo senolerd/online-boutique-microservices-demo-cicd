@@ -1,5 +1,7 @@
 // utils.groovy
 
+
+
 def imageWork(Map imgInfo) {
     // Builds and uploads image to Artifactory
 
@@ -22,14 +24,29 @@ def imageWork(Map imgInfo) {
             
             # echo "Login to Artifactory"
             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            echo 
 
         """
-    deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT])
-    serviceManifest([name: imgInfo.serviceName, port: PORT])
+    _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT])
+    _serviceManifest([name: imgInfo.serviceName, port: PORT])
     
 }
 
-def deploymentManifest(Map deplCfg){
+def createNewManifestBook(namespace) {
+    echo "Manifest Book name: ${namespace}"
+    def namespaceManifest = """
+        ---
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+            name: ${namespace}
+    """.stripIndent()
+
+    echo namespaceManifest
+
+}
+
+def _deploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ]
 
     def manifest =  """ 
@@ -59,7 +76,7 @@ def deploymentManifest(Map deplCfg){
     echo manifest
 }
 
-def serviceManifest(Map svcCfg){
+def _serviceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ]
 
     def manifest = """ 
