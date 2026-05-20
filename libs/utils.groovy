@@ -42,8 +42,9 @@ def createNewManifestBook() {
     """.stripIndent()
     echo "Pushing point to a file"
     sh """
-        cat <<-END > manifest.yml
+        cat <<-'END' > manifest.yml
         ${manifest}
+        END
     """
     
     // sh "echo $manifest > manifestbook-${env.K8S_NS}.yml"
