@@ -26,7 +26,7 @@ def imageWork(Map imgInfo) {
 
         """
     def return_obj = [:]
-    return_obj.name = $imgInfo.serviceName 
+    return_obj.name = imgInfo.serviceName 
     return_obj.img = IMAGE 
     return_obj.port = 10
     echo "return_obj: $return_obj"
