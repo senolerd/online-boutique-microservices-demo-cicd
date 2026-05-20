@@ -12,7 +12,8 @@ pipeline {
         K8S_CONFIG= "kube_kvm_config" // Secret file name for k8s connection
 
         // Artifactory Settings
-        CONTAINER_REGISTRY="192.168.1.90:8081"
+        // CONTAINER_REGISTRY="192.168.1.90:8081"
+        CONTAINER_REGISTRY="docker.io"
         CONTAIER_REPO= "alkol" // it is username for Docker. Repo name for Nexus. This is the part of image name between registry address and image name
         REGISTRY_USE_TLS="true"
 
