@@ -45,54 +45,54 @@ END
     """.stripIndent().trim()
 }
 
-def _deploymentManifest(Map deplCfg){
-    // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
-    echo "DEPLOYMENT MANIFEST IS CREATING"
-    sh """ cat << END >> manifestbook-${env.K8S_NS}.yml
---- 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: $deplCfg.name
-    labels:
-        app: $deplCfg.name
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: $deplCfg.name
-    template:
-        metadata:
-            labels:
-                app: $deplCfg.name
-        spec:
-            containers:
-            - name: $deplCfg.name
-                image: $deplCfg.img
-                ports:
-                - containerPort: $deplCfg.port
-END
-    """.stripIndent()
-}
+// def _deploymentManifest(Map deplCfg){
+//     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
+//     echo "DEPLOYMENT MANIFEST IS CREATING"
+//     sh """ cat << END >> manifestbook-${env.K8S_NS}.yml
+// --- 
+// apiVersion: apps/v1
+// kind: Deployment
+// metadata:
+//     name: $deplCfg.name
+//     labels:
+//         app: $deplCfg.name
+// spec:
+//     replicas: 1
+//     selector:
+//         matchLabels:
+//             app: $deplCfg.name
+//     template:
+//         metadata:
+//             labels:
+//                 app: $deplCfg.name
+//         spec:
+//             containers:
+//             - name: $deplCfg.name
+//                 image: $deplCfg.img
+//                 ports:
+//                 - containerPort: $deplCfg.port
+// END
+//     """.stripIndent()
+// }
 
 
-def _serviceManifest(Map svcCfg){
-    // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
+// def _serviceManifest(Map svcCfg){
+//     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
-    sh """
-        cat << EOF >> manifestbook-${env.K8S_NS}.yml
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: $svcCfg.name
-spec:
-    selector:
-        app.kubernetes.io/name: $svcCfg.name
-    ports:
-    - protocol: TCP
-        port: $svcCfg.port
-        targetPort: $svcCfg.port
-EOF
-        """
-}
+//     sh """
+//         cat << EOF >> manifestbook-${env.K8S_NS}.yml
+// ---
+// apiVersion: v1
+// kind: Service
+// metadata:
+//     name: $svcCfg.name
+// spec:
+//     selector:
+//         app.kubernetes.io/name: $svcCfg.name
+//     ports:
+//     - protocol: TCP
+//         port: $svcCfg.port
+//         targetPort: $svcCfg.port
+// EOF
+//         """
+// }
