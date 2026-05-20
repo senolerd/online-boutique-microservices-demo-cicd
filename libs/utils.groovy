@@ -27,22 +27,22 @@ def imageWork(Map imgInfo) {
             echo 
 
         """
-    sh "_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-$namespace.yml"
-    sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-$namespace.yml"
+    sh "_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
+    sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
     
 }
 
-def createNewManifestBook(namespace) {
+def createNewManifestBook() {
     // Creates a manifest book and adds namespace for whole deployment
     def manifest = """
         ---
         apiVersion: v1
         kind: Namespace
         metadata:
-            name: ${namespace}
+            name: ${env.K8S_NS}
     """.stripIndent()
 
-    sh ' cat $manifest > manifestbook-$namespace.yml'
+    sh "cat $manifest > manifestbook-${env.K8S_NS}.yml"
 }
 
 def _deploymentManifest(Map deplCfg){
