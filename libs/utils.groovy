@@ -27,14 +27,14 @@ def imageWork(Map imgInfo) {
             echo 
 
         """
-    _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT])
-    _serviceManifest([name: imgInfo.serviceName, port: PORT])
+    sh '_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-$namespace.yml'
+    sh '_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-$namespace.yml'
     
 }
 
 def createNewManifestBook(namespace) {
-    echo "Manifest Book name: ${namespace}"
-    def namespaceManifest = """
+    // Creates a manifest book and adds namespace for whole deployment
+    def manifest = """
         ---
         apiVersion: v1
         kind: Namespace
@@ -42,14 +42,13 @@ def createNewManifestBook(namespace) {
             name: ${namespace}
     """.stripIndent()
 
-    echo namespaceManifest
-
+    sh ' cat $manifest > manifestbook-$namespace.yml'
 }
 
 def _deploymentManifest(Map deplCfg){
-    // Expected object for deplCfg [mame:string , img:string , port: integer ]
+    // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
 
-    def manifest =  """ 
+    return """ 
         ---
         apiVersion: apps/v1
         kind: Deployment
@@ -73,13 +72,13 @@ def _deploymentManifest(Map deplCfg){
                       ports:
                       - containerPort: $deplCfg.port
     """.stripIndent()
-    echo manifest
 }
 
-def _serviceManifest(Map svcCfg){
-    // Expected object for deplCfg [mame:string , port:integer ]
 
-    def manifest = """ 
+def _serviceManifest(Map svcCfg){
+    // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
+
+    return """ 
         ---
         apiVersion: v1
         kind: Service
@@ -93,7 +92,6 @@ def _serviceManifest(Map svcCfg){
               port: $svcCfg.port
               targetPort: $svcCfg.port
         """.stripIndent()
-    echo manifest
 }
 
 
