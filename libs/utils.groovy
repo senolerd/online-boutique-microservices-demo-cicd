@@ -33,6 +33,7 @@ def deploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ]
 
     def manifest =  """ 
+        ---
         apiVersion: apps/v1
         kind: Deployment
         metadata:
@@ -54,7 +55,6 @@ def deploymentManifest(Map deplCfg){
                         image: $deplCfg.img
                         ports:
                         - containerPort: $deplCfg.port
-        ---
     """.stripIndent()
     echo manifest
 }
@@ -62,7 +62,8 @@ def deploymentManifest(Map deplCfg){
 def serviceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ]
 
-    def manifest = """ ---
+    def manifest = """ 
+        ---
         apiVersion: v1
         kind: Service
         metadata:
