@@ -34,21 +34,18 @@ def imageWork(Map imgInfo) {
 
 def createNewManifestBook() {
     // Creates a manifest book and adds namespace for whole deployment
-    def manifest = """
+    sh """
+        cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
         ---
         apiVersion: v1
         kind: Namespace
         metadata:
             name: ${env.K8S_NS}
+        END
         """.stripIndent().trim()
 
     echo "Pushing point to a file"
 
-    sh """
-        cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
-${manifest}
-END
-    """
 }
 
 def _deploymentManifest(Map deplCfg){
