@@ -28,8 +28,8 @@ def imageWorkFinisher(Map imgInfo) {
 
 
 
-            // # echo "Login to Artifactory"
-            // # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            echo "Login to Artifactory"
+            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
 
         """
