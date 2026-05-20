@@ -72,9 +72,9 @@ def serviceManifest(Map svcCfg){
             selector:
                 app.kubernetes.io/name: $svcCfg.name
             ports:
-                - protocol: TCP
-                port: $svcCfg.port
-                targetPort: $svcCfg.port
+            - protocol: TCP
+              port: $svcCfg.port
+              targetPort: $svcCfg.port
         """.stripIndent()
     echo manifest
 }
