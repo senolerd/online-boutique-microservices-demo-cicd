@@ -11,16 +11,8 @@ def imageWork(Map imgInfo) {
             # Solving some image naming problems that ocured at adservice    
             export CONTAINERS_SHORT_NAME_ALIASING=on
 
-            echo "Card Service Image Creation"
-        
+            echo "$imgInfo.serviceName Service Image Creation"       
             echo $imgInfo.srcDir
-            echo $imgInfo.srcDir
-            echo $imgInfo.srcDir
-            echo $imgInfo.srcDir
-            echo $imgInfo.srcDir
-            echo $imgInfo.srcDir
-            
-
 
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
@@ -33,11 +25,11 @@ def imageWork(Map imgInfo) {
             # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
         """
-    // def return_obj = [:]
-    // return_obj.name = $imgInfo.serviceName 
-    // return_obj.img = IMAGE 
-    // return_obj.port = 10
-    
+    def return_obj = [:]
+    return_obj.name = $imgInfo.serviceName 
+    return_obj.img = IMAGE 
+    return_obj.port = 10
+    echo "return_obj: $return_obj"
     
 
     // return  return_obj
