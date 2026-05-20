@@ -27,30 +27,33 @@ def imageWork(Map imgInfo) {
             echo 
 
         """
-    sh "_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
-    sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
+    // sh "_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
+    // sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-${env.K8S_NS}.yml"
     
 }
 
 def createNewManifestBook() {
     // Creates a manifest book and adds namespace for whole deployment
-    def manifest = """
-        ---
+    def manifest = """---
         apiVersion: v1
         kind: Namespace
         metadata:
             name: ${env.K8S_NS}
     """.stripIndent()
     echo "Pushing point to a file"
-    sh 'echo ${manifest}'
+    sh """
+        cat << END > manifest.yml
+        ${manifest}
+        END
+    """
+    
     // sh "echo $manifest > manifestbook-${env.K8S_NS}.yml"
 }
 
 def _deploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
 
-    return """ 
-        ---
+    return """---
         apiVersion: apps/v1
         kind: Deployment
         metadata:
@@ -79,8 +82,7 @@ def _deploymentManifest(Map deplCfg){
 def _serviceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
-    return """ 
-        ---
+    return """---
         apiVersion: v1
         kind: Service
         metadata:
