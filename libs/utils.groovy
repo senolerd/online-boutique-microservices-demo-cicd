@@ -13,7 +13,7 @@ def imageWork(Map imgInfo) {
             export CONTAINERS_SHORT_NAME_ALIASING=on
 
             echo "$imgInfo.serviceName Service Image Creation"       
-            echo $imgInfo.srcDir
+            cd $imgInfo.srcDir
             
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
             # if there is defination in the Dockerfile
