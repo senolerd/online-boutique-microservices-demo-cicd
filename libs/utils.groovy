@@ -27,8 +27,8 @@ def imageWork(Map imgInfo) {
             echo 
 
         """
-    sh '_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-$namespace.yml'
-    sh '_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-$namespace.yml'
+    sh "_deploymentManifest([name: $imgInfo.serviceName, img: $IMAGE, port: $PORT]) >> manifestbook-$namespace.yml"
+    sh "_serviceManifest([name: $imgInfo.serviceName, port: $PORT]) >> manifestbook-$namespace.yml"
     
 }
 
