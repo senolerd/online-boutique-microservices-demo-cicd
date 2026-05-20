@@ -52,9 +52,9 @@ def deploymentManifest(Map deplCfg){
                 spec:
                     containers:
                     - name: $deplCfg.name
-                        image: $deplCfg.img
-                        ports:
-                        - containerPort: $deplCfg.port
+                    image: $deplCfg.img
+                    ports:
+                    - containerPort: $deplCfg.port
     """.stripIndent()
     echo manifest
 }
