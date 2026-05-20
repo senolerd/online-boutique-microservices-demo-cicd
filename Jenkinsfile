@@ -39,7 +39,7 @@ pipeline {
                 echo "Login to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
                     echo "Login to Artifactory"
-                    sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
+                    sh 'podman login --tls-verify $REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
                 }
             }
         }
