@@ -31,29 +31,29 @@ def deploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame: , img: , port: ]
 
     def manifest =  """ 
-        |apiVersion: apps/v1
-        |kind: Deployment
-        |metadata:
-        |name: $deplCfg.name
-        |labels:
-        |    app: $deplCfg.name
-        |spec:
-        |replicas: 1
-        |selector:
-        |    matchLabels:
-        |    app: $deplCfg.name
-        |template:
-        |    metadata:
-        |    labels:
-        |        app: $deplCfg.name
-        |    spec:
-        |    containers:
-        |    - name: $deplCfg.name
-        |        image: $deplCfg.img
-        |        ports:
-        |        - containerPort: $deplCfg.port
-        |---
-    """.stripMargin()
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+        name: $deplCfg.name
+        labels:
+            app: $deplCfg.name
+        spec:
+        replicas: 1
+        selector:
+            matchLabels:
+            app: $deplCfg.name
+        template:
+            metadata:
+            labels:
+                app: $deplCfg.name
+            spec:
+            containers:
+            - name: $deplCfg.name
+                image: $deplCfg.img
+                ports:
+                - containerPort: $deplCfg.port
+        ---
+    """.stripIndent()
     echo manifest
 }
 
