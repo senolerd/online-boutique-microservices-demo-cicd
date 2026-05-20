@@ -95,3 +95,5 @@ def createNewManifestBook(){
 // EOF
 //         """
 // }
+
+return this
