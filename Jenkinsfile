@@ -44,16 +44,16 @@ pipeline {
             }
         }
 
-        stage("Card Service Work"){
-            // Card service also needs redis service
-            steps{
-                script{
-                    def SERVICE_NAME="cartservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-                    def img = utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Card Service Work"){
+        //     // Card service also needs redis service
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="cartservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
+        //             def img = utils.imageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
         // stage("Frontend Service Work"){
         //     steps{
