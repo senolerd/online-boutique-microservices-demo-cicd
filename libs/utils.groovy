@@ -34,29 +34,47 @@ def deploymentManifest(Map deplCfg){
         apiVersion: apps/v1
         kind: Deployment
         metadata:
-        name: $deplCfg.name
+            name: $deplCfg.name
         labels:
             app: $deplCfg.name
         spec:
-        replicas: 1
-        selector:
-            matchLabels:
-            app: $deplCfg.name
-        template:
-            metadata:
-            labels:
-                app: $deplCfg.name
-            spec:
-            containers:
-            - name: $deplCfg.name
-                image: $deplCfg.img
-                ports:
-                - containerPort: $deplCfg.port
+            replicas: 1
+            selector:
+                matchLabels:
+                    app: $deplCfg.name
+            template:
+                metadata:
+                    labels:
+                        app: $deplCfg.name
+                spec:
+                    containers:
+                    - name: $deplCfg.name
+                        image: $deplCfg.img
+                        ports:
+                        - containerPort: $deplCfg.port
         ---
     """.stripIndent()
     echo manifest
 }
 
+def serviceManifest(Map svcCfg){
+    // Expected object for deplCfg [mame: , port: , tport: ]
+
+    def manifest = """ ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+            name: $svcCfg.name
+        spec:
+            selector:
+                app.kubernetes.io/name: $svcCfg.name
+            ports:
+                - protocol: TCP
+                port: $svcCfg.port
+                targetPort: $svcCfg.tport
+        """.stripIndent()
+    echo manifest
+}
 
 
 return this
