@@ -169,10 +169,10 @@ pipeline {
                             scp manifestbook-${K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
                         '''
                         if (statusCode == 0){
-                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${K8S_NS}.yml' "
-                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml' "
+                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${K8S_NS}.yml ||true' "
+                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml ||true' "
                         } else {
-                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml' "
+                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml ||true' "
                         }
                     }
 
