@@ -163,7 +163,11 @@ pipeline {
                 sshagent(['mac_rsa_priv']) {
                     script{
                         def statusCode = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl get ns ${K8S_NS} -o name' ", returnStatus: true)
-                        echo statusCode
+                        if (statusCode == 0){
+                            echo "Namespace is exist"
+                        } else {
+                            echo "Namespace does not exist"
+                        }
                     }
 
                 }
