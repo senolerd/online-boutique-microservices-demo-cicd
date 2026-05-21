@@ -164,9 +164,10 @@ pipeline {
                     script{
                         def statusCode = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl get ns ${K8S_NS} -o name' ", returnStatus: true)
                         if (statusCode == 0){
-                            echo "Namespace is exist"
+                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${K8S_NS}.yml' "
+                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml' "
                         } else {
-                            echo "Namespace does not exist"
+                            sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml' "
                         }
                     }
 
