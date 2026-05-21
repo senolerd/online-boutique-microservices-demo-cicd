@@ -30,6 +30,7 @@ def imageWorkFinisher(Map imgInfo) {
 
             echo "Login to Artifactory"
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            podman image prune -f
         """
 
     _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
@@ -63,6 +64,7 @@ def recommendationserviceWorks(imgInfo) {
     }
 
 def shoppingassistantservice(imgInfo) {
+    // ModuleNotFoundError: No module named 'aiohttp'
     imageWorkFinisher(imgInfo)
     }
 
@@ -70,7 +72,6 @@ def shoppingassistantservice(imgInfo) {
 // WORKING APIS
 
 def checkoutserviceWorks(imgInfo) {
-    //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
     imageWorkFinisher(imgInfo)
     }
 
