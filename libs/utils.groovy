@@ -28,8 +28,8 @@ def imageWorkFinisher(Map imgInfo) {
 
 
 
-            echo "Login to Artifactory"
-            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            // echo "Login to Artifactory"
+            // podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
 
         """
@@ -76,20 +76,20 @@ def checkoutserviceWorks(imgInfo) {
     sh """
         cd $imgInfo.srcDir
         cat <<-END >> Dockerfile     
-    ENV AD_SERVICE_ADDR service/adservice               
-    ENV CART_SERVICE_ADDR service/cartservice             
-    ENV CHECKOUT_SERVICE_ADDR service/checkoutservice         
-    ENV CURRENCY_SERVICE_ADDR service/currencyservice         
-    ENV EMAIL_SERVICE_ADDR service/emailservice            
-    ENV FRONTEND_SERVICE_ADDR service/frontend                
-    ENV PAYMENT_SERVICE_ADDR service/paymentservice          
-    ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice   
-    ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice   
-    ENV SHIPPING_SERVICE_ADDR service/shippingservice 
-    END
+ENV AD_SERVICE_ADDR service/adservice               
+ENV CART_SERVICE_ADDR service/cartservice             
+ENV CHECKOUT_SERVICE_ADDR service/checkoutservice         
+ENV CURRENCY_SERVICE_ADDR service/currencyservice         
+ENV EMAIL_SERVICE_ADDR service/emailservice            
+ENV FRONTEND_SERVICE_ADDR service/frontend                
+ENV PAYMENT_SERVICE_ADDR service/paymentservice          
+ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice   
+ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice   
+ENV SHIPPING_SERVICE_ADDR service/shippingservice 
     """ 
     
     imageWorkFinisher(imgInfo)
+    
     }
 
 
