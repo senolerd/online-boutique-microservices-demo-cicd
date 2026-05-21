@@ -80,16 +80,16 @@ def checkoutserviceWorks(imgInfo) {
 
 
 def addServiceAsEnvToDockerfile(imgInfo){
-    sh 'echo "ENV AD_SERVICE_ADDR service/adservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV CART_SERVICE_ADDR service/cartservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV CHECKOUT_SERVICE_ADDR service/checkoutservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV CURRENCY_SERVICE_ADDR service/currencyservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV EMAIL_SERVICE_ADDR service/emailservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV FRONTEND_SERVICE_ADDR service/frontend" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV PAYMENT_SERVICE_ADDR service/paymentservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice" >> ${imgInfo.srcDir}/Dockerfile'
-    sh 'echo "ENV SHIPPING_SERVICE_ADDR service/shippingservice" >> ${imgInfo.srcDir}/Dockerfile'
+    sh "echo ENV AD_SERVICE_ADDR service/adservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV CART_SERVICE_ADDR service/cartservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV CHECKOUT_SERVICE_ADDR service/checkoutservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV CURRENCY_SERVICE_ADDR service/currencyservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV EMAIL_SERVICE_ADDR service/emailservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV FRONTEND_SERVICE_ADDR service/frontend >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV PAYMENT_SERVICE_ADDR service/paymentservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice >> ${imgInfo.srcDir}/Dockerfile"
+    sh "echo ENV SHIPPING_SERVICE_ADDR service/shippingservice >> ${imgInfo.srcDir}/Dockerfile"
 }
 
 
