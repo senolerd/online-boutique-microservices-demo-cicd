@@ -46,23 +46,26 @@ def imageWorkFinisher(Map imgInfo) {
 
 def currencyserviceWorks(imgInfo) {
     // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
+    addServiceAsEnvToDockerfile(imgInfo)
     imageWorkFinisher(imgInfo)
     }
 
 def frontendWorks(imgInfo) {
     // panic: environment variable "PRODUCT_CATALOG_SERVICE_ADDR" not set
     //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
-
+    addServiceAsEnvToDockerfile(imgInfo)
     imageWorkFinisher(imgInfo)
     }
 
 def paymentserviceWorks(imgInfo) {
     // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
     imageWorkFinisher(imgInfo)
+    addServiceAsEnvToDockerfile(imgInfo)
     }
 def recommendationserviceWorks(imgInfo) {
     // raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')
     imageWorkFinisher(imgInfo)
+    addServiceAsEnvToDockerfile(imgInfo)
     }
 
 
@@ -93,11 +96,26 @@ def addServiceAsEnvToDockerfile(imgInfo){
 }
 
 
-def adserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
-def cartserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
-def emailserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
-def productcatalogserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
-def shippingserviceWorks(imgInfo) {imageWorkFinisher(imgInfo)}
+def adserviceWorks(imgInfo) {
+    addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def cartserviceWorks(imgInfo) {
+    addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def emailserviceWorks(imgInfo) {
+    addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def productcatalogserviceWorks(imgInfo) {
+    addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def shippingserviceWorks(imgInfo) {
+    addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
 
 
 /////// Special cares per API code ENDS
