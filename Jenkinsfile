@@ -163,7 +163,7 @@ pipeline {
                 sshagent(['mac_rsa_priv']) {
                     script{
                         def statusCode = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl get ns ${K8S_NS} -o name' ", returnStatus: true)
-                        sh 'echo $statusCode'
+                        echo statusCode
                     }
 
                 }
