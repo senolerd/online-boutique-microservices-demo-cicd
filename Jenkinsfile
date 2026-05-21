@@ -160,10 +160,10 @@ pipeline {
         stage("Create/Refresh K8S Deployment"){
             steps{
                 sshagent(['mac_rsa_priv']) {
-                    sh '''
+                    sh """
                         ssh-keyscan -H $K8S_CONTROLLER_IP
-                        ssh  alkol@$K8S_CONTROLLER_IP kubectl get all -n ${env.K8S_NS}
-                    '''
+                        ssh  alkol@$K8S_CONTROLLER_IP kubectl get all -n $env.K8S_NS
+                    """
                 }
 
 
