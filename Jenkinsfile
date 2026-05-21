@@ -163,6 +163,11 @@ pipeline {
                 sshagent(['mac_rsa_priv']) {
                     script{
                         def statusCode = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl get ns ${K8S_NS} -o name' ", returnStatus: true)
+                        sh '''
+                            sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
+                            ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
+                            scp manifestbook-${K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+                        '''
                         if (statusCode == 0){
                             sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${K8S_NS}.yml' "
                             sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml' "
@@ -181,9 +186,7 @@ pipeline {
 }
 
 
-                        // sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
-                        // ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
-                        // scp manifestbook-${K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+
 
 
 
