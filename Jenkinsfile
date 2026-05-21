@@ -10,6 +10,7 @@ pipeline {
 
         //K8S Settings
         K8S_CONTROLLER_IP= "192.168.1.231"
+        K8S_CONTROLLER_USER= "admin"
         K8S_CONFIG= "kube_kvm_config" // Secret file name for k8s connection
 
         // Artifactory Settings
@@ -161,7 +162,10 @@ pipeline {
             steps{
                 sshagent(['mac_rsa_priv']) {
                     sh """
-                        ssh-keyscan -H $K8S_CONTROLLER_IP
+                        sed -i /$K8S_CONTROLLER_IP/d .ssh/known_hosts
+                        ssh-keyscan -H $K8S_CONTROLLER_IP >> ~/.ssh/known_hosts
+                        scp manifestbook-$env.K8S_NS.yml $K8S_CONTROLLER_USER@$K8S_CONTROLLER_IP:~/
+                        # manifestbook-boutique-v0-10-5.yml
                         ssh  admin@$K8S_CONTROLLER_IP kubectl get all -n $env.K8S_NS
                     """
                 }
