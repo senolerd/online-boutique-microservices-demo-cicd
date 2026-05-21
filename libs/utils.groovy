@@ -79,7 +79,7 @@ def checkoutserviceWorks(imgInfo) {
     }
 
 
-def addServiceAsEnvToDockerfile(){
+def addServiceAsEnvToDockerfile(imgInfo){
     sh 'echo "ENV AD_SERVICE_ADDR service/adservice" >> ${imgInfo.srcDir}/Dockerfile'
     sh 'echo "ENV CART_SERVICE_ADDR service/cartservice" >> ${imgInfo.srcDir}/Dockerfile'
     sh 'echo "ENV CHECKOUT_SERVICE_ADDR service/checkoutservice" >> ${imgInfo.srcDir}/Dockerfile'
