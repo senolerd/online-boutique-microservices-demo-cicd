@@ -28,8 +28,8 @@ def imageWorkFinisher(Map imgInfo) {
 
 
 
-            // echo "Login to Artifactory"
-            // podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            echo "Login to Artifactory"
+            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
 
 
         """
@@ -46,43 +46,62 @@ def imageWorkFinisher(Map imgInfo) {
 
 def currencyserviceWorks(imgInfo) {
     // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
-    addServiceAsEnvToDockerfile(imgInfo)
+    _addServiceAsEnvToDockerfile(imgInfo)
     imageWorkFinisher(imgInfo)
     }
 
 def frontendWorks(imgInfo) {
     // panic: environment variable "PRODUCT_CATALOG_SERVICE_ADDR" not set
     //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
-    addServiceAsEnvToDockerfile(imgInfo)
+    _addServiceAsEnvToDockerfile(imgInfo)
     imageWorkFinisher(imgInfo)
     }
 
 def paymentserviceWorks(imgInfo) {
     // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
     imageWorkFinisher(imgInfo)
-    addServiceAsEnvToDockerfile(imgInfo)
+    _addServiceAsEnvToDockerfile(imgInfo)
     }
 def recommendationserviceWorks(imgInfo) {
     // raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')
     imageWorkFinisher(imgInfo)
-    addServiceAsEnvToDockerfile(imgInfo)
+    _addServiceAsEnvToDockerfile(imgInfo)
     }
-
-
-
-
 
 // WORKING APIS
 
 def checkoutserviceWorks(imgInfo) {
     //Fix #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
-    addServiceAsEnvToDockerfile(imgInfo)
+    _addServiceAsEnvToDockerfile(imgInfo)
     imageWorkFinisher(imgInfo)
 
     }
 
 
-def addServiceAsEnvToDockerfile(imgInfo){
+
+def adserviceWorks(imgInfo) {
+    _addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def cartserviceWorks(imgInfo) {
+    _addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def emailserviceWorks(imgInfo) {
+    _addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def productcatalogserviceWorks(imgInfo) {
+    _addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+def shippingserviceWorks(imgInfo) {
+    _addServiceAsEnvToDockerfile(imgInfo)
+    imageWorkFinisher(imgInfo)
+    }
+
+def _addServiceAsEnvToDockerfile(imgInfo){
+    // Appends environment variables for services to all Dockerfiles of API's
     sh "echo ENV AD_SERVICE_ADDR service/adservice >> ${imgInfo.srcDir}/Dockerfile"
     sh "echo ENV CART_SERVICE_ADDR service/cartservice >> ${imgInfo.srcDir}/Dockerfile"
     sh "echo ENV CHECKOUT_SERVICE_ADDR service/checkoutservice >> ${imgInfo.srcDir}/Dockerfile"
@@ -95,27 +114,6 @@ def addServiceAsEnvToDockerfile(imgInfo){
     sh "echo ENV SHIPPING_SERVICE_ADDR service/shippingservice >> ${imgInfo.srcDir}/Dockerfile"
 }
 
-
-def adserviceWorks(imgInfo) {
-    addServiceAsEnvToDockerfile(imgInfo)
-    imageWorkFinisher(imgInfo)
-    }
-def cartserviceWorks(imgInfo) {
-    addServiceAsEnvToDockerfile(imgInfo)
-    imageWorkFinisher(imgInfo)
-    }
-def emailserviceWorks(imgInfo) {
-    addServiceAsEnvToDockerfile(imgInfo)
-    imageWorkFinisher(imgInfo)
-    }
-def productcatalogserviceWorks(imgInfo) {
-    addServiceAsEnvToDockerfile(imgInfo)
-    imageWorkFinisher(imgInfo)
-    }
-def shippingserviceWorks(imgInfo) {
-    addServiceAsEnvToDockerfile(imgInfo)
-    imageWorkFinisher(imgInfo)
-    }
 
 
 /////// Special cares per API code ENDS
