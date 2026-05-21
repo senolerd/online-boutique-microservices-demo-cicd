@@ -35,8 +35,8 @@ def imageWorkFinisher(Map imgInfo) {
 
 
             echo "Login to Artifactory"
-            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
-            podman image prune -f
+            # podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            # podman image prune -f
         """
             // Trivy Sample
             // # podman run --rm \
@@ -109,18 +109,40 @@ def shippingserviceWorks(imgInfo) {
 
 def _addServiceListToDockerfile(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
-    sh "echo ENV AD_SERVICE_ADDR service/adservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV CART_SERVICE_ADDR service/cartservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV CHECKOUT_SERVICE_ADDR service/checkoutservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV CURRENCY_SERVICE_ADDR service/currencyservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV EMAIL_SERVICE_ADDR service/emailservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV FRONTEND_SERVICE_ADDR service/frontend >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV PAYMENT_SERVICE_ADDR service/paymentservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV SHIPPING_SERVICE_ADDR service/shippingservice >> ${imgInfo.srcDir}/Dockerfile"
-    sh "echo ENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice >> ${imgInfo.srcDir}/Dockerfile"
+
+    sh """cat << EOF >>  ${imgInfo.srcDir}/Dockerfile
+    ENV AD_SERVICE_ADDR service/adservice
+    ENV CART_SERVICE_ADDR service/cartservice
+    ENV CHECKOUT_SERVICE_ADDR service/checkoutservice
+    ENV CURRENCY_SERVICE_ADDR service/currencyservice
+    ENV EMAIL_SERVICE_ADDR service/emailservice
+    ENV FRONTEND_SERVICE_ADDR service/frontend
+    ENV PAYMENT_SERVICE_ADDR service/paymentservice
+    ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice
+    ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice
+    ENV SHIPPING_SERVICE_ADDR service/shippingservice
+    ENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice
+    """
 }
+
+
+
+    // sh "echo ENV AD_SERVICE_ADDR service/adservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV CART_SERVICE_ADDR service/cartservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV CHECKOUT_SERVICE_ADDR service/checkoutservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV CURRENCY_SERVICE_ADDR service/currencyservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV EMAIL_SERVICE_ADDR service/emailservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV FRONTEND_SERVICE_ADDR service/frontend >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV PAYMENT_SERVICE_ADDR service/paymentservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV SHIPPING_SERVICE_ADDR service/shippingservice >> ${imgInfo.srcDir}/Dockerfile"
+    // sh "echo ENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice >> ${imgInfo.srcDir}/Dockerfile"
+
+
+
+
+
 
 
 
