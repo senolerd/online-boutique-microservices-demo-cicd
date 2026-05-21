@@ -165,7 +165,7 @@ pipeline {
                         sed -i /$K8S_CONTROLLER_IP/d ~/.ssh/known_hosts
                         ssh-keyscan -H $K8S_CONTROLLER_IP >> ~/.ssh/known_hosts
                         ls -al
-                        scp manifestbook-$env.K8S_NS.yml $K8S_CONTROLLER_USER@$K8S_CONTROLLER_IP:~/
+                        cat manifestbook-$env.K8S_NS.yml 
                     """
                 }
 
@@ -175,8 +175,9 @@ pipeline {
 
     }
 }
-
-
+//scp manifestbook-$env.K8S_NS.yml $K8S_CONTROLLER_USER@$K8S_CONTROLLER_IP:~/
+// # manifestbook-boutique-v0-10-5.yml
+// # ssh  admin@$K8S_CONTROLLER_IP kubectl get all -n $env.K8S_NS
 
 // image: 192.168.1.90:8081/devrepo/cartservice:v0.10.5
 // image: 192.168.1.90:8081/devrepo/frontend:v0.10.5
