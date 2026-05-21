@@ -5,7 +5,7 @@
 def imageWorkFinisher(Map imgInfo) {
     // Builds and uploads image to Artifactory 
 
-    _addServiceAsEnvToDockerfile(imgInfo)
+    _addServiceListToDockerfile(imgInfo)
 
     def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
@@ -22,19 +22,36 @@ def imageWorkFinisher(Map imgInfo) {
             
             echo "Building $imgInfo.serviceName container"
             sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
+
+            #################################################
+            # TODO: Add a build number to end of the image to make easy roll-back or create a HELM chart, or do both. Yeah, do both!
+            #################################################
+
             podman build -t $IMAGE .
 
             #################################################
-            # TODO:  Add a build number to end of the image to make easy roll-back or create a HELM chart, or do both. Yeah, do both!
+            # TODO 2: Trivy scanning should be here before uploading the image 
             #################################################
+
 
             echo "Login to Artifactory"
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
             podman image prune -f
         """
+            // Trivy Sample
+            // # podman run --rm \
+            // # -v /var/run/docker.sock:/var/run/docker.sock \
+            // # -v $HOME/.cache:/root/.cache \
+            // # aquasec/trivy:latest image \
+            // # --severity HIGH,CRITICAL \
+            // # --exit-code 1 \
+            // # docker.io/alkol/currencyservice:v0.10.5
 
-    _deploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
-    _serviceManifest([name: imgInfo.serviceName, port: PORT])
+
+
+
+    _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
+    _addServiceManifest([name: imgInfo.serviceName, port: PORT])
     
     }
 
@@ -68,7 +85,6 @@ def shoppingassistantservice(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-
 // WORKING APIS
 
 def checkoutserviceWorks(imgInfo) {
@@ -91,7 +107,7 @@ def shippingserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def _addServiceAsEnvToDockerfile(imgInfo){
+def _addServiceListToDockerfile(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
     sh "echo ENV AD_SERVICE_ADDR service/adservice >> ${imgInfo.srcDir}/Dockerfile"
     sh "echo ENV CART_SERVICE_ADDR service/cartservice >> ${imgInfo.srcDir}/Dockerfile"
@@ -118,29 +134,6 @@ def _addServiceAsEnvToDockerfile(imgInfo){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
     sh """ cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
@@ -154,7 +147,7 @@ END
 }
 
 
-def _deploymentManifest(Map deplCfg){
+def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
     echo "DEPLOYMENT MANIFEST IS CREATING"
     sh """ cat << END >> manifestbook-${env.K8S_NS}.yml
@@ -187,7 +180,7 @@ END
 }
 
 
-def _serviceManifest(Map svcCfg){
+def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
     sh """
