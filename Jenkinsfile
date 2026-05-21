@@ -148,27 +148,27 @@ pipeline {
             }
         }
 
-        stage("Shoppiong Asistance Service Work"){
-            steps{
-                script{
-                    def SERVICE_NAME="shoppingassistantservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-                    utils.adserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Shoppiong Asistance Service Work"){
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="shoppingassistantservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+        //             utils.adserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
         stage("Create/Refresh K8S Deployment"){
             steps{
                 sshagent(['mac_rsa_priv']) {
                     script{
                         // def statusCode = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl get ns ${K8S_NS} -o name' ", returnStatus: true)
-                        sh '''
+                        sh """
                             sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
                             ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
                             scp manifestbook-${K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
                             ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl apply -f manifestbook-${K8S_NS}.yml' 
-                        '''
+                        """
                         // if (statusCode == 0){
                         //     sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${K8S_NS}.yml ||true' "
                         //     sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml ||true' "
