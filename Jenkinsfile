@@ -161,8 +161,10 @@ pipeline {
         stage("Create/Refresh K8S Deployment"){
             steps{
                 sshagent(['mac_rsa_priv']) {
-                    def is_ns_exist = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} kubectl get ns ${K8S_NS} -o name |wc -l", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
-                    sh ' echo $is_ns_exist'
+                    script{
+                        def is_ns_exist = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} kubectl get ns ${K8S_NS} -o name |wc -l", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
+                        sh ' echo $is_ns_exist'
+                    }
 
                 }
 
