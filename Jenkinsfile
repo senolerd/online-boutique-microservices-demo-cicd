@@ -33,19 +33,19 @@ pipeline {
             }
         }
 
-        // stage('Pulling Code') {
-        //     steps {
-        //         echo 'Hello from online boutique microservices demo'
-        //         sh 'rm -rf microservices-demo'
-        //         sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
+        stage('Pulling Code') {
+            steps {
+                echo 'Hello from online boutique microservices demo'
+                sh 'rm -rf microservices-demo'
+                sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
 
-        //         echo "Login to Artifactory"
-        //         withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
-        //             echo "Login to Artifactory"
-        //             sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
-        //         }
-        //     }
-        // }
+                echo "Login to Artifactory"
+                withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
+                    echo "Login to Artifactory"
+                    sh 'podman login --tls-verify=$REGISTRY_USE_TLS $CONTAINER_REGISTRY --username $UNAME --password $PASS'
+                }
+            }
+        }
 
         stage("Cart Service Work"){
             // Cart service also needs redis service
