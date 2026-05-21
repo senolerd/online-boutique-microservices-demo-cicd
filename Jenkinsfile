@@ -162,7 +162,7 @@ pipeline {
                 sshagent(['mac_rsa_priv']) {
                     sh """
                         ssh-keyscan -H $K8S_CONTROLLER_IP
-                        ssh  alkol@$K8S_CONTROLLER_IP kubectl get all -n $env.K8S_NS
+                        ssh  admin@$K8S_CONTROLLER_IP kubectl get all -n $env.K8S_NS
                     """
                 }
 
