@@ -166,7 +166,6 @@ pipeline {
                         ssh-keyscan -H $K8S_CONTROLLER_IP >> ~/.ssh/known_hosts
                         scp manifestbook-$env.K8S_NS.yml $K8S_CONTROLLER_USER@$K8S_CONTROLLER_IP:~/
                         # manifestbook-boutique-v0-10-5.yml
-                        ssh  admin@$K8S_CONTROLLER_IP kubectl get all -n $env.K8S_NS
                     """
                 }
 
