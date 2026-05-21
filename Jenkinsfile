@@ -47,16 +47,16 @@ pipeline {
             }
         }
 
-        stage("Cart Service Work"){
-            // Cart service also needs redis service
-            steps{
-                script{
-                    def SERVICE_NAME="cartservice"
-                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-                    def img = utils.cartserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-                }
-            }
-        }
+        // stage("Cart Service Work"){
+        //     // Cart service also needs redis service
+        //     steps{
+        //         script{
+        //             def SERVICE_NAME="cartservice"
+        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
+        //             def img = utils.cartserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //         }
+        //     }
+        // }
 
         // stage("Frontend Service Work"){
         //     steps{
@@ -78,15 +78,15 @@ pipeline {
         //     }
         // }
 
-        // stage("Currency Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="currencyservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.currencyserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Currency Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="currencyservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.currencyserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
         // stage("Payment Service Work"){
         //     steps{
