@@ -165,7 +165,6 @@ pipeline {
                         sed -i /$K8S_CONTROLLER_IP/d ~/.ssh/known_hosts
                         ssh-keyscan -H $K8S_CONTROLLER_IP >> ~/.ssh/known_hosts
                         ls -al
-
                     """
                 }
 
