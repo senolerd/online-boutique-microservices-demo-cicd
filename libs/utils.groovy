@@ -61,7 +61,8 @@ def currencyserviceWorks(imgInfo) {
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        echo "\rFROM node:20.20.0-alpine AS builder
+        echo "
+            \rFROM node:20.20.0-alpine AS builder
             \rRUN apk add --update --no-cache \
             \r    python3 \
             \r    make \
@@ -149,7 +150,7 @@ def _addServiceListToDockerfile(imgInfo){
 
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
-    
+
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
         echo "\r---
