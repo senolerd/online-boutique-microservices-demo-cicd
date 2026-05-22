@@ -214,7 +214,7 @@ metadata:
     namespace: ${K8S_NS}
 spec:
     selector:
-        app.kubernetes.io/name: ${svcCfg.name}
+        app: ${svcCfg.name}
     ports:
     - protocol: TCP
       port: ${svcCfg.port}
