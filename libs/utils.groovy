@@ -109,7 +109,7 @@ def shippingserviceWorks(imgInfo) {
 
 def _addServiceListToDockerfile(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
-    sh ''' 
+    sh """
         echo "
         \rENV AD_SERVICE_ADDR service/adservice
         \rENV CART_SERVICE_ADDR service/cartservice
@@ -122,7 +122,7 @@ def _addServiceListToDockerfile(imgInfo){
         \rENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice
         \rENV SHIPPING_SERVICE_ADDR service/shippingservice
         \rENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice" >> ${imgInfo.srcDir}/Dockerfile
-    '''
+    """
 }
 
 
