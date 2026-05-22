@@ -173,8 +173,7 @@ def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
     echo "DEPLOYMENT MANIFEST IS CREATING"
     sh """ 
-        echo "
-        \r--- 
+        echo "\r--- 
         \rapiVersion: apps/v1
         \rkind: Deployment
         \rmetadata:
@@ -207,8 +206,7 @@ def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
     sh """
-        echo "
-        \r---
+        echo "\r---
         \rapiVersion: v1
         \rkind: Service
         \rmetadata:
