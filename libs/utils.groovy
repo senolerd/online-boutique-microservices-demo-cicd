@@ -79,7 +79,7 @@ ENV DISABLE_TRACING 1
 ENV DISABLE_DEBUGGER 1
 ENV GCP_PROJECT "hello"
 ENV GOOGLE_CLOUD_PROJECT "jello"
-ENTRYPOINT [ 'node', 'server.js' ]           
+ENTRYPOINT [ "node", "server.js" ]           
     """
     imageWorkFinisher(imgInfo)
     }
