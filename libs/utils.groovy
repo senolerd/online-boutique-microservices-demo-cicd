@@ -68,7 +68,7 @@ def currencyserviceWorks(imgInfo) {
     sh """ 
         FROM1 = `awk '/FROM/ {print NR}' Dockerfile| head -1|tail -1`
         FROM2 = `awk '/FROM/ {print NR}' Dockerfile| head -2|tail -1`
-        sed "${FROM1}c\FROM --platform=$BUILDPLATFORM node:20.20.0-alpine AS builder" Dockerfile
+        sed "${FROM1}c\FROM node:20.20.0-alpine AS builder" Dockerfile
         sed "${FROM2}c\FROM node:20.20.0-alpine" Dockerfile
     """
 
