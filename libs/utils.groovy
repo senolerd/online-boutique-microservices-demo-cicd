@@ -152,7 +152,7 @@ def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
     
     sh """
-        echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${svcCfg.name}" 
+        echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
         echo "\r---
         \rapiVersion: v1
         \rkind: Namespace
