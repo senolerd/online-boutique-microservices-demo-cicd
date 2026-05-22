@@ -150,7 +150,7 @@ def _addServiceListToDockerfile(imgInfo){
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
     
-    echo "ADDING/CREATING NAMESPACE MANIFEST FOR ${svcCfg.name}"
+    echo "ADDING/CREATING NAMESPACE MANIFEST FOR $svcCfg.name"
     sh """
         echo "\r---
         \rapiVersion: v1
