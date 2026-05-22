@@ -48,36 +48,36 @@ pipeline {
             }
         }
 
-        // stage("Cart Service Work"){
-        //     // Cart service also needs redis service
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="cartservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-        //             def img = utils.cartserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Cart Service Work"){
+            // Cart service also needs redis service
+            steps{
+                script{
+                    def SERVICE_NAME="cartservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
+                    def img = utils.cartserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Frontend Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="frontend"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.frontendWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Frontend Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="frontend"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.frontendWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Product Catalog Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="productcatalogservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.productcatalogserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Product Catalog Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="productcatalogservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.productcatalogserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
         stage("Currency Service Work"){
             steps{
@@ -89,83 +89,83 @@ pipeline {
             }
         }
 
-        // stage("Payment Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="paymentservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.paymentserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Payment Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="paymentservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.paymentserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Shipping Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="shippingservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.shippingserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Shipping Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="shippingservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.shippingserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Email Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="emailservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.emailserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Email Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="emailservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.emailserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Checkout Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="checkoutservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.checkoutserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Checkout Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="checkoutservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.checkoutserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Recommendation Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="recommendationservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.recommendationserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Recommendation Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="recommendationservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.recommendationserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Ad Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="adservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.adserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Ad Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="adservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.adserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
 
-        // stage("Create/Refresh K8S Deployment"){
-        //     steps{
-        //         sshagent(['mac_rsa_priv']) {
-        //             script{
-        //                 sh """
-        //                     sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
-        //                     ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
-        //                     scp manifestbook-${K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
-        //                     ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'podman image prune -f' 
-        //                     ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl apply -f manifestbook-${K8S_NS}.yml' 
-        //                 """
+        stage("Create/Refresh K8S Deployment"){
+            steps{
+                sshagent(['mac_rsa_priv']) {
+                    script{
+                        sh """
+                            sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
+                            ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
+                            scp manifestbook-${K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+                            ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'podman image prune -f' 
+                            ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl apply -f manifestbook-${K8S_NS}.yml' 
+                        """
 
-        //             }
-        //         }
-        //     }
-        // }
+                    }
+                }
+            }
+        }
     }
 }
 
