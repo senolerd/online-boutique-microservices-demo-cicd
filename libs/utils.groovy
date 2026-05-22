@@ -63,10 +63,7 @@ def currencyserviceWorks(imgInfo) {
     sh """ 
         echo '
             \rFROM node:20.20.0-alpine AS builder
-            \rRUN apk add --update --no-cache \
-            \r    python3 \
-            \r    make \
-            \r    g++
+            \rRUN apk add --update --no-cache  python3 make g++
             \rWORKDIR /usr/src/app
             \rCOPY package*.json ./
             \rRUN npm install --only=production
