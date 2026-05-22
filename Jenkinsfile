@@ -157,6 +157,7 @@ pipeline {
                         sh """
                             sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
                             ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
+                            ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${env.K8S_NS}.yml' 
                             scp manifestbook-${env.K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
                             ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'podman image prune -f' 
                             ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl apply -f manifestbook-${env.K8S_NS}.yml' 
