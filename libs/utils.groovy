@@ -59,6 +59,12 @@ def currencyserviceWorks(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
+
+
+
+
+    // #1 Adding port environ variable
+    // #2 Image set for both part of building
     sh """ 
         echo "\rFROM node:20.20.0-alpine AS builder
             \rRUN apk add --update --no-cache \
@@ -150,7 +156,6 @@ def _addServiceListToDockerfile(imgInfo){
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
     
-    echo "ADDING/CREATING NAMESPACE MANIFEST FOR $svcCfg.name"
     sh """
         echo "\r---
         \rapiVersion: v1
