@@ -61,7 +61,7 @@ def currencyserviceWorks(imgInfo) {
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        cat << 'EOT' > ${imgInfo.srcDir}/Dockerfile
+        cat << EOT > ${imgInfo.srcDir}/Dockerfile
 FROM node:20.20.0-alpine AS builder
 RUN apk add --update --no-cache  python3 make g++
 WORKDIR /usr/src/app
@@ -174,7 +174,7 @@ def _addDeploymentManifest(Map deplCfg){
     sh """ 
         echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
 
-    cat << 'EOT' >  >> manifestbook-${env.K8S_NS}.yml
+    cat << EOT >  >> manifestbook-${env.K8S_NS}.yml
 --- 
 apiVersion: apps/v1
 kind: Deployment
@@ -209,7 +209,7 @@ def _addServiceManifest(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
-    cat << 'EOT' >> manifestbook-${K8S_NS}.yml
+    cat << EOT >> manifestbook-${K8S_NS}.yml
 ---
 apiVersion: v1
 kind: Service
