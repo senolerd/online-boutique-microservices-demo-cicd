@@ -158,14 +158,15 @@ def _addServiceListToDockerfile(imgInfo){
 
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
-    sh """ cat <<-'END' >  manifestbook-${env.K8S_NS}.yml
----
-apiVersion: v1
-kind: Namespace
-metadata:
-    name: ${env.K8S_NS}
-END
-    """.stripIndent().trim()
+    sh """
+        echo "\r---
+        \rapiVersion: v1
+        \rkind: Namespace
+        \rmetadata:
+        \r    name: ${env.K8S_NS}"  >  manifestbook-${env.K8S_NS}.yml
+
+    """
+    // .stripIndent().trim()
 }
 
 
