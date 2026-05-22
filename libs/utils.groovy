@@ -47,9 +47,6 @@ def imageWorkFinisher(Map imgInfo) {
             // # --exit-code 1 \
             // # docker.io/alkol/currencyservice:v0.10.5
 
-
-
-
     _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _addServiceManifest([name: imgInfo.serviceName, port: PORT])
     
@@ -59,7 +56,22 @@ def imageWorkFinisher(Map imgInfo) {
 
 
 def currencyserviceWorks(imgInfo) {
-    // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
+    // This api's Dockerfile needs a little more custom care.
+    // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
+    // Bug #2- PORT environment variable is missing inside the container
+
+    // #1 Adding port environ variable
+    def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
+    sh " echo ENV PORT ${PORT} >> ${imgInfo.srcDir}/Dockerfile"
+
+    // #2 Image set for both part of building
+    sh """ 
+        FROM1 = `awk '/FROM/ {print NR}' Dockerfile| head -1|tail -1`
+        FROM2 = `awk '/FROM/ {print NR}' Dockerfile| head -2|tail -1`
+        sed "${FROM1}c\FROM --platform=$BUILDPLATFORM node:20.20.0-alpine AS builder" Dockerfile
+        sed "${FROM2}c\FROM node:20.20.0-alpine" Dockerfile
+    """
+
     imageWorkFinisher(imgInfo)
     }
 
@@ -69,9 +81,6 @@ def paymentserviceWorks(imgInfo) {
     }
 
 def frontendWorks(imgInfo) {
-    // panic: environment variable "PRODUCT_CATALOG_SERVICE_ADDR" not set
-    //Fixed #1: panic: environment variable "SHIPPING_SERVICE_ADDR" not set
-    //Fix: panic: environment variable "SHOPPING_ASSISTANT_SERVICE_ADDR" not set
     imageWorkFinisher(imgInfo)
     }
 
@@ -90,19 +99,23 @@ def shoppingassistantservice(imgInfo) {
 def checkoutserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
-
+    
 def adserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
+
 def cartserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
+
 def emailserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
+
 def productcatalogserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
+
 def shippingserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
@@ -126,53 +139,26 @@ def _addServiceListToDockerfile(imgInfo){
 }
 
 
-
-    // sh "echo ENV AD_SERVICE_ADDR service/adservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV CART_SERVICE_ADDR service/cartservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV CHECKOUT_SERVICE_ADDR service/checkoutservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV CURRENCY_SERVICE_ADDR service/currencyservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV EMAIL_SERVICE_ADDR service/emailservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV FRONTEND_SERVICE_ADDR service/frontend >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV PAYMENT_SERVICE_ADDR service/paymentservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV SHIPPING_SERVICE_ADDR service/shippingservice >> ${imgInfo.srcDir}/Dockerfile"
-    // sh "echo ENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice >> ${imgInfo.srcDir}/Dockerfile"
-
-
-
-
-
-
-
-
 /////// Special cares per API code ENDS
-
-
-
-
-
-
-
-
 
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
+    
+    echo "ADDING/CREATING NAMESPACE MANIFEST FOR ${svcCfg.name}"
     sh """
         echo "\r---
         \rapiVersion: v1
         \rkind: Namespace
         \rmetadata:
         \r    name: ${env.K8S_NS}"  >  manifestbook-${env.K8S_NS}.yml
-
     """
-    // .stripIndent().trim()
 }
 
 
 def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
-    echo "DEPLOYMENT MANIFEST IS CREATING"
+    
+    echo "ADDING DEPLOYMENT MANIFEST FOR ${svcCfg.name}"
     sh """ 
         echo "\r--- 
         \rapiVersion: apps/v1
@@ -205,6 +191,7 @@ def _addDeploymentManifest(Map deplCfg){
 def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
+    echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}"
     sh """
         echo "\r---
         \rapiVersion: v1
