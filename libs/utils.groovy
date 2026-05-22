@@ -172,7 +172,8 @@ END
 def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
     echo "DEPLOYMENT MANIFEST IS CREATING"
-    sh """ cat << END >> manifestbook-${env.K8S_NS}.yml
+    sh """ 
+        echo "
         \r--- 
         \rapiVersion: apps/v1
         \rkind: Deployment
@@ -197,7 +198,8 @@ def _addDeploymentManifest(Map deplCfg){
         \r              imagePullPolicy: Always
         \r              ports:
         \r              - containerPort: ${deplCfg.port}
-    """.stripIndent()
+        "  >> manifestbook-${env.K8S_NS}.yml
+    """
 }
 
 
