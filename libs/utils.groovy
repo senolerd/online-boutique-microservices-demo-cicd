@@ -171,7 +171,7 @@ def _addDeploymentManifest(Map deplCfg){
     sh """ 
         echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
 
-    cat << EOT >  >> manifestbook-${env.K8S_NS}.yml
+    cat << EOT >> manifestbook-${env.K8S_NS}.yml
 --- 
 apiVersion: apps/v1
 kind: Deployment
