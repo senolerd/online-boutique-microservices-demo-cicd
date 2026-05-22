@@ -79,8 +79,7 @@ ENV DISABLE_TRACING 1
 ENV DISABLE_DEBUGGER 1
 ENV GCP_PROJECT "hello"
 ENV GOOGLE_CLOUD_PROJECT "jello"
-ENTRYPOINT [ 'node', 'server.js' ] 
-EOT            
+ENTRYPOINT [ 'node', 'server.js' ]           
     """
     imageWorkFinisher(imgInfo)
     }
@@ -162,7 +161,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
     name: ${env.K8S_NS}
-EOT
     """
 }
 
@@ -198,7 +196,6 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: ${deplCfg.port}
-EOT
     """
 }
 
@@ -222,7 +219,6 @@ spec:
     - protocol: TCP
       port: ${svcCfg.port}
       targetPort: ${svcCfg.port}
-EOT
     """
 }
 
