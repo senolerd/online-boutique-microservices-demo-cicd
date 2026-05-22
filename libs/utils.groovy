@@ -59,17 +59,23 @@ def currencyserviceWorks(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
-
-    // #1 Adding port environ variable
-    def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
-    sh " echo ENV PORT ${PORT} >> ${imgInfo.srcDir}/Dockerfile"
-
-    // #2 Image set for both part of building
     sh """ 
-        FROM1=`awk '/FROM/ {print NR}' Dockerfile| head -1|tail -1`
-        FROM2=`awk '/FROM/ {print NR}' Dockerfile| head -2|tail -1`
-        sed '${FROM1}c\FROM node:20.20.0-alpine AS builder' Dockerfile
-        sed '${FROM2}c\FROM node:20.20.0-alpine' Dockerfile
+        echo "\rFROM node:20.20.0-alpine AS builder
+            \rRUN apk add --update --no-cache \
+            \r    python3 \
+            \r    make \
+            \r    g++
+            \rWORKDIR /usr/src/app
+            \rCOPY package*.json ./
+            \rRUN npm install --only=production
+            \rFROM node:20.20.0-alpine
+            \rRUN apk add --no-cache nodejs
+            \rWORKDIR /usr/src/app
+            \rCOPY --from=builder /usr/src/app/node_modules ./node_modules
+            \rCOPY . .
+            \rEXPOSE 7000
+            \rENV PORT 7000
+            \rENTRYPOINT [ "node", "server.js" ] " > ${imgInfo.srcDir}/Dockerfile"
     """
 
     imageWorkFinisher(imgInfo)
