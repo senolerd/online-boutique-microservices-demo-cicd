@@ -1,4 +1,5 @@
 def utils
+def K8S_NS
 pipeline {
     agent any
 

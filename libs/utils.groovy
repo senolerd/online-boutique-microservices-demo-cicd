@@ -109,20 +109,20 @@ def shippingserviceWorks(imgInfo) {
 
 def _addServiceListToDockerfile(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
-
-    sh """cat << EOF >>  ${imgInfo.srcDir}/Dockerfile
-    ENV AD_SERVICE_ADDR service/adservice
-    ENV CART_SERVICE_ADDR service/cartservice
-    ENV CHECKOUT_SERVICE_ADDR service/checkoutservice
-    ENV CURRENCY_SERVICE_ADDR service/currencyservice
-    ENV EMAIL_SERVICE_ADDR service/emailservice
-    ENV FRONTEND_SERVICE_ADDR service/frontend
-    ENV PAYMENT_SERVICE_ADDR service/paymentservice
-    ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice
-    ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice
-    ENV SHIPPING_SERVICE_ADDR service/shippingservice
-    ENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice
-    """
+    sh ''' 
+        echo "
+        \rENV AD_SERVICE_ADDR service/adservice
+        \rENV CART_SERVICE_ADDR service/cartservice
+        \rENV CHECKOUT_SERVICE_ADDR service/checkoutservice
+        \rENV CURRENCY_SERVICE_ADDR service/currencyservice
+        \rENV EMAIL_SERVICE_ADDR service/emailservice
+        \rENV FRONTEND_SERVICE_ADDR service/frontend
+        \rENV PAYMENT_SERVICE_ADDR service/paymentservice
+        \rENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice
+        \rENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice
+        \rENV SHIPPING_SERVICE_ADDR service/shippingservice
+        \rENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice" >> ${imgInfo.srcDir}/Dockerfile
+    '''
 }
 
 
@@ -173,31 +173,30 @@ def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
     echo "DEPLOYMENT MANIFEST IS CREATING"
     sh """ cat << END >> manifestbook-${env.K8S_NS}.yml
---- 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: $deplCfg.name
-    namespace: ${env.K8S_NS}
-    labels:
-        app: $deplCfg.name
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: $deplCfg.name
-    template:
-        metadata:
-            labels:
-                app: $deplCfg.name
-        spec:
-            containers:
-            - name: $deplCfg.name
-              image: $deplCfg.img
-              imagePullPolicy: Always
-              ports:
-              - containerPort: $deplCfg.port
-END
+        \r--- 
+        \rapiVersion: apps/v1
+        \rkind: Deployment
+        \rmetadata:
+        \r    name: $deplCfg.name
+        \r    namespace: ${K8S_NS}
+        \r    labels:
+        \r        app: ${deplCfg.name}
+        \rspec:
+        \r    replicas: 1
+        \r    selector:
+        \r        matchLabels:
+        \r            app: ${deplCfg.name}
+        \r    template:
+        \r        metadata:
+        \r            labels:
+        \r                app: ${deplCfg.name}
+        \r        spec:
+        \r            containers:
+        \r            - name: ${deplCfg.name}
+        \r              image: ${deplCfg.img}
+        \r              imagePullPolicy: Always
+        \r              ports:
+        \r              - containerPort: ${deplCfg.port}
     """.stripIndent()
 }
 
@@ -205,23 +204,23 @@ END
 def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
-    sh """
-        cat << EOF >> manifestbook-${env.K8S_NS}.yml
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: $svcCfg.name
-    namespace: ${env.K8S_NS}
-spec:
-    selector:
-        app.kubernetes.io/name: $svcCfg.name
-    ports:
-    - protocol: TCP
-      port: $svcCfg.port
-      targetPort: $svcCfg.port
-EOF
-    """
+    sh "
+        echo """
+        \r---
+        \rapiVersion: v1
+        \rkind: Service
+        \rmetadata:
+        \r    name: ${svcCfg.name}
+        \r    namespace: ${K8S_NS}
+        \rspec:
+        \r    selector:
+        \r        app.kubernetes.io/name: ${svcCfg.name}
+        \r    ports:
+        \r    - protocol: TCP
+        \r      port: ${svcCfg.port}
+        \r      targetPort: ${svcCfg.port}
+        """ >> manifestbook-${K8S_NS}.yml
+    "
 }
 
 return this
