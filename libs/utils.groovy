@@ -76,7 +76,7 @@ def currencyserviceWorks(imgInfo) {
             \rCOPY . .
             \rEXPOSE 7000
             \rENV PORT 7000
-            \rENTRYPOINT [ 'node', 'server.js' ] " > ${imgInfo.srcDir}/Dockerfile"
+            \rENTRYPOINT [ 'node', 'server.js' ] " > ${imgInfo.srcDir}/Dockerfile
     """
 
     imageWorkFinisher(imgInfo)
