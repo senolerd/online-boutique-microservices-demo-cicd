@@ -85,7 +85,31 @@ ENTRYPOINT [ "node", "server.js" ]
     }
 
 def paymentserviceWorks(imgInfo) {
-    // Error: Cannot find module '/usr/src/app/node_modules/pprof/build/node-v137-linux-x64-musl/pprof.node'
+    // This api's Dockerfile needs a little more custom care.
+    // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
+    // Bug #2- PORT environment variable is missing inside the container
+
+    sh """ 
+        cat << EOT > ${imgInfo.srcDir}/Dockerfile
+FROM node:20.20.0-alpine AS builder
+RUN apk add --update --no-cache  python3 make g++
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install --only=production
+FROM node:20.20.0-alpine
+RUN apk add --no-cache nodejs
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY . .
+EXPOSE 7000
+ENV PORT 7000
+ENV DISABLE_PROFILER 1 
+ENV DISABLE_TRACING 1
+ENV DISABLE_DEBUGGER 1
+ENV GCP_PROJECT "hello"
+ENV GOOGLE_CLOUD_PROJECT "jello"
+ENTRYPOINT [ "node", "server.js" ]           
+    """
     imageWorkFinisher(imgInfo)
     }
 
