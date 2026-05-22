@@ -204,8 +204,8 @@ def _addDeploymentManifest(Map deplCfg){
 def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
-    sh "
-        echo """
+    sh """
+        echo "
         \r---
         \rapiVersion: v1
         \rkind: Service
@@ -219,8 +219,8 @@ def _addServiceManifest(Map svcCfg){
         \r    - protocol: TCP
         \r      port: ${svcCfg.port}
         \r      targetPort: ${svcCfg.port}
-        """ >> manifestbook-${K8S_NS}.yml
-    "
+        " >> manifestbook-${K8S_NS}.yml
+    """
 }
 
 return this
