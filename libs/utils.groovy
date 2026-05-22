@@ -166,12 +166,12 @@ def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
 
     sh """ 
-        echo "ADDING DEPLOYMENT MANIFEST FOR ${svcCfg.name}"
+        echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
         echo "\r--- 
         \rapiVersion: apps/v1
         \rkind: Deployment
         \rmetadata:
-        \r    name: $deplCfg.name
+        \r    name: ${deplCfg.name}
         \r    namespace: ${K8S_NS}
         \r    labels:
         \r        app: ${deplCfg.name}
