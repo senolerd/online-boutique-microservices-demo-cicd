@@ -133,19 +133,31 @@ def _addServiceListToDockerfile(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
     sh """
         cat << EOF >> ${imgInfo.srcDir}/Dockerfile
-ENV AD_SERVICE_ADDR service/adservice
-ENV CART_SERVICE_ADDR service/cartservice
-ENV CHECKOUT_SERVICE_ADDR service/checkoutservice
-ENV CURRENCY_SERVICE_ADDR service/currencyservice
-ENV EMAIL_SERVICE_ADDR service/emailservice
-ENV FRONTEND_SERVICE_ADDR service/frontend
-ENV PAYMENT_SERVICE_ADDR service/paymentservice
-ENV PRODUCT_CATALOG_SERVICE_ADDR service/productcatalogservice
-ENV RECOMMENDATION_SERVICE_ADDR service/recommendationservice
-ENV SHIPPING_SERVICE_ADDR service/shippingservice
-ENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice
+ENV AD_SERVICE_ADDR adservice:9555
+ENV CART_SERVICE_ADDR cartservice:7070
+ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
+ENV CURRENCY_SERVICE_ADDR currencyservice:7000
+ENV EMAIL_SERVICE_ADDR emailservice:8080
+ENV FRONTEND_SERVICE_ADDR frontend:8080
+ENV PAYMENT_SERVICE_ADDR paymentservice:50051
+ENV PRODUCT_CATALOG_SERVICE_ADDR productcatalogservice:3550
+ENV RECOMMENDATION_SERVICE_ADDR recommendationservice:8080
+ENV SHIPPING_SERVICE_ADDR shippingservice:50051
+# ENV SHOPPING_ASSISTANT_SERVICE_ADDR service/shoppingassistantservice
 """
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /////// Special cares per API code ENDS
