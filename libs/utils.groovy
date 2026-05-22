@@ -61,23 +61,26 @@ def currencyserviceWorks(imgInfo) {
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        echo '
-            \rFROM node:20.20.0-alpine AS builder
-            \rRUN apk add --update --no-cache  python3 make g++
-            \rWORKDIR /usr/src/app
-            \rCOPY package*.json ./
-            \rRUN npm install --only=production
-            \rFROM node:20.20.0-alpine
-            \rRUN apk add --no-cache nodejs
-            \rWORKDIR /usr/src/app
-            \rCOPY --from=builder /usr/src/app/node_modules ./node_modules
-            \rCOPY . .
-            \rEXPOSE 7000
-            \rENV PORT 7000
-            \rENV DISABLE_PROFILER 1 
-            \rENV DISABLE_TRACING 1
-            \rENV DISABLE_DEBUGGER 1
-            \rENTRYPOINT [ "node", "server.js" ] ' > ${imgInfo.srcDir}/Dockerfile
+        cat << 'EOT' > ${imgInfo.srcDir}/Dockerfile
+FROM node:20.20.0-alpine AS builder
+RUN apk add --update --no-cache  python3 make g++
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install --only=production
+FROM node:20.20.0-alpine
+RUN apk add --no-cache nodejs
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY . .
+EXPOSE 7000
+ENV PORT 7000
+ENV DISABLE_PROFILER 1 
+ENV DISABLE_TRACING 1
+ENV DISABLE_DEBUGGER 1
+ENV GCP_PROJECT "hello"
+ENV GOOGLE_CLOUD_PROJECT "jello"
+ENTRYPOINT [ 'node', 'server.js' ] 
+EOF            
     """
     imageWorkFinisher(imgInfo)
     }
@@ -153,11 +156,14 @@ def createNewManifestBook(){
 
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
-        echo "\r---
-        \rapiVersion: v1
-        \rkind: Namespace
-        \rmetadata:
-        \r    name: ${env.K8S_NS}"  >  manifestbook-${env.K8S_NS}.yml
+
+        cat << 'EOT' >  manifestbook-${env.K8S_NS}.yml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: ${env.K8S_NS}
+EOT
     """
 }
 
@@ -167,30 +173,33 @@ def _addDeploymentManifest(Map deplCfg){
 
     sh """ 
         echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
-        echo "\r--- 
-        \rapiVersion: apps/v1
-        \rkind: Deployment
-        \rmetadata:
-        \r    name: ${deplCfg.name}
-        \r    namespace: ${K8S_NS}
-        \r    labels:
-        \r        app: ${deplCfg.name}
-        \rspec:
-        \r    replicas: 1
-        \r    selector:
-        \r        matchLabels:
-        \r            app: ${deplCfg.name}
-        \r    template:
-        \r        metadata:
-        \r            labels:
-        \r                app: ${deplCfg.name}
-        \r        spec:
-        \r            containers:
-        \r            - name: ${deplCfg.name}
-        \r              image: ${deplCfg.img}
-        \r              imagePullPolicy: Always
-        \r              ports:
-        \r              - containerPort: ${deplCfg.port}"  >> manifestbook-${env.K8S_NS}.yml
+
+    cat << 'EOT' >  >> manifestbook-${env.K8S_NS}.yml
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: ${deplCfg.name}
+    namespace: ${K8S_NS}
+    labels:
+        app: ${deplCfg.name}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: ${deplCfg.name}
+    template:
+        metadata:
+            labels:
+                app: ${deplCfg.name}
+        spec:
+            containers:
+            - name: ${deplCfg.name}
+              image: ${deplCfg.img}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: ${deplCfg.port}
+EOT
     """
 }
 
@@ -200,19 +209,21 @@ def _addServiceManifest(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
-        echo "\r---
-        \rapiVersion: v1
-        \rkind: Service
-        \rmetadata:
-        \r    name: ${svcCfg.name}
-        \r    namespace: ${K8S_NS}
-        \rspec:
-        \r    selector:
-        \r        app.kubernetes.io/name: ${svcCfg.name}
-        \r    ports:
-        \r    - protocol: TCP
-        \r      port: ${svcCfg.port}
-        \r      targetPort: ${svcCfg.port}" >> manifestbook-${K8S_NS}.yml
+    cat << 'EOT' >> manifestbook-${K8S_NS}.yml
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ${svcCfg.name}
+    namespace: ${K8S_NS}
+spec:
+    selector:
+        app.kubernetes.io/name: ${svcCfg.name}
+    ports:
+    - protocol: TCP
+      port: ${svcCfg.port}
+      targetPort: ${svcCfg.port}
+EOT
     """
 }
 
