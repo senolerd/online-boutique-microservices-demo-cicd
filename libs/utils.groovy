@@ -133,7 +133,7 @@ def shippingserviceWorks(imgInfo) {
 def _addServiceListToDockerfile(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
     sh """
-        cat << EOT >> >> ${imgInfo.srcDir}/Dockerfile
+        cat << EOT >> ${imgInfo.srcDir}/Dockerfile
 ENV AD_SERVICE_ADDR service/adservice
 ENV CART_SERVICE_ADDR service/cartservice
 ENV CHECKOUT_SERVICE_ADDR service/checkoutservice
@@ -157,7 +157,6 @@ def createNewManifestBook(){
 
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
-
         cat << 'EOT' >  manifestbook-${env.K8S_NS}.yml
 ---
 apiVersion: v1
