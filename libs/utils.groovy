@@ -196,8 +196,7 @@ def _addDeploymentManifest(Map deplCfg){
         \r              image: ${deplCfg.img}
         \r              imagePullPolicy: Always
         \r              ports:
-        \r              - containerPort: ${deplCfg.port}
-        "  >> manifestbook-${env.K8S_NS}.yml
+        \r              - containerPort: ${deplCfg.port}"  >> manifestbook-${env.K8S_NS}.yml
     """
 }
 
@@ -218,8 +217,7 @@ def _addServiceManifest(Map svcCfg){
         \r    ports:
         \r    - protocol: TCP
         \r      port: ${svcCfg.port}
-        \r      targetPort: ${svcCfg.port}
-        " >> manifestbook-${K8S_NS}.yml
+        \r      targetPort: ${svcCfg.port}" >> manifestbook-${K8S_NS}.yml
     """
 }
 
