@@ -152,6 +152,7 @@ def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
     
     sh """
+        echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${svcCfg.name}" 
         echo "\r---
         \rapiVersion: v1
         \rkind: Namespace
@@ -163,9 +164,9 @@ def createNewManifestBook(){
 
 def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
-    
-    echo "ADDING DEPLOYMENT MANIFEST FOR ${svcCfg.name}"
+
     sh """ 
+        echo "ADDING DEPLOYMENT MANIFEST FOR ${svcCfg.name}"
         echo "\r--- 
         \rapiVersion: apps/v1
         \rkind: Deployment
@@ -197,8 +198,8 @@ def _addDeploymentManifest(Map deplCfg){
 def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
 
-    echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}"
     sh """
+        echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
         echo "\r---
         \rapiVersion: v1
         \rkind: Service
