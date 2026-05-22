@@ -74,6 +74,9 @@ def currencyserviceWorks(imgInfo) {
             \rCOPY . .
             \rEXPOSE 7000
             \rENV PORT 7000
+            \rENV DISABLE_PROFILER 1 
+            \rENV DISABLE_TRACING 1
+            \rENV DISABLE_DEBUGGER 1
             \rENTRYPOINT [ "node", "server.js" ] ' > ${imgInfo.srcDir}/Dockerfile
     """
     imageWorkFinisher(imgInfo)
