@@ -61,23 +61,23 @@ def currencyserviceWorks(imgInfo) {
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        echo "
-FROM node:20.20.0-alpine AS builder
-RUN apk add --update --no-cache \
-    python3 \
-    make \
-    g++
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install --only=production
-FROM node:20.20.0-alpine
-RUN apk add --no-cache nodejs
-WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY . .
-EXPOSE 7000
-ENV PORT 7000
-ENTRYPOINT [ 'node', 'server.js' ] " > ${imgInfo.srcDir}/Dockerfile
+        echo '
+            \rFROM node:20.20.0-alpine AS builder
+            \rRUN apk add --update --no-cache \
+            \r    python3 \
+            \r    make \
+            \r    g++
+            \rWORKDIR /usr/src/app
+            \rCOPY package*.json ./
+            \rRUN npm install --only=production
+            \rFROM node:20.20.0-alpine
+            \rRUN apk add --no-cache nodejs
+            \rWORKDIR /usr/src/app
+            \rCOPY --from=builder /usr/src/app/node_modules ./node_modules
+            \rCOPY . .
+            \rEXPOSE 7000
+            \rENV PORT 7000
+            \rENTRYPOINT [ "node", "server.js" ] ' > ${imgInfo.srcDir}/Dockerfile
     """
     imageWorkFinisher(imgInfo)
     }
