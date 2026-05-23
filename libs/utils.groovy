@@ -101,14 +101,14 @@ RUN apk add --no-cache nodejs
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY . .
-EXPOSE 7000
-ENV PORT 7000
+EXPOSE 50051
+ENV PORT 50051
 ENV DISABLE_PROFILER 1 
 ENV DISABLE_TRACING 1
 ENV DISABLE_DEBUGGER 1
 ENV GCP_PROJECT "hello"
 ENV GOOGLE_CLOUD_PROJECT "jello"
-ENTRYPOINT [ "node", "server.js" ]           
+ENTRYPOINT [ "node", "index.js" ]           
     """
     imageWorkFinisher(imgInfo)
     }
