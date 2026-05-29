@@ -5,10 +5,10 @@
 def imageWorkFinisher(Map imgInfo) {
     // Builds and uploads image to Artifactory 
 
-    _addServiceListToDockerfile(imgInfo)
+    _addServiceListToContainerfile(imgInfo)
 
-    def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
-    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName-$VERSION:$PROJECT_COMMIT_SHORT"
+    def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Containerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
+    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName-$VERSION:$GIT_COMMIT_SHORT"
 
     sh """ 
             # Solving some image naming problems that ocured at adservice    
@@ -18,10 +18,10 @@ def imageWorkFinisher(Map imgInfo) {
             cd $imgInfo.srcDir
             
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
-            # if there is defination in the Dockerfile
+            # if there is defination in the Containerfile
             
             echo "Building $imgInfo.serviceName container"
-            sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
+            sed -i '/ARG BUILDPLATFORM=/d' Containerfile
 
             #################################################
             # TODO: Add a build number to end of the image to make easy roll-back or create a HELM chart, or do both. Yeah, do both!
@@ -49,19 +49,16 @@ def imageWorkFinisher(Map imgInfo) {
 
     _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _addServiceManifest([name: imgInfo.serviceName, port: PORT])
-    
     }
 
-/////// Special cares per API code
 
-
-def currencyserviceWorks(imgInfo) {
-    // This api's Dockerfile needs a little more custom care.
+def currencyserviceContainerfile(imgInfo) {
+    // This api's Containerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        cat << EOT > ${imgInfo.srcDir}/Dockerfile
+        cat << EOT > ${imgInfo.srcDir}/Containerfile
     FROM node:20.20.0-alpine AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
@@ -84,13 +81,14 @@ def currencyserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def paymentserviceWorks(imgInfo) {
-    // This api's Dockerfile needs a little more custom care.
+
+def paymentserviceContainerfile(imgInfo) {
+    // This api's Containerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        cat << EOT > ${imgInfo.srcDir}/Dockerfile
+        cat << EOT > ${imgInfo.srcDir}/Containerfile
     FROM node:20.20.0-alpine AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
@@ -113,48 +111,58 @@ def paymentserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def frontendWorks(imgInfo) {
+
+def frontendContainerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def recommendationserviceWorks(imgInfo) {
+
+def recommendationserviceContainerfile(imgInfo) {
     // raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')
     imageWorkFinisher(imgInfo)
     }
+
 
 def shoppingassistantservice(imgInfo) {
     // ModuleNotFoundError: No module named 'aiohttp'
     imageWorkFinisher(imgInfo)
     }
 
-def checkoutserviceWorks(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
-    
-def adserviceWorks(imgInfo) {
+
+def checkoutserviceContainerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def cartserviceWorks(imgInfo) {
+
+def adserviceContainerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def emailserviceWorks(imgInfo) {
+
+def cartserviceContainerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def productcatalogserviceWorks(imgInfo) {
+
+def emailserviceContainerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def shippingserviceWorks(imgInfo) {
+
+def productcatalogserviceContainerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
-def _addServiceListToDockerfile(imgInfo){
-    // Appends environment variables for services to all Dockerfiles of API's
+
+def shippingserviceContainerfile(imgInfo) {
+    imageWorkFinisher(imgInfo)
+    }
+
+
+def _addServiceListToContainerfile(imgInfo){
+    // Appends environment variables for services to all Containerfiles of API's
     sh """
-        cat << EOF >> ${imgInfo.srcDir}/Dockerfile
+        cat << EOF >> ${imgInfo.srcDir}/Containerfile
     ENV AD_SERVICE_ADDR adservice:9555
     ENV CART_SERVICE_ADDR cartservice:7070
     ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
@@ -167,30 +175,15 @@ def _addServiceListToDockerfile(imgInfo){
     ENV SHIPPING_SERVICE_ADDR shippingservice:50051
     ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
     ENV ENABLE_SHOPPING_ASSISTANT false
-"""
+    """
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////// Special cares per API code ENDS
 
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
 
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
-        cat << 'EOT' >  manifestbook-${env.K8S_NS}.yml
+        cat << 'EOT' >  manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
 ---
 apiVersion: v1
 kind: Namespace
@@ -206,7 +199,7 @@ def _addDeploymentManifest(Map deplCfg){
     sh """ 
         echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
 
-    cat << EOT >> manifestbook-${env.K8S_NS}.yml
+    cat << EOT >> manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
 --- 
 apiVersion: apps/v1
 kind: Deployment
@@ -240,7 +233,7 @@ def _addServiceManifest(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
-    cat << EOT >> manifestbook-${K8S_NS}.yml
+    cat << EOT >> manifestbook-${K8S_NS}-${GIT_COMMIT_SHORT}.yml
 ---
 apiVersion: v1
 kind: Service

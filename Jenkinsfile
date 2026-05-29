@@ -5,7 +5,6 @@ pipeline {
     
     environment {
         PROJECT_NAME="boutique"
-
         
         // Application SCM version
         VERSION = "v0.10.5" // Online Boutique release version
@@ -29,7 +28,7 @@ pipeline {
             steps{
                 script{ 
                     utils = load 'libs/utils.groovy'
-                    env.PROJECT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
+                    env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
                     utils.createNewManifestBook()
                 }
@@ -57,7 +56,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="cartservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-                    def img = utils.cartserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    def img = utils.cartserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -67,7 +66,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="frontend"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.frontendWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.frontendContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -77,7 +76,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="productcatalogservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.productcatalogserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.productcatalogserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -87,7 +86,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="currencyservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.currencyserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.currencyserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -97,7 +96,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="paymentservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.paymentserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.paymentserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -107,7 +106,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="shippingservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.shippingserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.shippingserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -117,7 +116,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="emailservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.emailserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.emailserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -127,7 +126,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="checkoutservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.checkoutserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.checkoutserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -137,7 +136,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="recommendationservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.recommendationserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.recommendationserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -147,7 +146,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="adservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.adserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.adserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
