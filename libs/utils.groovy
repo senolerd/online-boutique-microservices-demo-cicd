@@ -162,7 +162,7 @@ def shippingserviceContainerfile(imgInfo) {
 def _addServiceListToContainerfile(imgInfo){
     // Appends environment variables for services to all Containerfiles of API's
     sh """
-        cat << EOF >> ${imgInfo.srcDir}/Containerfile
+        cat << 'EOF' >> ${imgInfo.srcDir}/Containerfile
     ENV AD_SERVICE_ADDR adservice:9555
     ENV CART_SERVICE_ADDR cartservice:7070
     ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
