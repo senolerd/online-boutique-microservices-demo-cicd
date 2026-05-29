@@ -161,7 +161,7 @@ def shippingserviceContainerfile(imgInfo) {
 
 def _addServiceListToContainerfile(imgInfo){
     // Appends environment variables for services to all Containerfiles of API's
-    echo "Addong Services environment variables to Containerfile"
+    echo "Adiong Services environment variables to Containerfile"
     sh """
         cat << 'EOF' >> ${imgInfo.srcDir}/Containerfile
     ENV AD_SERVICE_ADDR adservice:9555
@@ -176,7 +176,7 @@ def _addServiceListToContainerfile(imgInfo){
     ENV SHIPPING_SERVICE_ADDR shippingservice:50051
     ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
     ENV ENABLE_SHOPPING_ASSISTANT false
-EOF    
+    EOF    
     """
 }
 
