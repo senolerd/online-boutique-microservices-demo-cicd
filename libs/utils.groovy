@@ -175,6 +175,7 @@ def _addServiceListToContainerfile(imgInfo){
     ENV SHIPPING_SERVICE_ADDR shippingservice:50051
     ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
     ENV ENABLE_SHOPPING_ASSISTANT false
+EOF    
     """
 }
 
