@@ -1,7 +1,7 @@
 // utils.groovy
 // Admit 1: Creating files via Heredocs looks a little nasty when you have to hit 
 // them to left wall. It should be solved ages ago, i will learn the best practise
-// like pyyaml or something
+// like pyyaml or or groovy {write|read}Yaml
 
 
 def imageWorkFinisher(Map imgInfo) {
