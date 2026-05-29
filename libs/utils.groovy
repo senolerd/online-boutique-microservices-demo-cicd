@@ -319,8 +319,7 @@ def _addServiceToChart(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE TO CHART ${svcCfg.name}" 
-        cat << \\EOT >> helm/templates/${svcCfg.name}.yaml
----
+        echo"---
 apiVersion: v1
 kind: Service
 metadata:
@@ -332,8 +331,7 @@ spec:
     ports:
     - protocol: TCP
       port:  {{ .Values.${svcCfg.name}.port }}
-      targetPort:  {{ .Values.${svcCfg.name}.port }}
-\\EOT
+      targetPort:  {{ .Values.${svcCfg.name}.port }} " >> helm/templates/${svcCfg.name}.yaml
     """
 }
 
