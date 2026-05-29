@@ -254,7 +254,7 @@ spec:
 }
 
 
-def utils.createNewHelmChart(){
+def createNewHelmChart(){
     sh """
     echo "Clear old helm chart"
     rm -rf helm
@@ -262,7 +262,7 @@ def utils.createNewHelmChart(){
     mkdir -p helm helm/charts helm/templates
     cd helm
     touch Chart.yaml values.yaml templates/deployments.yaml templates/services.yaml
-    
+
     """
     
 }
