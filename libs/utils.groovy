@@ -240,7 +240,7 @@ def _addServiceManifest(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
-    cat << \\EOT >> manifestbook-${K8S_NS}-${GIT_COMMIT_SHORT}.yml
+        cat << \\EOT >> manifestbook-${K8S_NS}-${GIT_COMMIT_SHORT}.yml
 ---
 apiVersion: v1
 kind: Service
@@ -261,20 +261,20 @@ spec:
 
 def createNewHelmChart(){
     sh """
-    echo "Clear old helm chart"
-    rm -rf helm
-    echo "Create new helm chart directory layout"
-    mkdir -p helm helm/charts helm/templates
-    cd helm
-    touch Chart.yaml values.yaml templates/deployments.yaml templates/services.yaml
+        echo "Clear old helm chart"
+        rm -rf helm
+        echo "Create new helm chart directory layout"
+        mkdir -p helm helm/charts helm/templates
+        cd helm
+        touch Chart.yaml values.yaml templates/deployments.yaml templates/services.yaml
     """
 }
 
 def _addDeploymentToChart(Map deplCfg){
 
     sh """ 
-    echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
-    cat << \\EOT > helm/templates/${deplCfg.name}.yaml
+        echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
+        cat << \\EOT > helm/templates/${deplCfg.name}.yaml
 --- 
 apiVersion: apps/v1
 kind: Deployment
