@@ -66,15 +66,15 @@ pipeline {
             }
         }
 
-        // stage("Frontend Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="frontend"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.frontendImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Frontend Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="frontend"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.frontendImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
         // stage("Product Catalog Service Work"){
         //     steps{
