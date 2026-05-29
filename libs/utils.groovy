@@ -230,7 +230,8 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: ${deplCfg.port}
-"""
+EOT              
+    """
 }
 
 
@@ -253,7 +254,8 @@ spec:
     - protocol: TCP
       port: ${svcCfg.port}
       targetPort: ${svcCfg.port}
-"""
+EOT
+    """
 }
 
 
@@ -297,6 +299,7 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: {{ .Values.${deplCfg.name}.port }}
+EOT
     """ 
 
     // Adding values to charts values.yaml
@@ -308,8 +311,8 @@ ${deplCfg.name}:
     name: ${deplCfg.name}
     image: ${deplCfg.img}
     port: ${deplCfg.port}
+EOT
     """
-
 }
 
 def _addServiceToChart(Map svcCfg){
