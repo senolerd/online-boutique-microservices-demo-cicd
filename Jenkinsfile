@@ -39,7 +39,7 @@ pipeline {
                 echo 'Hello from online boutique microservices demo'
                 sh 'rm -rf microservices-demo'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
-                sh "env"
+                echo "env.GIT_COMMIT: ${env.GIT_COMMIT}"
                 echo "Login to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
                     echo "Login to Artifactory"
@@ -168,29 +168,3 @@ pipeline {
         // }
     }
 }
-
-
-
-
-
-
-
-
-// def statusCode = sh(script:"ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl get ns ${K8S_NS} -o name' ", returnStatus: true)
-
-// if (statusCode == 0){
-//     sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${K8S_NS}.yml ||true' "
-//     sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml ||true' "
-// } else {
-//     sh "ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl create -f manifestbook-${K8S_NS}.yml ||true' "
-// }
-
-// stage("Shoppiong Asistance Service Work"){
-//     steps{
-//         script{
-//             def SERVICE_NAME="shoppingassistantservice"
-//             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-//             utils.adserviceWorks([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-//         }
-//     }
-// }
