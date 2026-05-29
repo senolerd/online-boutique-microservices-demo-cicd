@@ -164,20 +164,20 @@ def _addServiceListToContainerfile(imgInfo){
     echo "Adiong Services environment variables to Containerfile"
     sh """
         cat << EOF >> ${imgInfo.srcDir}/Containerfile
-    ENV AD_SERVICE_ADDR adservice:9555
-    ENV CART_SERVICE_ADDR cartservice:7070
-    ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
-    ENV CURRENCY_SERVICE_ADDR currencyservice:7000
-    ENV EMAIL_SERVICE_ADDR emailservice:8080
-    ENV FRONTEND_SERVICE_ADDR frontend:8080
-    ENV PAYMENT_SERVICE_ADDR paymentservice:50051
-    ENV PRODUCT_CATALOG_SERVICE_ADDR productcatalogservice:3550
-    ENV RECOMMENDATION_SERVICE_ADDR recommendationservice:8080
-    ENV SHIPPING_SERVICE_ADDR shippingservice:50051
-    ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
-    ENV ENABLE_SHOPPING_ASSISTANT false
-    EOF    
-    """
+ENV AD_SERVICE_ADDR adservice:9555
+ENV CART_SERVICE_ADDR cartservice:7070
+ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
+ENV CURRENCY_SERVICE_ADDR currencyservice:7000
+ENV EMAIL_SERVICE_ADDR emailservice:8080
+ENV FRONTEND_SERVICE_ADDR frontend:8080
+ENV PAYMENT_SERVICE_ADDR paymentservice:50051
+ENV PRODUCT_CATALOG_SERVICE_ADDR productcatalogservice:3550
+ENV RECOMMENDATION_SERVICE_ADDR recommendationservice:8080
+ENV SHIPPING_SERVICE_ADDR shippingservice:50051
+ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
+ENV ENABLE_SHOPPING_ASSISTANT false
+EOF    
+"""
 }
 
 def createNewManifestBook(){
