@@ -189,13 +189,13 @@ def createNewManifestBook(){
 
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
-        cat << EOT >  manifestbook-${env.K8S_NS}.yml
+        cat << \\EOT >  manifestbook-${env.K8S_NS}.yml
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
     name: ${env.K8S_NS}
-EOT
+\\EOT
 """
 }
 
@@ -205,7 +205,7 @@ def _addDeploymentManifest(Map deplCfg){
 
     sh """ 
     echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
-    cat << EOT >> manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
+    cat << \\EOT >> manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
 --- 
 apiVersion: apps/v1
 kind: Deployment
@@ -230,7 +230,7 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: ${deplCfg.port}
-EOT              
+\\EOT              
     """
 }
 
@@ -240,7 +240,7 @@ def _addServiceManifest(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
-    cat << EOT >> manifestbook-${K8S_NS}-${GIT_COMMIT_SHORT}.yml
+    cat << \\EOT >> manifestbook-${K8S_NS}-${GIT_COMMIT_SHORT}.yml
 ---
 apiVersion: v1
 kind: Service
@@ -254,7 +254,7 @@ spec:
     - protocol: TCP
       port: ${svcCfg.port}
       targetPort: ${svcCfg.port}
-EOT
+\\EOT
     """
 }
 
@@ -274,7 +274,7 @@ def _addDeploymentToChart(Map deplCfg){
 
     sh """ 
     echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
-    cat << EOT > helm/templates/${deplCfg.name}.yaml
+    cat << \\EOT > helm/templates/${deplCfg.name}.yaml
 --- 
 apiVersion: apps/v1
 kind: Deployment
@@ -299,7 +299,7 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: {{ .Values.${deplCfg.name}.port }}
-EOT
+\\EOT
     """ 
 
     // Adding values to charts values.yaml
@@ -311,7 +311,7 @@ ${deplCfg.name}:
     name: ${deplCfg.name}
     image: ${deplCfg.img}
     port: ${deplCfg.port}
-EOT
+\\EOT
     """
 }
 
@@ -319,7 +319,7 @@ def _addServiceToChart(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE TO CHART ${svcCfg.name}" 
-        cat << EOT >> helm/templates/${svcCfg.name}.yaml
+        cat << \\EOT >> helm/templates/${svcCfg.name}.yaml
 ---
 apiVersion: v1
 kind: Service
@@ -333,6 +333,7 @@ spec:
     - protocol: TCP
       port:  {{ .Values.${svcCfg.name}.port }}
       targetPort:  {{ .Values.${svcCfg.name}.port }}
+\\EOT
     """
 }
 
