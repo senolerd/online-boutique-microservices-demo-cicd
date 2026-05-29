@@ -49,7 +49,7 @@ def imageWorkFinisher(Map imgInfo) {
 
     _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _addServiceManifest([name: imgInfo.serviceName, port: PORT])
-    _addDeploymentToChart([name: imgInfo.serviceName, port: PORT])
+    _addDeploymentToChart([name: imgInfo.serviceName, port: PORT, img: IMAGE])
 
     }
 
@@ -274,27 +274,38 @@ def _addDeploymentToChart(Map deplCfg){
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {{.Values.${deplCfg.name}.name}}
-    namespace: {{.Values.namespace}} 
+    name: {{ .Values.${deplCfg.name}.name }}
+    namespace: {{ .Values.namespace} } 
     labels:
-        app: {{.Values.${deplCfg.name}.name}}
+        app: {{ .Values.${deplCfg.name}.name }}
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: {{.Values.${deplCfg.name}.name}}
+            app: {{ .Values.${deplCfg.name}.name }}
     template:
         metadata:
             labels:
-                app: {{.Values.${deplCfg.name}.name}}
+                app: {{ .Values.${deplCfg.name}.name }}
         spec:
             containers:
-            - name: {{.Values.${deplCfg.name}.name}}
-              image: {{.Values.${deplCfg.name}.image}}
+            - name: {{ .Values.${deplCfg.name}.name }}
+              image: {{ .Values.${deplCfg.name}.image }}
               imagePullPolicy: Always
               ports:
-              - containerPort: {{.Values.${deplCfg.name}.port}}
+              - containerPort: {{ .Values.${deplCfg.name}.port }}
+""" 
+
+    sh """ 
+    echo "ADDING HELM CHART SERVICE FOR ${deplCfg.name}"
+    cat << EOT >> helm/values.yml
+
+${deplCfg.name}:
+    name: ${deplCfg.name}
+    image: ${deplCfg.image}
+    port: ${deplCfg.port}
 """
+
 
 // containerservice:
 //     name: containerservice
