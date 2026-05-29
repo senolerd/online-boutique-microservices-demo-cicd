@@ -5,6 +5,7 @@ pipeline {
     
     environment {
         PROJECT_NAME="boutique"
+        PROJECT_COMMIT_SHORT=""
         
         // Application SCM version
         VERSION = "v0.10.5" // Online Boutique release version
@@ -19,6 +20,7 @@ pipeline {
         CONTAINER_REGISTRY="docker.io"
         CONTAIER_REPO= "alkol" // it is username for Docker. Repo name for Nexus. This is the part of image name between registry address and image name
         REGISTRY_USE_TLS="true"
+
 
     }
 
@@ -39,7 +41,7 @@ pipeline {
                 echo 'Hello from online boutique microservices demo'
                 sh 'rm -rf microservices-demo'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
-                sh "env"
+                sh "$PROJECT_COMMIT_SHORT"
 
                 echo "Login to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
