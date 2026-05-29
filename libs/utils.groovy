@@ -1,5 +1,7 @@
 // utils.groovy
-
+// Admit 1: Creating files via Heredocs looks a little nasty when you have to hit 
+// them to left wall. It should be solved ages ago, i will learn the best practise
+// like pyyaml or something
 
 
 def imageWorkFinisher(Map imgInfo) {
@@ -50,6 +52,7 @@ def imageWorkFinisher(Map imgInfo) {
     _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _addServiceManifest([name: imgInfo.serviceName, port: PORT])
     _addDeploymentToChart([name: imgInfo.serviceName, port: PORT, img: IMAGE])
+    _addServiceToChart([name: imgInfo.serviceName, port: PORT])
 
     }
 
@@ -269,13 +272,13 @@ def _addDeploymentToChart(Map deplCfg){
 
     sh """ 
     echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
-    cat << EOT >> helm/templates/${deplCfg.name}.yml
+    cat << EOT > helm/templates/${deplCfg.name}.yaml
 --- 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: {{ .Values.${deplCfg.name}.name }}
-    namespace: {{ .Values.namespace} } 
+    namespace: {{ .Values.namespace }} 
     labels:
         app: {{ .Values.${deplCfg.name}.name }}
 spec:
@@ -294,20 +297,40 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: {{ .Values.${deplCfg.name}.port }}
-""" 
+    """ 
 
+    // Adding values to charts values.yaml
     sh """ 
     echo "ADDING HELM CHART SERVICE FOR ${deplCfg.name}"
-    cat << EOT >> helm/values.yml
+    cat << EOT >> helm/values.yaml
 
 ${deplCfg.name}:
     name: ${deplCfg.name}
     image: ${deplCfg.img}
     port: ${deplCfg.port}
-"""
+    """
 
 }
 
-def _addServoceToChart(){}
+def _addServiceToChart(Map svcCfg){
+
+    sh """
+        echo "ADDING SERVICE TO CHART ${svcCfg.name}" 
+        cat << EOT >> helm/templates/${svcCfg.name}.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Values.${svcCfg.name}.name }}
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  {{ .Values.${svcCfg.name}.name }}
+    ports:
+    - protocol: TCP
+      port:  {{ .Values.${svcCfg.name}.port }}
+      targetPort:  {{ .Values.${svcCfg.name}.port }}
+    """
+}
 
 return this
