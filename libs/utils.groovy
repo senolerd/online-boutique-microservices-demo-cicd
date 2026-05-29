@@ -183,7 +183,7 @@ def createNewManifestBook(){
 
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
-        cat << EOT >  manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
+        cat << EOT >  manifestbook-${env.K8S_NS}-${env.GIT_COMMIT_SHORT}.yml
 ---
 apiVersion: v1
 kind: Namespace
