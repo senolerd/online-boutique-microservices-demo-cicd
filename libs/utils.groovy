@@ -52,7 +52,7 @@ def imageWorkFinisher(Map imgInfo) {
     }
 
 
-def currencyserviceDockerfile(imgInfo) {
+def currencyserviceImageWork(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
@@ -82,7 +82,7 @@ def currencyserviceDockerfile(imgInfo) {
     }
 
 
-def paymentserviceDockerfile(imgInfo) {
+def paymentserviceImageWork(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
@@ -112,12 +112,12 @@ def paymentserviceDockerfile(imgInfo) {
     }
 
 
-def frontendDockerfile(imgInfo) {
+def frontendImageWork(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def recommendationserviceDockerfile(imgInfo) {
+def recommendationserviceImageWork(imgInfo) {
     // raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')
     imageWorkFinisher(imgInfo)
     }
@@ -129,37 +129,37 @@ def shoppingassistantservice(imgInfo) {
     }
 
 
-def checkoutserviceDockerfile(imgInfo) {
+def checkoutserviceImageWork(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def adserviceDockerfile(imgInfo) {
+def adserviceImageWork(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def cartserviceDockerfile(imgInfo) {
+def cartserviceImageWork(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def emailserviceDockerfile(imgInfo) {
+def emailserviceImageWork(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def productcatalogserviceDockerfile(imgInfo) {
+def productcatalogserviceImageWork(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def shippingserviceDockerfile(imgInfo) {
+def shippingserviceImageWork(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def _addServiceListToDockerfile(imgInfo){
+def _addServiceListToImageWork(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
     echo "Adiong Services environment variables to Dockerfile"
     sh """

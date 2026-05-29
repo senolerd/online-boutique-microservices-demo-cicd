@@ -56,7 +56,7 @@ pipeline {
                 script{
                     def SERVICE_NAME="cartservice"
                     def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-                    def img = utils.cartserviceDockerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                    def img = utils.cartserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
                 }
             }
         }
@@ -66,7 +66,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="frontend"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.frontendContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.frontendImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -76,7 +76,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="productcatalogservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.productcatalogserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.productcatalogserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -86,7 +86,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="currencyservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.currencyserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.currencyserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -96,7 +96,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="paymentservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.paymentserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.paymentserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -106,7 +106,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="shippingservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.shippingserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.shippingserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -116,7 +116,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="emailservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.emailserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.emailserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -126,7 +126,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="checkoutservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.checkoutserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.checkoutserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -136,7 +136,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="recommendationservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.recommendationserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.recommendationserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
@@ -146,7 +146,7 @@ pipeline {
         //         script{
         //             def SERVICE_NAME="adservice"
         //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.adserviceContainerfile([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+        //             utils.adserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
         //         }
         //     }
         // }
