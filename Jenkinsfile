@@ -5,7 +5,7 @@ pipeline {
     
     environment {
         PROJECT_NAME="boutique"
-        PROJECT_COMMIT_SHORT=""
+        PROJECT_COMMIT_SHORT="test"
         
         // Application SCM version
         VERSION = "v0.10.5" // Online Boutique release version
