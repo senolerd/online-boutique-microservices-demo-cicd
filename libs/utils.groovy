@@ -8,7 +8,7 @@ def imageWorkFinisher(Map imgInfo) {
     _addServiceListToDockerfile(imgInfo)
 
     def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
-    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName:$VERSION"
+    def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName-$VERSION:$PROJECT_COMMIT_SHORT"
 
     sh """ 
             # Solving some image naming problems that ocured at adservice    
