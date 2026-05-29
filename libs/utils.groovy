@@ -49,6 +49,7 @@ def imageWorkFinisher(Map imgInfo) {
 
     _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _addServiceManifest([name: imgInfo.serviceName, port: PORT])
+    _addDeploymentToChart([name: imgInfo.serviceName, port: PORT])
 
     }
 
@@ -264,7 +265,7 @@ def createNewHelmChart(){
     """
 }
 
-def _addDeploymentToChart(){
+def _addDeploymentToChart(Map deplCfg){
 
     sh """ 
     echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
