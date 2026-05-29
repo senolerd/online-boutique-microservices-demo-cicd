@@ -29,7 +29,7 @@ pipeline {
             steps{
                 script{ 
                     utils = load 'libs/utils.groovy'
-                    env.PROJECT_COMMIT_SHORT= sh(script="echo $GIT_COMMIT", returnStdout: true).take(7)
+                    env.PROJECT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
                     utils.createNewManifestBook()
                 }
