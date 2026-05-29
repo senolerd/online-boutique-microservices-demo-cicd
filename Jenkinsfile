@@ -31,21 +31,22 @@ pipeline {
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
 
+                    // Clear old builds
+                    sh 'rm -rf microservices-demo manifestbook-* helm'
+
+                    // ToDo: Don't forget to delete external repo before push back project repo
+                    // ToDo: Don't forget to delete external repo before push back project repo
+                    // ToDo: Don't forget to delete external repo before push back project repo
+
+                    utils.createNewManifestBook()
+                    utils.createNewHelmChart()
                 }
             }
         }
 
         stage('Pulling Code') {
             steps {
-                // Clear old builds
-                sh 'rm -rf microservices-demo manifestbook-* helm' 
-                // ToDo: Don't forget to delete external repo before push back project repo
-                // ToDo: Don't forget to delete external repo before push back project repo
-                // ToDo: Don't forget to delete external repo before push back project repo
-                utils.createNewManifestBook()
-                utils.createNewHelmChart()
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
-
                 echo "Login to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
                     echo "Login to Artifactory"
