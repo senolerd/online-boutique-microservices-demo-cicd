@@ -2,7 +2,7 @@ def utils
 def K8S_NS
 pipeline {
     agent any
-
+    
     environment {
         PROJECT_NAME="boutique"
         
@@ -148,7 +148,6 @@ pipeline {
                 }
             }
         }
-
 
         stage("Create/Refresh K8S Deployment"){
             steps{

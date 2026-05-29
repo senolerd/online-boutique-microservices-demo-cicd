@@ -62,24 +62,24 @@ def currencyserviceWorks(imgInfo) {
 
     sh """ 
         cat << EOT > ${imgInfo.srcDir}/Dockerfile
-FROM node:20.20.0-alpine AS builder
-RUN apk add --update --no-cache  python3 make g++
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install --only=production
-FROM node:20.20.0-alpine
-RUN apk add --no-cache nodejs
-WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY . .
-EXPOSE 7000
-ENV PORT 7000
-ENV DISABLE_PROFILER 1 
-ENV DISABLE_TRACING 1
-ENV DISABLE_DEBUGGER 1
-ENV GCP_PROJECT "hello"
-ENV GOOGLE_CLOUD_PROJECT "jello"
-ENTRYPOINT [ "node", "server.js" ]           
+    FROM node:20.20.0-alpine AS builder
+    RUN apk add --update --no-cache  python3 make g++
+    WORKDIR /usr/src/app
+    COPY package*.json ./
+    RUN npm install --only=production
+    FROM node:20.20.0-alpine
+    RUN apk add --no-cache nodejs
+    WORKDIR /usr/src/app
+    COPY --from=builder /usr/src/app/node_modules ./node_modules
+    COPY . .
+    EXPOSE 7000
+    ENV PORT 7000
+    ENV DISABLE_PROFILER 1 
+    ENV DISABLE_TRACING 1
+    ENV DISABLE_DEBUGGER 1
+    ENV GCP_PROJECT "hello"
+    ENV GOOGLE_CLOUD_PROJECT "jello"
+    ENTRYPOINT [ "node", "server.js" ]           
     """
     imageWorkFinisher(imgInfo)
     }
@@ -91,24 +91,24 @@ def paymentserviceWorks(imgInfo) {
 
     sh """ 
         cat << EOT > ${imgInfo.srcDir}/Dockerfile
-FROM node:20.20.0-alpine AS builder
-RUN apk add --update --no-cache  python3 make g++
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install --only=production
-FROM node:20.20.0-alpine
-RUN apk add --no-cache nodejs
-WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY . .
-EXPOSE 50051
-ENV PORT 50051
-ENV DISABLE_PROFILER 1 
-ENV DISABLE_TRACING 1
-ENV DISABLE_DEBUGGER 1
-ENV GCP_PROJECT "hello"
-ENV GOOGLE_CLOUD_PROJECT "jello"
-ENTRYPOINT [ "node", "index.js" ]           
+    FROM node:20.20.0-alpine AS builder
+    RUN apk add --update --no-cache  python3 make g++
+    WORKDIR /usr/src/app
+    COPY package*.json ./
+    RUN npm install --only=production
+    FROM node:20.20.0-alpine
+    RUN apk add --no-cache nodejs
+    WORKDIR /usr/src/app
+    COPY --from=builder /usr/src/app/node_modules ./node_modules
+    COPY . .
+    EXPOSE 50051
+    ENV PORT 50051
+    ENV DISABLE_PROFILER 1 
+    ENV DISABLE_TRACING 1
+    ENV DISABLE_DEBUGGER 1
+    ENV GCP_PROJECT "hello"
+    ENV GOOGLE_CLOUD_PROJECT "jello"
+    ENTRYPOINT [ "node", "index.js" ]           
     """
     imageWorkFinisher(imgInfo)
     }
@@ -126,8 +126,6 @@ def shoppingassistantservice(imgInfo) {
     // ModuleNotFoundError: No module named 'aiohttp'
     imageWorkFinisher(imgInfo)
     }
-
-// WORKING APIS
 
 def checkoutserviceWorks(imgInfo) {
     imageWorkFinisher(imgInfo)
@@ -157,18 +155,18 @@ def _addServiceListToDockerfile(imgInfo){
     // Appends environment variables for services to all Dockerfiles of API's
     sh """
         cat << EOF >> ${imgInfo.srcDir}/Dockerfile
-ENV AD_SERVICE_ADDR adservice:9555
-ENV CART_SERVICE_ADDR cartservice:7070
-ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
-ENV CURRENCY_SERVICE_ADDR currencyservice:7000
-ENV EMAIL_SERVICE_ADDR emailservice:8080
-ENV FRONTEND_SERVICE_ADDR frontend:8080
-ENV PAYMENT_SERVICE_ADDR paymentservice:50051
-ENV PRODUCT_CATALOG_SERVICE_ADDR productcatalogservice:3550
-ENV RECOMMENDATION_SERVICE_ADDR recommendationservice:8080
-ENV SHIPPING_SERVICE_ADDR shippingservice:50051
-ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
-ENV ENABLE_SHOPPING_ASSISTANT false
+    ENV AD_SERVICE_ADDR adservice:9555
+    ENV CART_SERVICE_ADDR cartservice:7070
+    ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
+    ENV CURRENCY_SERVICE_ADDR currencyservice:7000
+    ENV EMAIL_SERVICE_ADDR emailservice:8080
+    ENV FRONTEND_SERVICE_ADDR frontend:8080
+    ENV PAYMENT_SERVICE_ADDR paymentservice:50051
+    ENV PRODUCT_CATALOG_SERVICE_ADDR productcatalogservice:3550
+    ENV RECOMMENDATION_SERVICE_ADDR recommendationservice:8080
+    ENV SHIPPING_SERVICE_ADDR shippingservice:50051
+    ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
+    ENV ENABLE_SHOPPING_ASSISTANT false
 """
 }
 
