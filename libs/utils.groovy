@@ -189,7 +189,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
     name: ${env.K8S_NS}
-    """
+"""
 }
 
 
@@ -224,7 +224,7 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: ${deplCfg.port}
-    """
+"""
 }
 
 
@@ -247,7 +247,7 @@ spec:
     - protocol: TCP
       port: ${svcCfg.port}
       targetPort: ${svcCfg.port}
-    """
+"""
 }
 
 return this
