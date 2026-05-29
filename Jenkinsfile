@@ -40,7 +40,7 @@ pipeline {
                 sh 'rm -rf microservices-demo'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
                 sh "echo $GIT_COMMIT"
-                sh "SALLAMA=SALLAMAMAMAMAMAAMAM"
+                sh "alias SALLAMA=SALLAMAMAMAMAMAAMAM"
                 sh "echo $SALLAMA"
 
                 echo "Login to Artifactory"
