@@ -262,9 +262,7 @@ def createNewHelmChart(){
     mkdir -p helm helm/charts helm/templates
     cd helm
     touch Chart.yaml values.yaml templates/deployments.yaml templates/services.yaml
-
     """
-    
 }
 
 
