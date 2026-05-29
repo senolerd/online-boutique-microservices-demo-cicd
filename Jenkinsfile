@@ -55,16 +55,16 @@ pipeline {
             }
         }
 
-        // stage("Cart Service Work"){
-        //     // Cart service also needs redis service
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="cartservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
-        //             def img = utils.cartserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Cart Service Work"){
+            // Cart service also needs redis service
+            steps{
+                script{
+                    def SERVICE_NAME="cartservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME/src"
+                    def img = utils.cartserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
         // stage("Frontend Service Work"){
         //     steps{

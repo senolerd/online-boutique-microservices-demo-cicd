@@ -27,7 +27,7 @@ def imageWorkFinisher(Map imgInfo) {
             # TODO: Add a build number to end of the image to make easy roll-back or create a HELM chart, or do both. Yeah, do both!
             #################################################
 
-            podman build -t $IMAGE .
+            #               podman build -t $IMAGE .
 
             #################################################
             # TODO 2: Trivy scanning should be here before uploading the image 
@@ -35,8 +35,8 @@ def imageWorkFinisher(Map imgInfo) {
 
 
             echo "Login to Artifactory"
-            podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
-            podman image prune -f
+            #               podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
+            #               podman image prune -f
         """
             // Trivy Sample
             // # podman run --rm \
