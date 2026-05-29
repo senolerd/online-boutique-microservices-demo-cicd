@@ -175,7 +175,6 @@ def _addServiceListToContainerfile(imgInfo){
     ENV SHIPPING_SERVICE_ADDR shippingservice:50051
     ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
     ENV ENABLE_SHOPPING_ASSISTANT false
-    EOF
     """
 }
 
@@ -184,12 +183,13 @@ def createNewManifestBook(){
 
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
-        cat << 'EOT' >  manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
+        cat << EOT >  manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
     name: ${env.K8S_NS}
+EOT
 """
 }
 

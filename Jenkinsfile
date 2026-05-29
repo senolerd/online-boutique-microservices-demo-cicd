@@ -38,7 +38,7 @@ pipeline {
         stage('Pulling Code') {
             steps {
                 echo 'Hello from online boutique microservices demo'
-                sh 'rm -rf microservices-demo'
+                sh 'rm -rf microservices-demo manifestbook-*'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
                 sh "env"
 
