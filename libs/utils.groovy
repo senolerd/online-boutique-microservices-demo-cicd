@@ -319,7 +319,7 @@ def _addServiceToChart(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE TO CHART ${svcCfg.name}" 
-        echo"---
+        echo "---
 apiVersion: v1
 kind: Service
 metadata:
