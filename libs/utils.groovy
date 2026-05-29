@@ -5,9 +5,9 @@
 def imageWorkFinisher(Map imgInfo) {
     // Builds and uploads image to Artifactory 
 
-    _addServiceListToContainerfile(imgInfo)
+    _addServiceListToDockerfile(imgInfo)
 
-    def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Containerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
+    def PORT = sh(script:"grep EXPOSE $imgInfo.srcDir/Dockerfile", returnStdout: true).replace("EXPOSE ","").trim().toInteger()
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName-$VERSION:$GIT_COMMIT_SHORT"
 
     sh """ 
@@ -18,10 +18,10 @@ def imageWorkFinisher(Map imgInfo) {
             cd $imgInfo.srcDir
             
             # Podman doesn't need BUILDPLATROM, adds itself on the compile time and hates 
-            # if there is defination in the Containerfile
+            # if there is defination in the Dockerfile
             
             echo "Building $imgInfo.serviceName container"
-            sed -i '/ARG BUILDPLATFORM=/d' Containerfile
+            sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
 
             #################################################
             # TODO: Add a build number to end of the image to make easy roll-back or create a HELM chart, or do both. Yeah, do both!
@@ -52,13 +52,13 @@ def imageWorkFinisher(Map imgInfo) {
     }
 
 
-def currencyserviceContainerfile(imgInfo) {
-    // This api's Containerfile needs a little more custom care.
+def currencyserviceDockerfile(imgInfo) {
+    // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        cat << EOT > ${imgInfo.srcDir}/Containerfile
+        cat << EOT > ${imgInfo.srcDir}/Dockerfile
     FROM node:20.20.0-alpine AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
@@ -82,13 +82,13 @@ def currencyserviceContainerfile(imgInfo) {
     }
 
 
-def paymentserviceContainerfile(imgInfo) {
-    // This api's Containerfile needs a little more custom care.
+def paymentserviceDockerfile(imgInfo) {
+    // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
 
     sh """ 
-        cat << EOT > ${imgInfo.srcDir}/Containerfile
+        cat << EOT > ${imgInfo.srcDir}/Dockerfile
     FROM node:20.20.0-alpine AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
@@ -112,12 +112,12 @@ def paymentserviceContainerfile(imgInfo) {
     }
 
 
-def frontendContainerfile(imgInfo) {
+def frontendDockerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def recommendationserviceContainerfile(imgInfo) {
+def recommendationserviceDockerfile(imgInfo) {
     // raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')
     imageWorkFinisher(imgInfo)
     }
@@ -129,41 +129,41 @@ def shoppingassistantservice(imgInfo) {
     }
 
 
-def checkoutserviceContainerfile(imgInfo) {
+def checkoutserviceDockerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def adserviceContainerfile(imgInfo) {
+def adserviceDockerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def cartserviceContainerfile(imgInfo) {
+def cartserviceDockerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def emailserviceContainerfile(imgInfo) {
+def emailserviceDockerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def productcatalogserviceContainerfile(imgInfo) {
+def productcatalogserviceDockerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def shippingserviceContainerfile(imgInfo) {
+def shippingserviceDockerfile(imgInfo) {
     imageWorkFinisher(imgInfo)
     }
 
 
-def _addServiceListToContainerfile(imgInfo){
-    // Appends environment variables for services to all Containerfiles of API's
-    echo "Adiong Services environment variables to Containerfile"
+def _addServiceListToDockerfile(imgInfo){
+    // Appends environment variables for services to all Dockerfiles of API's
+    echo "Adiong Services environment variables to Dockerfile"
     sh """
-        cat << EOF >> ${imgInfo.srcDir}/Containerfile
+        cat << EOF >> ${imgInfo.srcDir}/Dockerfile
 ENV AD_SERVICE_ADDR adservice:9555
 ENV CART_SERVICE_ADDR cartservice:7070
 ENV CHECKOUT_SERVICE_ADDR checkoutservice:5050
@@ -176,7 +176,6 @@ ENV RECOMMENDATION_SERVICE_ADDR recommendationservice:8080
 ENV SHIPPING_SERVICE_ADDR shippingservice:50051
 ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
 ENV ENABLE_SHOPPING_ASSISTANT false
-EOF    
 """
 }
 
