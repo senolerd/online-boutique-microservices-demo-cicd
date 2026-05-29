@@ -31,6 +31,7 @@ pipeline {
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
                     utils.createNewManifestBook()
+                    utils.createNewHelmChart()
                 }
             }
         }
@@ -38,9 +39,8 @@ pipeline {
         stage('Pulling Code') {
             steps {
                 echo 'Hello from online boutique microservices demo'
-                sh 'rm -rf microservices-demo manifestbook-*'
+                sh 'rm -rf microservices-demo manifestbook-* helm'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
-                sh "env"
 
                 echo "Login to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {

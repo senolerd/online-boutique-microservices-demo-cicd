@@ -49,6 +49,7 @@ def imageWorkFinisher(Map imgInfo) {
 
     _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _addServiceManifest([name: imgInfo.serviceName, port: PORT])
+
     }
 
 
@@ -251,5 +252,21 @@ spec:
       targetPort: ${svcCfg.port}
 """
 }
+
+
+def utils.createNewHelmChart(){
+    sh """
+    echo "Clear old helm chart"
+    rm -rf helm
+    echo "Create new helm chart directory layout"
+    mkdir -p helm helm/charts helm/templates
+    cd helm
+    touch Chart.yaml values.yaml templates/deployments.yaml templates/services.yaml
+    
+    """
+    
+}
+
+
 
 return this
