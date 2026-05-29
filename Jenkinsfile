@@ -41,7 +41,7 @@ pipeline {
                 echo 'Hello from online boutique microservices demo'
                 sh 'rm -rf microservices-demo'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
-                sh "$PROJECT_COMMIT_SHORT"
+                sh "env"
 
                 echo "Login to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'docker-io-alkol', passwordVariable: 'PASS', usernameVariable: 'UNAME')]) {
