@@ -200,8 +200,7 @@ def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
 
     sh """ 
-        echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
-
+    echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
     cat << EOT >> manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
 --- 
 apiVersion: apps/v1
@@ -265,6 +264,43 @@ def createNewHelmChart(){
     """
 }
 
+_addDeploymentToChart(){
 
+    sh """ 
+    echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
+    cat << EOT >> helm/templates/${deplCfg.name}.yml
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{.Values.${deplCfg.name}.name}}
+    namespace: {{.Values.namespace}} 
+    labels:
+        app: {{.Values.${deplCfg.name}.name}}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{.Values.${deplCfg.name}.name}}
+    template:
+        metadata:
+            labels:
+                app: {{.Values.${deplCfg.name}.name}}
+        spec:
+            containers:
+            - name: {{.Values.${deplCfg.name}.name}}
+              image: {{.Values.${deplCfg.name}.image}}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: {{.Values.${deplCfg.name}.port}}
+"""
+
+// containerservice:
+//     name: containerservice
+//     image: docker.io/...
+//     port: 123
+
+}
+_addServoceToChart(){}
 
 return this
