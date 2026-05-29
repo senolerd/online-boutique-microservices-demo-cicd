@@ -302,17 +302,12 @@ spec:
 
 ${deplCfg.name}:
     name: ${deplCfg.name}
-    image: ${deplCfg.image}
+    image: ${deplCfg.img}
     port: ${deplCfg.port}
 """
 
-
-// containerservice:
-//     name: containerservice
-//     image: docker.io/...
-//     port: 123
-
 }
+
 def _addServoceToChart(){}
 
 return this
