@@ -264,7 +264,7 @@ def createNewHelmChart(){
     """
 }
 
-_addDeploymentToChart(){
+def _addDeploymentToChart(){
 
     sh """ 
     echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
@@ -301,6 +301,6 @@ spec:
 //     port: 123
 
 }
-_addServoceToChart(){}
+def _addServoceToChart(){}
 
 return this
