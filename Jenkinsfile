@@ -39,7 +39,7 @@ pipeline {
                 echo 'Hello from online boutique microservices demo'
                 sh 'rm -rf microservices-demo'
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
-                sh "GIT_COMMIT_SHORT=${GIT_COMMIT:0:7}"
+                sh "GIT_COMMIT_SHORT=$GIT_COMMIT:0:7"
                 sh "echo $GIT_COMMIT_SHORT"
 
                 echo "Login to Artifactory"
