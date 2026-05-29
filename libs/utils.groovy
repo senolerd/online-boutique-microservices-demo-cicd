@@ -76,7 +76,7 @@ def currencyserviceContainerfile(imgInfo) {
     ENV DISABLE_DEBUGGER 1
     ENV GCP_PROJECT "hello"
     ENV GOOGLE_CLOUD_PROJECT "jello"
-    ENTRYPOINT [ "node", "server.js" ]           
+    ENTRYPOINT [ "node", "server.js" ]        
     """
     imageWorkFinisher(imgInfo)
     }
@@ -175,6 +175,7 @@ def _addServiceListToContainerfile(imgInfo){
     ENV SHIPPING_SERVICE_ADDR shippingservice:50051
     ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
     ENV ENABLE_SHOPPING_ASSISTANT false
+    EOF
     """
 }
 
