@@ -45,6 +45,8 @@ pipeline {
 
                     // ToDo: Don't forget to delete external repo before push back project repo
                     // ToDo: Don't forget to delete external repo before push back project repo
+                    // ToDo: Don't forget to delete external repo before push back project repo
+                    // ToDo: Don't forget to delete external repo before push back project repo
                     
                     utils.createNewManifestBook()
                     utils.createNewHelmChart()
