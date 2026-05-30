@@ -31,7 +31,7 @@ pipeline {
                 script{ 
                     cleanWs() 
                     checkout scm
-                    sh "rm -rf helm-* manifestbook-boutique-*"
+                    sh "rm -rf helm* manifestbook-boutique-*"
                     utils = load 'libs/utils.groovy'
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
@@ -69,25 +69,25 @@ pipeline {
             }
         }
 
-        // stage("Frontend Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="frontend"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.frontendImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Frontend Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="frontend"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.frontendImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Product Catalog Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="productcatalogservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.productcatalogserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Product Catalog Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="productcatalogservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.productcatalogserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
         // stage("Currency Service Work"){
         //     steps{
@@ -171,7 +171,6 @@ pipeline {
                     git config user.name "Jenkins Project Builder"
                     git config user.email "jenkins@local.com"
 
-
                     ## Add new files to repo
                     git checkout main
                     git add .
@@ -188,13 +187,11 @@ pipeline {
                     script{
                         sh """
 
-
                             # Prepare known_hosts for K8S Controller connection
                             sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
                             ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
                             scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
-
-                            
+     
                             ## AUTO INSTALL/UPDATE
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${env.K8S_NS}.yml' 
                             # scp manifestbook-${env.K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/

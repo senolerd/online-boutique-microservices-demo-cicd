@@ -270,12 +270,12 @@ def createNewHelmChart(){
         echo "Clear old helm chart"
         rm -rf helm
         echo "Create new helm chart directory layout"
-        mkdir -p helm-${GIT_COMMIT_SHORT} helm-${GIT_COMMIT_SHORT}/charts helm-${GIT_COMMIT_SHORT}/templates
+        mkdir -p helm helm/charts helm/templates
         cd helm-${GIT_COMMIT_SHORT}
         echo "
 apiVersion: v2
 name: test-helm
-description: A Helm chart for Kubernetes ${GIT_COMMIT_SHORT}
+description: Boutique Demo Helm Chart @commit: ${GIT_COMMIT_SHORT}
 type: application
 version: 0.1.0
 appVersion: ${VERSION} " > Chart.yaml
@@ -310,7 +310,7 @@ spec:
               image: {{ .Values.${deplCfg.name}.image }}
               imagePullPolicy: Always
               ports:
-              - containerPort: {{ .Values.${deplCfg.name}.port }}"  > helm-${GIT_COMMIT_SHORT}/templates/${deplCfg.name}.yaml
+              - containerPort: {{ .Values.${deplCfg.name}.port }}"  > helm/templates/${deplCfg.name}.yaml
     """ 
 
     // Adding values to charts values.yaml
@@ -321,7 +321,7 @@ spec:
 ${deplCfg.name}:
     name: ${deplCfg.name}
     image: ${deplCfg.img}
-    port: ${deplCfg.port} " >> helm-${GIT_COMMIT_SHORT}/values.yaml
+    port: ${deplCfg.port} " >> helm/values.yaml
     """
 }
 
@@ -341,7 +341,7 @@ spec:
     ports:
     - protocol: TCP
       port:  {{ .Values.${svcCfg.name}.port }}
-      targetPort:  {{ .Values.${svcCfg.name}.port }} " >> helm-${GIT_COMMIT_SHORT}/templates/${svcCfg.name}.yaml
+      targetPort:  {{ .Values.${svcCfg.name}.port }} " >> helm/templates/${svcCfg.name}.yaml
     """
 }
 
