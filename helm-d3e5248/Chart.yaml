@@ -1,7 +1,0 @@
-
-apiVersion: v2
-name: test-helm
-description: A Helm chart for Kubernetes
-type: application
-version: d3e5248
-appVersion: v0.10.5 
