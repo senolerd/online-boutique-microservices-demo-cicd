@@ -1,0 +1,37 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.productcatalogservice.name }}
+    namespace: {{ .Values.namespace }} 
+    labels:
+        app: {{ .Values.productcatalogservice.name }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ .Values.productcatalogservice.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.productcatalogservice.name }}
+        spec:
+            containers:
+            - name: {{ .Values.productcatalogservice.name }}
+              image: {{ .Values.productcatalogservice.image }}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: {{ .Values.productcatalogservice.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Values.productcatalogservice.name }}
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  {{ .Values.productcatalogservice.name }}
+    ports:
+    - protocol: TCP
+      port:  {{ .Values.productcatalogservice.port }}
+      targetPort:  {{ .Values.productcatalogservice.port }} 
