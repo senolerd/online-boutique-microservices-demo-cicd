@@ -32,7 +32,7 @@ pipeline {
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
 
                     // Clear old builds
-                    sh 'rm -rf microservices-demo manifestbook-* helm'
+                    sh 'rm -rf microservices-demo manifestbook-* helm*'
 
                     // ToDo: Don't forget to delete external repo before push back project repo
                     // ToDo: Don't forget to delete external repo before push back project repo
@@ -174,17 +174,18 @@ pipeline {
                             ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
                             
                             ## Add new files to repo
-                            git add .
-                            git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
-                            git push
+                            git branch -l
+                            # git add .
+                            # git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
+                            # git push
 
                             ## Prepare known_hosts for K8S Controller connection
-                            sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
-                            ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
-                            scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+                            # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
+                            # ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
+                            # scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
 
                             
-                            
+
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${env.K8S_NS}.yml' 
                             # scp manifestbook-${env.K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'podman image prune -f' 
