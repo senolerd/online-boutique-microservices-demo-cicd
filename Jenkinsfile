@@ -33,6 +33,7 @@ pipeline {
 
                     // Clear old builds
                     sh 'rm -rf microservices-demo manifestbook-* helm-*'
+                    sh "pwd"
                     sh "ls -al"
                     // Prepare known_hosts for git
                     sh "sed -i /github.com/d ~/.ssh/known_hosts"
