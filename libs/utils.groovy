@@ -182,7 +182,7 @@ def _addServiceListToDockerfile(imgInfo){
     ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
     ENV ENABLE_SHOPPING_ASSISTANT false
     """
-}
+    }
 
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
@@ -263,7 +263,13 @@ def createNewHelmChart(){
         echo "Create new helm chart directory layout"
         mkdir -p helm helm/charts helm/templates
         cd helm
-        touch Chart.yaml values.yaml templates/deployments.yaml templates/services.yaml
+        echo "
+apiVersion: v2
+name: test-helm
+description: A Helm chart for Kubernetes
+type: application
+version: ${$GIT_COMMIT_SHORT}
+appVersion: ${VERSION} " > Chart.yaml
     """
 }
 
