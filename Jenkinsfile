@@ -38,7 +38,6 @@ pipeline {
                     sh "sed -i /github.com/d ~/.ssh/known_hosts"
                     sh "ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"
 
-
                     // ToDo: Don't forget to delete external repo before push back project repo
                     // ToDo: Don't forget to delete external repo before push back project repo
                     // ToDo: Don't forget to delete external repo before push back project repo
