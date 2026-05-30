@@ -5,7 +5,7 @@ pipeline {
     
     environment {
         PROJECT_NAME="boutique"
-        
+        ORIGIN_SSH_URL = "git@github.com:senolerd/online-boutique-microservices-demo-cicd.git"
         // Application SCM version
         VERSION = "v0.10.5" // Online Boutique release version
 
@@ -33,6 +33,11 @@ pipeline {
 
                     // Clear old builds
                     sh 'rm -rf microservices-demo manifestbook-* helm-*'
+
+                    ## Prepare known_hosts for git
+                    sh "sed -i /github.com/d ~/.ssh/known_hosts"
+                    sh "ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"
+
 
                     // ToDo: Don't forget to delete external repo before push back project repo
                     // ToDo: Don't forget to delete external repo before push back project repo
@@ -168,13 +173,7 @@ pipeline {
                             ## Add identity who pushes
                             git config user.name "Jenkins Project Builder"
                             git config user.email "jenkins@local.com"
-                            
-                            ## Prepare known_hosts for git
-                            # sed -i /github.com/d ~/.ssh/known_hosts
-                            # ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-                            
-                            
-                            env 
+
 
                             ## Add new files to repo
                             # git checkout main
