@@ -26,6 +26,7 @@ pipeline {
     stages {
         stage("__init__") {
             steps{
+                cleanWs()
                 script{ 
                     utils = load 'libs/utils.groovy'
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
