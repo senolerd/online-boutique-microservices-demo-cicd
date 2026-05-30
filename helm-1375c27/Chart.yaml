@@ -1,7 +1,7 @@
 
 apiVersion: v2
 name: test-helm
-description: A Helm chart for Kubernetes 371e296
+description: A Helm chart for Kubernetes 1375c27
 type: application
 version: 0.1.0
 appVersion: v0.10.5 

@@ -1,7 +1,0 @@
-
-apiVersion: v2
-name: test-helm
-description: A Helm chart for Kubernetes bffd443
-type: application
-version: 0.1.0
-appVersion: v0.10.5 
