@@ -194,7 +194,7 @@ def createNewManifestBook(){
 apiVersion: v1
 kind: Namespace
 metadata:
-    name: ${env.K8S_NS} " > manifestbook-${env.K8S_NS}.yml
+    name: ${env.K8S_NS} " > manifestbook-${env.K8S_NS}.yaml
 """
 }
 

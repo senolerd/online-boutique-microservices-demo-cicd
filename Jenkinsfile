@@ -163,27 +163,39 @@ pipeline {
                         sh """
                             # Git Upload Operation
                             ## Clear source code
-                            sh 'rm -rf microservices-demo'
+                            sh 'pwd'
+                            sh 'pwd'
+                            sh 'pwd'
+                            sh 'pwd'
+                            sh 'pwd'
+                            sh 'pwd'
+                            sh 'pwd'
+                            sh 'pwd'
 
                             ## Add identity who pushes
-                            git config user.name "Jenkins Project Builder"
-                            git config user.email "jenkins@local.com"
+                            #git config user.name "Jenkins Project Builder"
+                            #git config user.email "jenkins@local.com"
                             
                             ## Prepare known_hosts for git
-                            sed -i /github.com/d ~/.ssh/known_hosts
-                            ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+                            # sed -i /github.com/d ~/.ssh/known_hosts
+                            # ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
                             
                             ## Add new files to repo
-                            sh "git add ."
-                            sh 'git commit -m 'Helm chart and manifest-book update from Jenkins [skip ci]'
-                            sh "git push"
+                            # sh "git add ."
+                            # sh 'git commit -m 'Helm chart and manifest-book update from Jenkins [skip ci]'
+                            # sh "git push"
 
                             ## Prepare known_hosts for K8S Controller connection
-                            sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
-                            ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
-                            scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+                            # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
+                            # ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
+                            # scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
 
                             
+
+
+
+
+
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${env.K8S_NS}.yml' 
                             # scp manifestbook-${env.K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'podman image prune -f' 
