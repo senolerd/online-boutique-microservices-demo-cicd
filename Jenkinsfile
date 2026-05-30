@@ -174,15 +174,15 @@ pipeline {
                             ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
                             
                             ## Add new files to repo
-                            git branch -l
-                            # git add .
-                            # git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
-                            # git push
+                            git checkout main
+                            git add .
+                            git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
+                            git push
 
                             ## Prepare known_hosts for K8S Controller connection
-                            # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
-                            # ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
-                            # scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+                            sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
+                            ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
+                            scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
 
                             
 
