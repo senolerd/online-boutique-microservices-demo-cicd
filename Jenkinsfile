@@ -33,6 +33,8 @@ pipeline {
 
                     // Clear old builds
                     sh 'rm -rf microservices-demo manifestbook-* helm-*'
+                    sh 'rm -rf manifestbook-*'
+                    sh 'rm -rf helm-*'
                     sh "pwd"
                     sh "ls -al"
                     // Prepare known_hosts for git
@@ -180,7 +182,7 @@ pipeline {
                             git checkout main
                             git add .
                             git commit -m "Helm chart and manifest-book ugit pushpdate from Jenkins [skip ci]"
-                            git push origin HEAD:main
+                            # git push origin HEAD:main
 
                             ## Prepare known_hosts for K8S Controller connection
                             # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
