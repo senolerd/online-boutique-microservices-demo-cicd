@@ -1,0 +1,37 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.cartservice.name }}
+    namespace: {{ .Values.namespace }} 
+    labels:
+        app: {{ .Values.cartservice.name }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ .Values.cartservice.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.cartservice.name }}
+        spec:
+            containers:
+            - name: {{ .Values.cartservice.name }}
+              image: {{ .Values.cartservice.image }}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: {{ .Values.cartservice.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Values.cartservice.name }}
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  {{ .Values.cartservice.name }}
+    ports:
+    - protocol: TCP
+      port:  {{ .Values.cartservice.port }}
+      targetPort:  {{ .Values.cartservice.port }} 
