@@ -184,6 +184,11 @@ def _addServiceListToDockerfile(imgInfo){
     """
     }
 
+
+// ##################
+// # Monolitic manifest creating 
+// ##################
+
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
 
