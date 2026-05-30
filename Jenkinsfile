@@ -163,14 +163,7 @@ pipeline {
                         sh """
                             # Git Upload Operation
                             ## Clear source code
-                            sh 'pwd'
-                            sh 'pwd'
-                            sh 'pwd'
-                            sh 'pwd'
-                            sh 'pwd'
-                            sh 'pwd'
-                            sh 'pwd'
-                            sh 'pwd'
+                            sh 'ls'
 
                             ## Add identity who pushes
                             #git config user.name "Jenkins Project Builder"
