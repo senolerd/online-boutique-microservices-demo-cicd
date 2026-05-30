@@ -32,13 +32,7 @@ pipeline {
                     utils = load 'libs/utils.groovy'
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
-
-                    // Clear old builds
-                    sh 'rm -rf microservices-demo manifestbook-* helm-*'
-                    sh 'rm -rf manifestbook-*'
-                    sh 'rm -rf helm-*'
-                    sh "pwd"
-                    sh "ls -al"
+                    
                     // Prepare known_hosts for git
                     sh "sed -i /github.com/d ~/.ssh/known_hosts"
                     sh "ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"
