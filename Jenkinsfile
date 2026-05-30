@@ -32,7 +32,7 @@ pipeline {
                     utils = load 'libs/utils.groovy'
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
-                    
+
                     // Prepare known_hosts for git
                     sh "sed -i /github.com/d ~/.ssh/known_hosts"
                     sh "ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"
@@ -179,7 +179,7 @@ pipeline {
                             git checkout main
                             git add .
                             git commit -m "Helm chart and manifest-book ugit pushpdate from Jenkins [skip ci]"
-                            # git push origin HEAD:main
+                            git push origin HEAD:main
 
                             ## Prepare known_hosts for K8S Controller connection
                             # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
