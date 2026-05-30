@@ -32,7 +32,7 @@ pipeline {
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
 
                     // Clear old builds
-                    sh 'rm -rf microservices-demo manifestbook-* helm*'
+                    sh 'rm -rf microservices-demo manifestbook-* helm-*'
 
                     // ToDo: Don't forget to delete external repo before push back project repo
                     // ToDo: Don't forget to delete external repo before push back project repo
@@ -170,14 +170,17 @@ pipeline {
                             git config user.email "jenkins@local.com"
                             
                             ## Prepare known_hosts for git
-                            sed -i /github.com/d ~/.ssh/known_hosts
-                            ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+                            # sed -i /github.com/d ~/.ssh/known_hosts
+                            # ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
                             
+                            
+                            env 
+
                             ## Add new files to repo
-                            git checkout main
-                            git add .
-                            git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
-                            git push origin HEAD:main
+                            # git checkout main
+                            # git add .
+                            #git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
+                            # git push origin HEAD:main
 
                             ## Prepare known_hosts for K8S Controller connection
                             # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
