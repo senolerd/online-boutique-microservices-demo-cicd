@@ -181,10 +181,10 @@ pipeline {
                             git commit -m "Helm chart and manifest-book ugit pushpdate from Jenkins [skip ci]"
                             git push origin HEAD:main
 
-                            ## Prepare known_hosts for K8S Controller connection
-                            # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
-                            # ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
-                            # scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+                            # Prepare known_hosts for K8S Controller connection
+                            sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
+                            ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
+                            scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
 
                             
 
