@@ -48,6 +48,7 @@ pipeline {
             }
         }
 
+
         stage('Pulling Code') {
             steps {
                 sh "git clone --branch release/$VERSION https://github.com/GoogleCloudPlatform/microservices-demo.git"         
