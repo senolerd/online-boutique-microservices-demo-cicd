@@ -166,18 +166,18 @@ pipeline {
                             rm -rf microservices-demo
 
                             ## Add identity who pushes
-                            # git config user.name "Jenkins Project Builder"
-                            # git config user.email "jenkins@local.com"
+                            git config user.name "Jenkins Project Builder"
+                            git config user.email "jenkins@local.com"
                             
                             ## Prepare known_hosts for git
-                            # sed -i /github.com/d ~/.ssh/known_hosts
-                            # ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+                            sed -i /github.com/d ~/.ssh/known_hosts
+                            ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
                             
                             ## Add new files to repo
-                            # git checkout main
-                            # git add .
-                            # git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
-                            # git push
+                            git checkout main
+                            git add .
+                            git commit -m "Helm chart and manifest-book update from Jenkins [skip ci]"
+                            git push origin HEAD:main
 
                             ## Prepare known_hosts for K8S Controller connection
                             # sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
