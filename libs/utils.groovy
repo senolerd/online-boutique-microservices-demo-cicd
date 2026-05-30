@@ -271,7 +271,7 @@ def createNewHelmChart(){
         rm -rf helm
         echo "Create new helm chart directory layout"
         mkdir -p helm helm/charts helm/templates
-        cd helm-${GIT_COMMIT_SHORT}
+        cd helm
         echo "
 apiVersion: v2
 name: test-helm
