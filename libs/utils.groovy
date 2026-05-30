@@ -268,7 +268,7 @@ apiVersion: v2
 name: test-helm
 description: A Helm chart for Kubernetes
 type: application
-version: ${$GIT_COMMIT_SHORT}
+version: ${GIT_COMMIT_SHORT}
 appVersion: ${VERSION} " > Chart.yaml
     """
 }
