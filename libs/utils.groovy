@@ -189,13 +189,12 @@ def createNewManifestBook(){
 
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
-        cat << \\EOT >  manifestbook-${env.K8S_NS}.yml
+        echo "
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-    name: ${env.K8S_NS}
-\\EOT
+    name: ${env.K8S_NS} " > manifestbook-${env.K8S_NS}.yml
 """
 }
 
@@ -205,7 +204,7 @@ def _addDeploymentManifest(Map deplCfg){
 
     sh """ 
     echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
-    cat << \\EOT >> manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
+    echo "
 --- 
 apiVersion: apps/v1
 kind: Deployment
@@ -229,8 +228,7 @@ spec:
               image: ${deplCfg.img}
               imagePullPolicy: Always
               ports:
-              - containerPort: ${deplCfg.port}
-\\EOT              
+              - containerPort: ${deplCfg.port}" >> manifestbook-${env.K8S_NS}-${GIT_COMMIT_SHORT}.yml
     """
 }
 
@@ -240,7 +238,7 @@ def _addServiceManifest(Map svcCfg){
 
     sh """
         echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
-        cat << \\EOT >> manifestbook-${K8S_NS}-${GIT_COMMIT_SHORT}.yml
+        echo "
 ---
 apiVersion: v1
 kind: Service
@@ -253,8 +251,7 @@ spec:
     ports:
     - protocol: TCP
       port: ${svcCfg.port}
-      targetPort: ${svcCfg.port}
-\\EOT
+      targetPort: ${svcCfg.port}" >> manifestbook-${K8S_NS}-${GIT_COMMIT_SHORT}.yml
     """
 }
 
@@ -274,8 +271,7 @@ def _addDeploymentToChart(Map deplCfg){
 
     sh """ 
         echo "ADDING HELM CHART DEPLOYMENT FOR ${deplCfg.name}"
-        cat << \\EOT > helm/templates/${deplCfg.name}.yaml
---- 
+        echo "
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -298,20 +294,18 @@ spec:
               image: {{ .Values.${deplCfg.name}.image }}
               imagePullPolicy: Always
               ports:
-              - containerPort: {{ .Values.${deplCfg.name}.port }}
-\\EOT
+              - containerPort: {{ .Values.${deplCfg.name}.port }}"  > helm/templates/${deplCfg.name}.yaml
     """ 
 
     // Adding values to charts values.yaml
     sh """ 
     echo "ADDING HELM CHART SERVICE FOR ${deplCfg.name}"
-    cat << EOT >> helm/values.yaml
 
+    echo "
 ${deplCfg.name}:
     name: ${deplCfg.name}
     image: ${deplCfg.img}
-    port: ${deplCfg.port}
-\\EOT
+    port: ${deplCfg.port} " >> helm/values.yaml
     """
 }
 
