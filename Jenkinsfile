@@ -27,6 +27,8 @@ pipeline {
         stage("__init__") {
             steps{
                 script{ 
+                    cleanWs() 
+                    checkout scm
                     utils = load 'libs/utils.groovy'
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
@@ -202,7 +204,7 @@ pipeline {
             }
         }
     }
-    
+
     // post {
     //     always {
     //         cleanWs()
