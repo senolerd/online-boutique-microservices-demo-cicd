@@ -187,7 +187,7 @@ pipeline {
                             scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
 
                             
-
+                            ## AUTO INSTALL/UPDATE
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${env.K8S_NS}.yml' 
                             # scp manifestbook-${env.K8S_NS}.yml ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'podman image prune -f' 
