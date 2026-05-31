@@ -168,8 +168,8 @@ pipeline {
                     rm -rf microservices-demo
 
                     ## Add identity who pushes
-                    git config user.name "Jenkins Project Builder"
-                    git config user.email "jenkins@local.com"
+                    // git config user.name "Jenkins Project Builder"
+                    // git config user.email "jenkins@local.com"
 
                     ## Add new files to repo
                     git checkout main
