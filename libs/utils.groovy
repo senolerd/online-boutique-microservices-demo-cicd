@@ -275,7 +275,7 @@ def createNewHelmChart(){
         echo "
 apiVersion: v2
 name: test-helm
-description: Boutique Demo Helm Chart @commit: ${GIT_COMMIT_SHORT}
+description: Boutique Demo Helm Chart @commit ${GIT_COMMIT_SHORT}
 type: application
 version: 0.1.0
 appVersion: ${VERSION} " > Chart.yaml
