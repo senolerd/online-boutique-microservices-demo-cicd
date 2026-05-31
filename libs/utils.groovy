@@ -13,7 +13,7 @@ def imageWorkFinisher(Map imgInfo) {
     def IMAGE="$CONTAINER_REGISTRY/$CONTAIER_REPO/$imgInfo.serviceName-$VERSION:$GIT_COMMIT_SHORT"
 
     sh """ 
-            # Solving some image naming problems that ocured at adservice    
+            # Solving some image naming problems that ocured at some services    
             export CONTAINERS_SHORT_NAME_ALIASING=on
 
             echo "$imgInfo.serviceName Service Image Creation"       
@@ -24,11 +24,6 @@ def imageWorkFinisher(Map imgInfo) {
             
             echo "Building $imgInfo.serviceName container"
             sed -i '/ARG BUILDPLATFORM=/d' Dockerfile
-
-            #################################################
-            # TODO: Add a build number to end of the image to make easy roll-back or create a HELM chart, or do both. Yeah, do both!
-            #################################################
-
             podman build -t $IMAGE .
 
             #################################################
@@ -36,18 +31,21 @@ def imageWorkFinisher(Map imgInfo) {
             #################################################
 
 
+            ### ToDo: Add security check newly creted image
+            ### Trivy
+            # podman run --rm \
+            #  -v /var/run/docker.sock:/var/run/docker.sock \
+            #  -v $HOME/.cache:/root/.cache \
+            #  aquasec/trivy:latest image \
+            #  --severity HIGH,CRITICAL \
+            #  --exit-code 1 \
+            #  docker.io/alkol/currencyservice:v0.10.5
+
+
             echo "Login to Artifactory"
             podman push --tls-verify=$REGISTRY_USE_TLS $IMAGE
             podman image prune -f
         """
-            // Trivy Sample
-            // # podman run --rm \
-            // # -v /var/run/docker.sock:/var/run/docker.sock \
-            // # -v $HOME/.cache:/root/.cache \
-            // # aquasec/trivy:latest image \
-            // # --severity HIGH,CRITICAL \
-            // # --exit-code 1 \
-            // # docker.io/alkol/currencyservice:v0.10.5
 
     _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
     _addServiceManifest([name: imgInfo.serviceName, port: PORT])
@@ -186,12 +184,11 @@ def _addServiceListToDockerfile(imgInfo){
 
 
 // ##################
-// # Monolitic manifest creating 
+// # Creating monolitic manifest file
 // ##################
 
 def createNewManifestBook(){
     // Creates a manifest book and adds namespace for whole deployment
-
     sh """
         echo "CREATING MANIFEST-BOOK WITH NAMESPACE FOR ${env.K8S_NS}" 
         echo "
@@ -206,7 +203,6 @@ metadata:
 
 def _addDeploymentManifest(Map deplCfg){
     // Expected object for deplCfg [mame:string , img:string , port: integer ] and returns deployment manifest for API
-
     sh """ 
     echo "ADDING DEPLOYMENT MANIFEST FOR ${deplCfg.name}"
     echo "
@@ -240,7 +236,6 @@ spec:
 
 def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
-
     sh """
         echo "ADDING SERVICE MANIFEST FOR ${svcCfg.name}" 
         echo "

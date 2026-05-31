@@ -159,7 +159,6 @@ pipeline {
             }
         }
 
-
         stage("Git Repo Update"){
             steps{
                 sh """
@@ -179,7 +178,6 @@ pipeline {
                 """
             }
         }
-
 
         stage("Create/Refresh K8S Deployment"){
             steps{
