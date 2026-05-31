@@ -190,7 +190,7 @@ pipeline {
                             # Prepare known_hosts for K8S Controller connection
                             sed -i /${K8S_CONTROLLER_IP}/d ~/.ssh/known_hosts
                             ssh-keyscan -H ${K8S_CONTROLLER_IP} >> ~/.ssh/known_hosts
-                            scp -r helm-${GIT_COMMIT_SHORT} ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/
+                            scp -r helm ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP}:~/helm-${GIT_COMMIT_SHORT}
      
                             ## AUTO INSTALL/UPDATE
                             # ssh ${K8S_CONTROLLER_USER}@${K8S_CONTROLLER_IP} 'kubectl delete -f manifestbook-${env.K8S_NS}.yml' 
