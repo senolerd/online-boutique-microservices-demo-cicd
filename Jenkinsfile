@@ -4,8 +4,6 @@ pipeline {
     agent any
     
     environment {
-        ORIGIN_SSH_URL = "git@github.com:senolerd/online-boutique-microservices-demo-cicd.git"
-        
         // Online Boutique (External project)
         PROJECT_NAME="boutique"
         VERSION = "v0.10.5"
@@ -14,15 +12,12 @@ pipeline {
         //K8S Settings
         K8S_CONTROLLER_IP= "192.168.1.231"
         K8S_CONTROLLER_USER= "admin"
-        K8S_CONFIG= "kube_kvm_config" // Secret file name for k8s connection
 
-        // Artifactory Settings
-        // CONTAINER_REGISTRY="192.168.1.90:8081"
+        // Artifactory/Repository Settings
+        // CONTAINER_REGISTRY="192.168.1.90:8081" like; for Sonatype Nexus
         CONTAINER_REGISTRY="docker.io"
         CONTAIER_REPO= "alkol" // it is username for Docker. Repo name for Nexus. This is the part of image name between registry address and image name
         REGISTRY_USE_TLS="true"
-
-
     }
 
     stages {
@@ -39,13 +34,11 @@ pipeline {
                     // Prepare known_hosts for git
                     sh "sed -i /github.com/d ~/.ssh/known_hosts"
                     sh "ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"
-                    
                     utils.createNewManifestBook()
                     utils.createNewHelmChart()
                 }
             }
         }
-
 
         stage('Pulling Code') {
             steps {
@@ -165,10 +158,6 @@ pipeline {
                     # Git Upload Operation
                     ## Clear source code
                     rm -rf microservices-demo
-
-                    ## Add identity who pushes
-                    # git config user.name "Jenkins Project Builder"
-                    # git config user.email "jenkins@local.com"
 
                     ## Add new files to repo
                     git checkout main
