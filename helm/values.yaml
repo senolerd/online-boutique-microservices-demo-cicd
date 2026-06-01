@@ -1,50 +1,10 @@
 
 cartservice:
     name: cartservice
-    image: docker.io/alkol/cartservice-v0.10.5:1ceb562
+    image: docker.io/alkol/cartservice-v0.10.5:5467929
     port: 7070 
 
 frontend:
     name: frontend
-    image: docker.io/alkol/frontend-v0.10.5:1ceb562
+    image: docker.io/alkol/frontend-v0.10.5:5467929
     port: 8080 
-
-productcatalogservice:
-    name: productcatalogservice
-    image: docker.io/alkol/productcatalogservice-v0.10.5:1ceb562
-    port: 3550 
-
-currencyservice:
-    name: currencyservice
-    image: docker.io/alkol/currencyservice-v0.10.5:1ceb562
-    port: 7000 
-
-paymentservice:
-    name: paymentservice
-    image: docker.io/alkol/paymentservice-v0.10.5:1ceb562
-    port: 50051 
-
-shippingservice:
-    name: shippingservice
-    image: docker.io/alkol/shippingservice-v0.10.5:1ceb562
-    port: 50051 
-
-emailservice:
-    name: emailservice
-    image: docker.io/alkol/emailservice-v0.10.5:1ceb562
-    port: 8080 
-
-checkoutservice:
-    name: checkoutservice
-    image: docker.io/alkol/checkoutservice-v0.10.5:1ceb562
-    port: 5050 
-
-recommendationservice:
-    name: recommendationservice
-    image: docker.io/alkol/recommendationservice-v0.10.5:1ceb562
-    port: 8080 
-
-adservice:
-    name: adservice
-    image: docker.io/alkol/adservice-v0.10.5:1ceb562
-    port: 9555 
