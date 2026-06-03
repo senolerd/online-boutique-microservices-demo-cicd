@@ -300,7 +300,7 @@ commonEnvVars:
     GOOGLE_CLOUD_PROJECT: "jello" ' > values.yaml
 
     """
-    // _createConfigMap()
+    _createConfigMap()
 }
 
 
@@ -371,8 +371,8 @@ spec:
 
 def _createConfigMap(){
     echo "Creating ConfigMap"
-    sh """
-    echo '
+    sh '''
+        echo '
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -382,7 +382,7 @@ data:
     {{ $key }}: {{ $value | quote }}
     {{- end }} ' >> ${HELM_CHART_PATH}/values.yaml
 
-    """    
+    '''    
 }
 
 
