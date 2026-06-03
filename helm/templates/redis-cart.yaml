@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {redis-cart
+    namespace: {{ .Values.namespace }} 
+    labels:
+        app: redis-cart
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: redis-cart
+    template:
+        metadata:
+            labels:
+                app: redis-cart
+        spec:
+            containers:
+            - name: redis-cart
+              image: redis
+              imagePullPolicy: Always
+              ports:
+              - containerPort: 6379 
+              envFrom:
+              - configMapRef:
+                  name: common-env-vars
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: redis-cart
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  redis-cart
+    ports:
+    - protocol: TCP
+      port:  6379
+      targetPort: 6379 
