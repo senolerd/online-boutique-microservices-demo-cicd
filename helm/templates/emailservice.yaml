@@ -1,0 +1,40 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.emailservice.name }}
+    namespace: {{ .Values.namespace }} 
+    labels:
+        app: {{ .Values.emailservice.name }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ .Values.emailservice.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.emailservice.name }}
+        spec:
+            containers:
+            - name: {{ .Values.emailservice.name }}
+              image: {{ .Values.emailservice.image }}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: {{ .Values.emailservice.port }}
+              envFrom:
+              - configMapRef:
+                  name: common-env-vars
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Values.emailservice.name }}
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  {{ .Values.emailservice.name }}
+    ports:
+    - protocol: TCP
+      port:  {{ .Values.emailservice.port }}
+      targetPort:  {{ .Values.emailservice.port }} 

@@ -1,0 +1,40 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.paymentservice.name }}
+    namespace: {{ .Values.namespace }} 
+    labels:
+        app: {{ .Values.paymentservice.name }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ .Values.paymentservice.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.paymentservice.name }}
+        spec:
+            containers:
+            - name: {{ .Values.paymentservice.name }}
+              image: {{ .Values.paymentservice.image }}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: {{ .Values.paymentservice.port }}
+              envFrom:
+              - configMapRef:
+                  name: common-env-vars
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Values.paymentservice.name }}
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  {{ .Values.paymentservice.name }}
+    ports:
+    - protocol: TCP
+      port:  {{ .Values.paymentservice.port }}
+      targetPort:  {{ .Values.paymentservice.port }} 

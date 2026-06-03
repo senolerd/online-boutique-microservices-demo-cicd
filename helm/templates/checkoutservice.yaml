@@ -1,0 +1,40 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.checkoutservice.name }}
+    namespace: {{ .Values.namespace }} 
+    labels:
+        app: {{ .Values.checkoutservice.name }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ .Values.checkoutservice.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.checkoutservice.name }}
+        spec:
+            containers:
+            - name: {{ .Values.checkoutservice.name }}
+              image: {{ .Values.checkoutservice.image }}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: {{ .Values.checkoutservice.port }}
+              envFrom:
+              - configMapRef:
+                  name: common-env-vars
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Values.checkoutservice.name }}
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  {{ .Values.checkoutservice.name }}
+    ports:
+    - protocol: TCP
+      port:  {{ .Values.checkoutservice.port }}
+      targetPort:  {{ .Values.checkoutservice.port }} 
