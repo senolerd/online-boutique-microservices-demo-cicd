@@ -389,8 +389,8 @@ data:
 
 def _add_redis(){
     def redis_cfg = [
-        name: "redis-cart"
-        img: "redis"
+        name: "redis-cart",
+        img: "redis",
         port: "6379"
     ]
 
