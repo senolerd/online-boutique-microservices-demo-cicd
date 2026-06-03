@@ -22,6 +22,9 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: {{ .Values.cartservice.port }}
+              envFrom:
+              - configMapRef:
+                  name: common-env-vars
 ---
 apiVersion: v1
 kind: Service
