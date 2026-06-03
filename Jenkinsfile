@@ -65,95 +65,95 @@ pipeline {
             }
         }
 
-        // stage("Frontend Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="frontend"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.frontendImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Frontend Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="frontend"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.frontendImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Product Catalog Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="productcatalogservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.productcatalogserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Product Catalog Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="productcatalogservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.productcatalogserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Currency Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="currencyservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.currencyserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Currency Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="currencyservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.currencyserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Payment Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="paymentservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.paymentserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Payment Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="paymentservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.paymentserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Shipping Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="shippingservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.shippingserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Shipping Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="shippingservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.shippingserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Email Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="emailservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.emailserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Email Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="emailservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.emailserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Checkout Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="checkoutservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.checkoutserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Checkout Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="checkoutservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.checkoutserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Recommendation Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="recommendationservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.recommendationserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Recommendation Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="recommendationservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.recommendationserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
-        // stage("Ad Service Work"){
-        //     steps{
-        //         script{
-        //             def SERVICE_NAME="adservice"
-        //             def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
-        //             utils.adserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
-        //         }
-        //     }
-        // }
+        stage("Ad Service Work"){
+            steps{
+                script{
+                    def SERVICE_NAME="adservice"
+                    def SRC_DIR="microservices-demo/src/$SERVICE_NAME"
+                    utils.adserviceImageWork([serviceName: SERVICE_NAME, srcDir: SRC_DIR ])
+                }
+            }
+        }
 
         stage("Git Repo Update"){
             steps{
