@@ -1,7 +1,7 @@
 
 apiVersion: v2
 name: test-helm
-description: Boutique Demo Helm Chart @commit 487d3cd
+description: Boutique Demo Helm Chart @commit ab3135d
 type: application
 version: 0.1.1
 appVersion: v0.10.5 
