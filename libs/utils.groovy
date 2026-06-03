@@ -63,17 +63,15 @@ def currencyserviceImageWork(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
-    // FROM node:20.20.0-alpine AS builder
-    // FROM node:20.20.0-alpine
 
     sh """ 
         cat << EOT > ${imgInfo.srcDir}/Dockerfile
-    FROM cgr.dev/chainguard/node:latest AS builder
+    FROM node:20.20.0-alpine AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
     COPY package*.json ./
     RUN npm install --only=production
-    FROM cgr.dev/chainguard/node:latest
+    FROM node:20.20.0-alpine
     RUN apk add --no-cache nodejs
     WORKDIR /usr/src/app
     COPY --from=builder /usr/src/app/node_modules ./node_modules
@@ -92,17 +90,15 @@ def paymentserviceImageWork(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
-    // FROM node:20.20.0-alpine AS builder
-    // FROM node:20.20.0-alpine
 
     sh """ 
         cat << EOT > ${imgInfo.srcDir}/Dockerfile
-    FROM cgr.dev/chainguard/node:latest AS builder
+    FROM node:20.20.0-alpine AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
     COPY package*.json ./
     RUN npm install --only=production
-    FROM cgr.dev/chainguard/node:latest
+    FROM node:20.20.0-alpine
     RUN apk add --no-cache nodejs
     WORKDIR /usr/src/app
     COPY --from=builder /usr/src/app/node_modules ./node_modules
