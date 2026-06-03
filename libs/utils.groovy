@@ -4,8 +4,13 @@
 // like pyyaml or or groovy {write|read}Yaml
 
 
-def imageWorkFinisher(Map imgInfo) {
-    // Builds and uploads image to Artifactory 
+def imageWorkFinisher(Map imgInfo, Map options) {
+    // Builds image and uploads image to Artifactory and create manifests and chart
+    // imgInfo = [serviceName: <string>, srcDir: <string> ]
+    // options =    [ 
+    //                manifest: [deployment: <boolean>, service: <boolean>], 
+    //                chart: [deployment: <boolean>, service: <boolean>] 
+    //              ] // whether the standart manifests and chart creators is going to be used
 
     _addServiceListToDockerfile(imgInfo)
 
@@ -47,11 +52,10 @@ def imageWorkFinisher(Map imgInfo) {
             podman image prune -f
         """
 
-    _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) 
-    _addServiceManifest([name: imgInfo.serviceName, port: PORT])
-    _addDeploymentToChart([name: imgInfo.serviceName, port: PORT, img: IMAGE])
-    _addServiceToChart([name: imgInfo.serviceName, port: PORT])
-
+    if ( options.manifest.deployment ) { _addDeploymentManifest([name: imgInfo.serviceName, img: IMAGE, port: PORT]) }
+    if ( options.manifest.service ) { _addServiceManifest([name: imgInfo.serviceName, port: PORT]) }
+    if ( options.chart.deployment ) { _addDeploymentToChart([name: imgInfo.serviceName, port: PORT, img: IMAGE]) }
+    if ( options.chart.service ) { _addServiceToChart([name: imgInfo.serviceName, port: PORT]) }
     }
 
 
@@ -74,15 +78,12 @@ def currencyserviceImageWork(imgInfo) {
     COPY . .
     EXPOSE 7000
     ENV PORT 7000
-    ENV DISABLE_PROFILER 1 
-    ENV DISABLE_TRACING 1
-    ENV DISABLE_DEBUGGER 1
-    ENV GCP_PROJECT "hello"
-    ENV GOOGLE_CLOUD_PROJECT "jello"
+
     ENTRYPOINT [ "node", "server.js" ]        
     """
-    imageWorkFinisher(imgInfo)
-    }
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 
 def paymentserviceImageWork(imgInfo) {
@@ -111,55 +112,55 @@ def paymentserviceImageWork(imgInfo) {
     ENV GOOGLE_CLOUD_PROJECT "jello"
     ENTRYPOINT [ "node", "index.js" ]           
     """
-    imageWorkFinisher(imgInfo)
-    }
 
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def frontendImageWork(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def recommendationserviceImageWork(imgInfo) {
-    // raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def shoppingassistantservice(imgInfo) {
-    // ModuleNotFoundError: No module named 'aiohttp'
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def checkoutserviceImageWork(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def adserviceImageWork(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def cartserviceImageWork(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def emailserviceImageWork(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def productcatalogserviceImageWork(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
-
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 def shippingserviceImageWork(imgInfo) {
-    imageWorkFinisher(imgInfo)
-    }
+    options = [manifest: [deployment: true, service: true], chart: [deployment: true, service: true] ]
+    imageWorkFinisher(imgInfo, options)
+}
 
 
 def _addServiceListToDockerfile(imgInfo){
@@ -179,6 +180,7 @@ def _addServiceListToDockerfile(imgInfo){
     ENV SHIPPING_SERVICE_ADDR shippingservice:50051
     ENV SHOPPING_ASSISTANT_SERVICE_ADDR shoppingassistantservice:8080
     ENV ENABLE_SHOPPING_ASSISTANT false
+
     """
     }
 
@@ -256,25 +258,49 @@ spec:
 }
 
 
-// ##################
+// ####################################
 // # HELMING
-// ##################
+// ####################################
 
 def createNewHelmChart(){
     sh """
-        echo "Clear old helm chart"
-        rm -rf helm
+        echo "Clear old helm chart dir"
+        rm -rf ${HELM_CHART_PATH}
         echo "Create new helm chart directory layout"
-        mkdir -p helm helm/charts helm/templates
-        cd helm
+        mkdir -p ${HELM_CHART_PATH}/charts ${HELM_CHART_PATH}/templates
+        cd ${HELM_CHART_PATH}
+        echo "Creating Chart.yaml"
         echo "
 apiVersion: v2
 name: test-helm
 description: Boutique Demo Helm Chart @commit ${GIT_COMMIT_SHORT}
 type: application
-version: 0.1.0
+version: ${HELM_VERSION}
 appVersion: ${VERSION} " > Chart.yaml
+
+        echo "Creating values.yaml"
+        echo '
+commonEnvVars:
+    AD_SERVICE_ADDR: "adservice:9555"
+    CART_SERVICE_ADDR: "cartservice:7070"
+    CHECKOUT_SERVICE_ADDR: "checkoutservice:5050"
+    CURRENCY_SERVICE_ADDR: "currencyservice:7000"
+    EMAIL_SERVICE_ADDR: "emailservice:8080"
+    FRONTEND_SERVICE_ADDR: "frontend:8080"
+    PAYMENT_SERVICE_ADDR: "paymentservice:50051"
+    PRODUCT_CATALOG_SERVICE_ADDR: "productcatalogservice:3550"
+    RECOMMENDATION_SERVICE_ADDR: "recommendationservice:8080"
+    SHIPPING_SERVICE_ADDR: "shippingservice:50051"
+    SHOPPING_ASSISTANT_SERVICE_ADDR: "shoppingassistantservice:8080"
+    ENABLE_SHOPPING_ASSISTANT: false
+    DISABLE_PROFILER: 1
+    DISABLE_TRACING: 1
+    DISABLE_DEBUGGER: 1
+    GCP_PROJECT: "hello"
+    GOOGLE_CLOUD_PROJECT: "jello" ' > values.yaml
+
     """
+    _createConfigMap()
 }
 
 
@@ -306,6 +332,9 @@ spec:
               imagePullPolicy: Always
               ports:
               - containerPort: {{ .Values.${deplCfg.name}.port }}"  > helm/templates/${deplCfg.name}.yaml
+              envFrom:
+              - configMapRef:
+                  name: common-env-vars
     """ 
 
     // Adding values to charts values.yaml
@@ -339,5 +368,23 @@ spec:
       targetPort:  {{ .Values.${svcCfg.name}.port }} " >> helm/templates/${svcCfg.name}.yaml
     """
 }
+
+def _createConfigMap(){
+
+    sh """
+    echo '
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: common-env-vars
+data:
+    {{- range $key, $value := .Values.commonEnvVars }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}' >> ${HELM_CHART_PATH}/values.yaml
+
+    """    
+}
+
+
 
 return this
