@@ -303,6 +303,7 @@ commonEnvVars:
 
     """
     _createConfigMap()
+    _add_redis()
 }
 
 
