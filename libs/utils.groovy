@@ -372,7 +372,7 @@ spec:
 def _createConfigMap(){
 
     sh """
-    echo '
+    echo "
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -380,7 +380,7 @@ metadata:
 data:
     {{- range $key, $value := .Values.commonEnvVars }}
     {{ $key }}: {{ $value | quote }}
-    {{- end }}' >> ${HELM_CHART_PATH}/values.yaml
+    {{- end }}" >> ${HELM_CHART_PATH}/values.yaml
 
     """    
 }
