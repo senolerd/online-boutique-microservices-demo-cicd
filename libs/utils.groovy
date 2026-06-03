@@ -403,7 +403,7 @@ def _add_redis(){
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {${redis_cfg.name}
+    name: ${redis_cfg.name}
     namespace: {{ .Values.namespace }} 
     labels:
         app: ${redis_cfg.name}
