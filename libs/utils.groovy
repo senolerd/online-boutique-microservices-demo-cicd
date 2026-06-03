@@ -331,10 +331,10 @@ spec:
               image: {{ .Values.${deplCfg.name}.image }}
               imagePullPolicy: Always
               ports:
-              - containerPort: {{ .Values.${deplCfg.name}.port }}"  > helm/templates/${deplCfg.name}.yaml
+              - containerPort: {{ .Values.${deplCfg.name}.port }}
               envFrom:
               - configMapRef:
-                  name: common-env-vars
+                  name: common-env-vars"  > helm/templates/${deplCfg.name}.yaml
     """ 
 
     // Adding values to charts values.yaml
@@ -372,7 +372,7 @@ spec:
 def _createConfigMap(){
     echo "Creating ConfigMap"
     sh """
-    echo "
+    echo '
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -380,7 +380,7 @@ metadata:
 data:
     {{- range $key, $value := .Values.commonEnvVars }}
     {{ $key }}: {{ $value | quote }}
-    {{- end }}" >> ${HELM_CHART_PATH}/values.yaml
+    {{- end }} ' >> ${HELM_CHART_PATH}/values.yaml
 
     """    
 }

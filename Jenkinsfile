@@ -29,7 +29,7 @@ pipeline {
                     cleanWs() 
                     checkout scm
                     sh "rm -rf helm* manifestbook-boutique-*"
-                    sh "env"
+                    // sh "env"
                     utils = load 'libs/utils.groovy'
                     env.GIT_COMMIT_SHORT= "$GIT_COMMIT".take(7)
                     env.K8S_NS="$PROJECT_NAME-$VERSION".replace('.','-')
