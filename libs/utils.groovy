@@ -370,7 +370,7 @@ spec:
 }
 
 def _createConfigMap(){
-
+    echo "Creating ConfigMap"
     sh """
     echo "
 apiVersion: v1
