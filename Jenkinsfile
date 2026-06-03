@@ -9,7 +9,7 @@ pipeline {
         VERSION = "v0.10.5"
         BOUTIQUE_DEMO_REPO = "https://github.com/GoogleCloudPlatform/microservices-demo.git"
         HELM_CHART_PATH= "helm"
-        HELM_VERSION= 0.1.1
+        HELM_VERSION= "0.1.1"
          
         //K8S Settings
         K8S_CONTROLLER_IP= "192.168.1.231"
