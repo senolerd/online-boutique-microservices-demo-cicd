@@ -38,13 +38,13 @@ def imageWorkFinisher(Map imgInfo, Map options) {
 
             ### ToDo: Add security check newly creted image
             ### Trivy
-            # podman run --rm \
-            #  -v /var/run/docker.sock:/var/run/docker.sock \
+            #  podman run --rm \
+            #  -v /run/user/1000/docker.sock:/var/run/docker.sock \
             #  -v $HOME/.cache:/root/.cache \
             #  aquasec/trivy:latest image \
             #  --severity HIGH,CRITICAL \
             #  --exit-code 1 \
-            #  docker.io/alkol/currencyservice:v0.10.5
+            #  docker.io/alkol/currencyservice-v0.10.5:09ca5af
 
 
             echo "Login to Artifactory"
@@ -63,15 +63,17 @@ def currencyserviceImageWork(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
+    // FROM node:20.20.0-alpine AS builder
+    // FROM node:20.20.0-alpine
 
     sh """ 
         cat << EOT > ${imgInfo.srcDir}/Dockerfile
-    FROM node:20.20.0-alpine AS builder
+    FROM cgr.dev/chainguard/node:latest AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
     COPY package*.json ./
     RUN npm install --only=production
-    FROM node:20.20.0-alpine
+    FROM cgr.dev/chainguard/node:latest
     RUN apk add --no-cache nodejs
     WORKDIR /usr/src/app
     COPY --from=builder /usr/src/app/node_modules ./node_modules
@@ -90,15 +92,17 @@ def paymentserviceImageWork(imgInfo) {
     // This api's Dockerfile needs a little more custom care.
     // Bug #1- Building image and deployment image of multistage source images are not matching and having conflict problem.
     // Bug #2- PORT environment variable is missing inside the container
+    // FROM node:20.20.0-alpine AS builder
+    // FROM node:20.20.0-alpine
 
     sh """ 
         cat << EOT > ${imgInfo.srcDir}/Dockerfile
-    FROM node:20.20.0-alpine AS builder
+    FROM cgr.dev/chainguard/node:latest AS builder
     RUN apk add --update --no-cache  python3 make g++
     WORKDIR /usr/src/app
     COPY package*.json ./
     RUN npm install --only=production
-    FROM node:20.20.0-alpine
+    FROM cgr.dev/chainguard/node:latest
     RUN apk add --no-cache nodejs
     WORKDIR /usr/src/app
     COPY --from=builder /usr/src/app/node_modules ./node_modules
