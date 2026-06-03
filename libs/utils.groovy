@@ -236,6 +236,7 @@ spec:
 }
 
 
+
 def _addServiceManifest(Map svcCfg){
     // Expected object for deplCfg [mame:string , port:integer ] and returns service manifest for API
     sh """
@@ -292,6 +293,7 @@ commonEnvVars:
     RECOMMENDATION_SERVICE_ADDR: "recommendationservice:8080"
     SHIPPING_SERVICE_ADDR: "shippingservice:50051"
     SHOPPING_ASSISTANT_SERVICE_ADDR: "shoppingassistantservice:8080"
+    REDIS_ADDR: "redis-cart:6379"
     ENABLE_SHOPPING_ASSISTANT: false
     DISABLE_PROFILER: 1
     DISABLE_TRACING: 1
@@ -385,6 +387,60 @@ data:
     '''    
 }
 
+def _add_redis(){
+    def redis_cfg = [
+        name: "redis-cart"
+        img: "redis"
+        port: "6379"
+    ]
 
+    _addServiceManifest(redis_cfg)
+    _addDeploymentManifest(redis_cfg)
+
+    sh """
+        echo "---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {${redis_cfg.name}
+    namespace: {{ .Values.namespace }} 
+    labels:
+        app: ${redis_cfg.name}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: ${redis_cfg.name}
+    template:
+        metadata:
+            labels:
+                app: ${redis_cfg.name}
+        spec:
+            containers:
+            - name: ${redis_cfg.name}
+              image: ${redis_cfg.img}
+              imagePullPolicy: Always
+              ports:
+              - containerPort: ${redis_cfg.port} 
+              envFrom:
+              - configMapRef:
+                  name: common-env-vars"  > helm/templates/${redis_cfg.name}.yaml
+
+
+        echo "---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ${redis_cfg.name}
+    namespace: {{ .Values.namespace }} 
+spec:
+    selector:
+        app:  ${redis_cfg.name}
+    ports:
+    - protocol: TCP
+      port:  ${redis_cfg.port}
+      targetPort: ${redis_cfg.port} " >> helm/templates/${redis_cfg.name}.yaml
+    """
+}
 
 return this
