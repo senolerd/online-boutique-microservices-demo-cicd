@@ -105,11 +105,11 @@ def paymentserviceImageWork(imgInfo) {
     COPY . .
     EXPOSE 50051
     ENV PORT 50051
-    ENV DISABLE_PROFILER 1 
-    ENV DISABLE_TRACING 1
-    ENV DISABLE_DEBUGGER 1
-    ENV GCP_PROJECT "hello"
-    ENV GOOGLE_CLOUD_PROJECT "jello"
+    # ENV DISABLE_PROFILER 1 
+    # ENV DISABLE_TRACING 1
+    # ENV DISABLE_DEBUGGER 1
+    # ENV GCP_PROJECT "hello"
+    # ENV GOOGLE_CLOUD_PROJECT "jello"
     ENTRYPOINT [ "node", "index.js" ]           
     """
 
