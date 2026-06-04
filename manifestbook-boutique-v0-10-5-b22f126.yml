@@ -64,7 +64,7 @@ spec:
         spec:
             containers:
             - name: cartservice
-              image: docker.io/alkol/cartservice-v0.10.5:ab3135d
+              image: docker.io/alkol/cartservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 7070
@@ -103,7 +103,7 @@ spec:
         spec:
             containers:
             - name: frontend
-              image: docker.io/alkol/frontend-v0.10.5:ab3135d
+              image: docker.io/alkol/frontend-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 8080
@@ -142,7 +142,7 @@ spec:
         spec:
             containers:
             - name: productcatalogservice
-              image: docker.io/alkol/productcatalogservice-v0.10.5:ab3135d
+              image: docker.io/alkol/productcatalogservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 3550
@@ -181,7 +181,7 @@ spec:
         spec:
             containers:
             - name: currencyservice
-              image: docker.io/alkol/currencyservice-v0.10.5:ab3135d
+              image: docker.io/alkol/currencyservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 7000
@@ -220,7 +220,7 @@ spec:
         spec:
             containers:
             - name: paymentservice
-              image: docker.io/alkol/paymentservice-v0.10.5:ab3135d
+              image: docker.io/alkol/paymentservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 50051
@@ -259,7 +259,7 @@ spec:
         spec:
             containers:
             - name: shippingservice
-              image: docker.io/alkol/shippingservice-v0.10.5:ab3135d
+              image: docker.io/alkol/shippingservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 50051
@@ -298,7 +298,7 @@ spec:
         spec:
             containers:
             - name: emailservice
-              image: docker.io/alkol/emailservice-v0.10.5:ab3135d
+              image: docker.io/alkol/emailservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 8080
@@ -337,7 +337,7 @@ spec:
         spec:
             containers:
             - name: checkoutservice
-              image: docker.io/alkol/checkoutservice-v0.10.5:ab3135d
+              image: docker.io/alkol/checkoutservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 5050
@@ -376,7 +376,7 @@ spec:
         spec:
             containers:
             - name: recommendationservice
-              image: docker.io/alkol/recommendationservice-v0.10.5:ab3135d
+              image: docker.io/alkol/recommendationservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 8080
@@ -415,7 +415,7 @@ spec:
         spec:
             containers:
             - name: adservice
-              image: docker.io/alkol/adservice-v0.10.5:ab3135d
+              image: docker.io/alkol/adservice-v0.10.5:b22f126
               imagePullPolicy: Always
               ports:
               - containerPort: 9555
